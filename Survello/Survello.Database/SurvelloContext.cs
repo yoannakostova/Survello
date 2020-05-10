@@ -14,10 +14,10 @@ namespace Survello.Database
         }
 
         public DbSet<TextQuestion> TextQuestions { get; set; }
-        public DbSet<AnsweredTextQuestion> AnsweredTextQuestions { get; set; }
-        public DbSet<OptionsQuestion> OptionsQuestions { get; set; }
-        public DbSet<OptionsQuestionOption> OptionsQuestionOptions { get; set; }
-        public DbSet<AnsweredOptionsQuestion> AnsweredOptionsQuestions { get; set; }
+        public DbSet<TextAnswer> TextAnswers { get; set; }
+        public DbSet<MultipleChoiceQuestion> MultipleChoiceQuestions { get; set; }
+        public DbSet<MultipleChoiceOption> MultipleChoiceOptions { get; set; }
+        public DbSet<MultipleChoiceAnswer> MultipleChoiceAnswers { get; set; }
         public DbSet<Form> Forms { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -26,10 +26,10 @@ namespace Survello.Database
             modelBuilder.ApplyConfiguration(new RoleConfig());
             modelBuilder.ApplyConfiguration(new FormConfig());
             modelBuilder.ApplyConfiguration(new TextQuestionConfig());
-            modelBuilder.ApplyConfiguration(new OptionQuestionConfig());
-            modelBuilder.ApplyConfiguration(new AnsweredTextQuestionConfig());
-            modelBuilder.ApplyConfiguration(new OptionsQuestionOptionConfig());
-            modelBuilder.ApplyConfiguration(new AnsweredOptionsQuestionConfig());
+            modelBuilder.ApplyConfiguration(new MultipleChoiceQuestionConfig());
+            modelBuilder.ApplyConfiguration(new TextAnswerConfig());
+            modelBuilder.ApplyConfiguration(new MultipleChoiceOptionConfig());
+            modelBuilder.ApplyConfiguration(new MultipleChoiceAnswerConfig());
 
             base.OnModelCreating(modelBuilder);
         }

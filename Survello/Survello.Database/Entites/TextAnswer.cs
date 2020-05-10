@@ -5,12 +5,12 @@ using System.Text;
 
 namespace Survello.Database.Entites
 {
-    public class OptionsQuestionOption
+    public class TextAnswer
     {
         [Key]
         public Guid Id { get; set; }
-        public string Option { get; set; }
-        public Guid OptionQuestionID { get; set; }
-        public OptionsQuestion OptionQuestion { get; set; }
+        public string Answer { get; set; }
+        public Guid TextQuestionId { get; set; }
+        public TextQuestion TextQuestion { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Survello.Database.Entites
 {
-    public class OptionsQuestion
+    public class MultipleChoiceQuestion
     {
         [Key]
         public Guid Id { get; set; }
@@ -13,7 +13,7 @@ namespace Survello.Database.Entites
         public bool IsRequired { get; set; }
         public Guid FormId { get; set; }
         public Form Form { get; set; }
-        public ICollection<AnsweredOptionsQuestion> Answers { get; set; }
-        public ICollection<OptionsQuestionOption> Options { get; set; }
+        public ICollection<MultipleChoiceAnswer> Answers { get; set; }
+        public ICollection<MultipleChoiceOption> Options { get; set; }
     }
 }

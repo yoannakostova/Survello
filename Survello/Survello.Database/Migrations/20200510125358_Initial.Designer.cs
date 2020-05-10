@@ -10,7 +10,7 @@ using Survello.Database;
 namespace Survello.Database.Migrations
 {
     [DbContext(typeof(SurvelloContext))]
-    [Migration("20200509170024_Initial")]
+    [Migration("20200510125358_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -122,42 +122,6 @@ namespace Survello.Database.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Survello.Database.Entites.AnsweredOptionsQuestion", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("OptionQuestionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OptionQuestionId");
-
-                    b.ToTable("AnsweredOptionsQuestions");
-                });
-
-            modelBuilder.Entity("Survello.Database.Entites.AnsweredTextQuestion", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Answer")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("TextQuestionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TextQuestionId");
-
-                    b.ToTable("AnsweredTextQuestions");
-                });
-
             modelBuilder.Entity("Survello.Database.Entites.Form", b =>
                 {
                     b.Property<Guid>("Id")
@@ -196,7 +160,43 @@ namespace Survello.Database.Migrations
                     b.ToTable("Forms");
                 });
 
-            modelBuilder.Entity("Survello.Database.Entites.OptionsQuestion", b =>
+            modelBuilder.Entity("Survello.Database.Entites.MultipleChoiceAnswer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("MultipleChoiceQuestionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MultipleChoiceQuestionId");
+
+                    b.ToTable("MultipleChoiceAnswers");
+                });
+
+            modelBuilder.Entity("Survello.Database.Entites.MultipleChoiceOption", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("MultipleChouceQuestionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Option")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MultipleChouceQuestionId");
+
+                    b.ToTable("MultipleChoiceOptions");
+                });
+
+            modelBuilder.Entity("Survello.Database.Entites.MultipleChoiceQuestion", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -216,32 +216,7 @@ namespace Survello.Database.Migrations
 
                     b.HasIndex("FormId");
 
-                    b.ToTable("OptionsQuestions");
-                });
-
-            modelBuilder.Entity("Survello.Database.Entites.OptionsQuestionOption", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("AnsweredOptionsQuestionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Option")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("OptionQuestionID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AnsweredOptionsQuestionId");
-
-                    b.HasIndex("OptionQuestionID");
-
-                    b.ToTable("OptionsQuestionOptions");
+                    b.ToTable("MultipleChoiceQuestions");
                 });
 
             modelBuilder.Entity("Survello.Database.Entites.Role", b =>
@@ -270,6 +245,26 @@ namespace Survello.Database.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+                });
+
+            modelBuilder.Entity("Survello.Database.Entites.TextAnswer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Answer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("TextQuestionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TextQuestionId");
+
+                    b.ToTable("TextAnswers");
                 });
 
             modelBuilder.Entity("Survello.Database.Entites.TextQuestion", b =>
@@ -427,24 +422,6 @@ namespace Survello.Database.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Survello.Database.Entites.AnsweredOptionsQuestion", b =>
-                {
-                    b.HasOne("Survello.Database.Entites.OptionsQuestion", "OptionsQuestion")
-                        .WithMany("Answers")
-                        .HasForeignKey("OptionQuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Survello.Database.Entites.AnsweredTextQuestion", b =>
-                {
-                    b.HasOne("Survello.Database.Entites.TextQuestion", "TextQuestion")
-                        .WithMany("Answers")
-                        .HasForeignKey("TextQuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Survello.Database.Entites.Form", b =>
                 {
                     b.HasOne("Survello.Database.Entites.User", "User")
@@ -454,24 +431,38 @@ namespace Survello.Database.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Survello.Database.Entites.OptionsQuestion", b =>
+            modelBuilder.Entity("Survello.Database.Entites.MultipleChoiceAnswer", b =>
+                {
+                    b.HasOne("Survello.Database.Entites.MultipleChoiceQuestion", "MultipleChoiceQuestion")
+                        .WithMany("Answers")
+                        .HasForeignKey("MultipleChoiceQuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Survello.Database.Entites.MultipleChoiceOption", b =>
+                {
+                    b.HasOne("Survello.Database.Entites.MultipleChoiceQuestion", "MultipleChoiceQuestion")
+                        .WithMany("Options")
+                        .HasForeignKey("MultipleChouceQuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Survello.Database.Entites.MultipleChoiceQuestion", b =>
                 {
                     b.HasOne("Survello.Database.Entites.Form", "Form")
-                        .WithMany("OptionsQuestions")
+                        .WithMany("MultipleChoiceQuestions")
                         .HasForeignKey("FormId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Survello.Database.Entites.OptionsQuestionOption", b =>
+            modelBuilder.Entity("Survello.Database.Entites.TextAnswer", b =>
                 {
-                    b.HasOne("Survello.Database.Entites.AnsweredOptionsQuestion", null)
-                        .WithMany("OptionsQuestionOptions")
-                        .HasForeignKey("AnsweredOptionsQuestionId");
-
-                    b.HasOne("Survello.Database.Entites.OptionsQuestion", "OptionQuestion")
-                        .WithMany("Options")
-                        .HasForeignKey("OptionQuestionID")
+                    b.HasOne("Survello.Database.Entites.TextQuestion", "TextQuestion")
+                        .WithMany("Answers")
+                        .HasForeignKey("TextQuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

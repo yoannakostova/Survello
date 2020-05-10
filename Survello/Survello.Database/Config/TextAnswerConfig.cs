@@ -7,9 +7,9 @@ using System.Text;
 
 namespace Survello.Database.Config
 {
-    public class AnsweredTextQuestionConfig : IEntityTypeConfiguration<AnsweredTextQuestion>
+    public class TextAnswerConfig : IEntityTypeConfiguration<TextAnswer>
     {
-        public void Configure(EntityTypeBuilder<AnsweredTextQuestion> builder)
+        public void Configure(EntityTypeBuilder<TextAnswer> builder)
         {
             builder
                 .HasKey(a => a.Id);

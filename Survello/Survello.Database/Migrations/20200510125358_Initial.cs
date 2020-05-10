@@ -182,7 +182,7 @@ namespace Survello.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OptionsQuestions",
+                name: "MultipleChoiceQuestions",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -192,9 +192,9 @@ namespace Survello.Database.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OptionsQuestions", x => x.Id);
+                    table.PrimaryKey("PK_MultipleChoiceQuestions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OptionsQuestions_Forms_FormId",
+                        name: "FK_MultipleChoiceQuestions_Forms_FormId",
                         column: x => x.FormId,
                         principalTable: "Forms",
                         principalColumn: "Id",
@@ -223,25 +223,44 @@ namespace Survello.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AnsweredOptionsQuestions",
+                name: "MultipleChoiceAnswers",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    OptionQuestionId = table.Column<Guid>(nullable: false)
+                    MultipleChoiceQuestionId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AnsweredOptionsQuestions", x => x.Id);
+                    table.PrimaryKey("PK_MultipleChoiceAnswers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AnsweredOptionsQuestions_OptionsQuestions_OptionQuestionId",
-                        column: x => x.OptionQuestionId,
-                        principalTable: "OptionsQuestions",
+                        name: "FK_MultipleChoiceAnswers_MultipleChoiceQuestions_MultipleChoiceQuestionId",
+                        column: x => x.MultipleChoiceQuestionId,
+                        principalTable: "MultipleChoiceQuestions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AnsweredTextQuestions",
+                name: "MultipleChoiceOptions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Option = table.Column<string>(nullable: false),
+                    MultipleChouceQuestionId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MultipleChoiceOptions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MultipleChoiceOptions_MultipleChoiceQuestions_MultipleChouceQuestionId",
+                        column: x => x.MultipleChouceQuestionId,
+                        principalTable: "MultipleChoiceQuestions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TextAnswers",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -250,50 +269,14 @@ namespace Survello.Database.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AnsweredTextQuestions", x => x.Id);
+                    table.PrimaryKey("PK_TextAnswers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AnsweredTextQuestions_TextQuestions_TextQuestionId",
+                        name: "FK_TextAnswers_TextQuestions_TextQuestionId",
                         column: x => x.TextQuestionId,
                         principalTable: "TextQuestions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateTable(
-                name: "OptionsQuestionOptions",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Option = table.Column<string>(nullable: false),
-                    OptionQuestionID = table.Column<Guid>(nullable: false),
-                    AnsweredOptionsQuestionId = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OptionsQuestionOptions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_OptionsQuestionOptions_AnsweredOptionsQuestions_AnsweredOptionsQuestionId",
-                        column: x => x.AnsweredOptionsQuestionId,
-                        principalTable: "AnsweredOptionsQuestions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_OptionsQuestionOptions_OptionsQuestions_OptionQuestionID",
-                        column: x => x.OptionQuestionID,
-                        principalTable: "OptionsQuestions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AnsweredOptionsQuestions_OptionQuestionId",
-                table: "AnsweredOptionsQuestions",
-                column: "OptionQuestionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AnsweredTextQuestions_TextQuestionId",
-                table: "AnsweredTextQuestions",
-                column: "TextQuestionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -340,19 +323,24 @@ namespace Survello.Database.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OptionsQuestionOptions_AnsweredOptionsQuestionId",
-                table: "OptionsQuestionOptions",
-                column: "AnsweredOptionsQuestionId");
+                name: "IX_MultipleChoiceAnswers_MultipleChoiceQuestionId",
+                table: "MultipleChoiceAnswers",
+                column: "MultipleChoiceQuestionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OptionsQuestionOptions_OptionQuestionID",
-                table: "OptionsQuestionOptions",
-                column: "OptionQuestionID");
+                name: "IX_MultipleChoiceOptions_MultipleChouceQuestionId",
+                table: "MultipleChoiceOptions",
+                column: "MultipleChouceQuestionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OptionsQuestions_FormId",
-                table: "OptionsQuestions",
+                name: "IX_MultipleChoiceQuestions_FormId",
+                table: "MultipleChoiceQuestions",
                 column: "FormId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TextAnswers_TextQuestionId",
+                table: "TextAnswers",
+                column: "TextQuestionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TextQuestions_FormId",
@@ -362,9 +350,6 @@ namespace Survello.Database.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "AnsweredTextQuestions");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -381,19 +366,22 @@ namespace Survello.Database.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "OptionsQuestionOptions");
+                name: "MultipleChoiceAnswers");
 
             migrationBuilder.DropTable(
-                name: "TextQuestions");
+                name: "MultipleChoiceOptions");
+
+            migrationBuilder.DropTable(
+                name: "TextAnswers");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AnsweredOptionsQuestions");
+                name: "MultipleChoiceQuestions");
 
             migrationBuilder.DropTable(
-                name: "OptionsQuestions");
+                name: "TextQuestions");
 
             migrationBuilder.DropTable(
                 name: "Forms");
