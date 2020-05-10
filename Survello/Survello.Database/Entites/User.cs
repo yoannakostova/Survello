@@ -7,7 +7,7 @@ namespace Survello.Database.Entites
 {
     public class User : IdentityUser<Guid>
     {
-        public DateTime CreatedOn { get; set; }
+        public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
         public DateTime LastModifiedOn { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime DeletedOn { get; set; }

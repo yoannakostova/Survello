@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Survello.Database;
 using Survello.Database.Entites;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Survello.Web.Utilities;
 
 namespace Survello.Web
@@ -33,7 +34,10 @@ namespace Survello.Web
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<User, Role>(options => options.SignIn.RequireConfirmedAccount = false)
+            services.AddIdentity<User, Role>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+            })
                 .AddEntityFrameworkStores<SurvelloContext>()
                 .AddDefaultTokenProviders();
 
@@ -45,12 +49,13 @@ namespace Survello.Web
                 option.Password.RequireLowercase = false;
                 option.Password.RequiredLength = 5;
                 option.Password.RequiredUniqueChars = 0;
+                //option.User.RequireUniqueEmail = true;
             });
 
             services.AddControllersWithViews();
             services.AddRazorPages();
 
-            services.AddServices();
+            services.AddSingleton<IEmailSender, EmailSender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
