@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Survello.Database;
 using Survello.Database.Entites;
+using Survello.Web.Utilities;
 
 namespace Survello.Web
 {
@@ -48,6 +49,8 @@ namespace Survello.Web
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
