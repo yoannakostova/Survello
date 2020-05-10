@@ -5,7 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Survello.Database\Survello.Database.csproj" />
+    <Folder Include="Contracts\" />
+    <Folder Include="DTOEntities\" />
+    <Folder Include="DTOMappers\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

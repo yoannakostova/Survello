@@ -7,9 +7,9 @@ using System.Text;
 
 namespace Survello.Database.Config
 {
-    public class OptionQuestionConfig : IEntityTypeConfiguration<OptionsQuestion>
+    public class MultipleChoiceQuestionConfig : IEntityTypeConfiguration<MultipleChoiceQuestion>
     {
-        public void Configure(EntityTypeBuilder<OptionsQuestion> builder)
+        public void Configure(EntityTypeBuilder<MultipleChoiceQuestion> builder)
         {
             builder
                 .HasKey(o => o.Id);
@@ -20,7 +20,7 @@ namespace Survello.Database.Config
 
             builder
                 .HasOne(o => o.Form)
-                .WithMany(f => f.OptionsQuestions)
+                .WithMany(f => f.MultipleChoiceQuestions)
                 .HasForeignKey(o => o.FormId);
         }
     }

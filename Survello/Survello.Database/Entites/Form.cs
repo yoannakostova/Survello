@@ -18,7 +18,7 @@ namespace Survello.Database.Entites
         public int NumberOfFilledForms { get; set; }
         public Guid UserId { get; set; }
         public User User { get; set; }
-        public ICollection<OptionsQuestion> OptionsQuestions { get; set; }
+        public ICollection<MultipleChoiceQuestion> MultipleChoiceQuestions { get; set; }
         public ICollection<TextQuestion> TextQuestions { get; set; }
         //public ICollection<DocumentQuestion> DocumentQuestions { get; set; }
     }
