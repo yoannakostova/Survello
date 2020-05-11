@@ -6,6 +6,7 @@ namespace Survello.Services.ConstantMessages
 {
     public static class ExceptionMessages
     {
-        public const string EntityNull = "No entity found.";
+        public const string EntityNotFound = "No entity found.";
+        public const string EntityNull = "Entity null.";
     }
 }

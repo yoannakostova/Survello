@@ -13,6 +13,7 @@ namespace Survello.Web.Utilities
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddScoped<ITextQuestionServices, TextQuestionServices>();
+            services.AddScoped<IFormServices, FormServices>();
 
 
             return services;

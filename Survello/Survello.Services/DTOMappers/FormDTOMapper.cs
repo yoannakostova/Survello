@@ -14,12 +14,12 @@ namespace Survello.Services.DTOMappers
         {
             if (dto == null)
             {
-                throw new Exception(ExceptionMessages.EntityNull);
+                throw new Exception(ExceptionMessages.EntityNotFound);
             }
 
             return new Form
             {
-                Id = dto.Id,
+                //Id = dto.Id,
                 CreatedOn = dto.CreatedOn,
                 LastModifiedOn = dto.LastModifiedOn,
                 DateOfExpiration = dto.DateOfExpiration,
@@ -36,7 +36,7 @@ namespace Survello.Services.DTOMappers
         {
             if (entity == null)
             {
-                throw new Exception(ExceptionMessages.EntityNull);
+                throw new Exception(ExceptionMessages.EntityNotFound);
             }
 
             return new FormDTO
