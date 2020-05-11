@@ -7,7 +7,6 @@ namespace Survello.Services.DTOEntities
     public class FormDTO
     {
         public Guid Id { get; set; }
-        public DateTime CreatedOn { get; set; }
         public DateTime? LastModifiedOn { get; set; }
         public DateTime? DateOfExpiration { get; set; }
         public string Title { get; set; }

@@ -4,7 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Survello.Database.Entites;
 using Survello.Services.Services.Contracts;
+using Survello.Web.Mappers;
+using Survello.Web.Models;
 
 namespace Survello.Web.ApiControllers
 {
@@ -35,9 +39,20 @@ namespace Survello.Web.ApiControllers
 
         // POST: api/FormsApi
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Post(FormViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return NotFound();
+            }
 
+            var modelDto = model.MapFrom();
+
+            var newModel = await this.formServices.CreateFormAsync(modelDto);
+
+            newModel.MapFrom();
+
+            return Created("Post", newModel);
         }
 
         // PUT: api/FormsApi/5

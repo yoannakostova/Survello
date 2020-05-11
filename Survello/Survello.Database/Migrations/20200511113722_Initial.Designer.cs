@@ -10,8 +10,8 @@ using Survello.Database;
 namespace Survello.Database.Migrations
 {
     [DbContext(typeof(SurvelloContext))]
-    [Migration("20200511072439_DateTimeOptimization")]
-    partial class DateTimeOptimization
+    [Migration("20200511113722_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

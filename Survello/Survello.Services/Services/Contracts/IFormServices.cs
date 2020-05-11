@@ -12,5 +12,6 @@ namespace Survello.Services.Services.Contracts
         Task DeleteFormQuestion(Guid id);
         Task<FormDTO> UpdateFormAsync(FormDTO formDto);
         Task<FormDTO> GetFormAsync(Guid id);
+        Task<ICollection<FormDTO>> GetAllFormsAsync();
     }
 }

@@ -8,10 +8,8 @@ namespace Survello.Web.Models
     public class FormViewModel
     {
         public Guid Id { get; set; }
-        public DateTime CreatedOn { get; set; }
-        public DateTime LastModifiedOn { get; set; }
-        public DateTime DateOfExpiration { get; set; }
-        public bool IsDeleted { get; set; }
+        public DateTime? LastModifiedOn { get; set; }
+        public DateTime? DateOfExpiration { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public int NumberOfFilledForms { get; set; }

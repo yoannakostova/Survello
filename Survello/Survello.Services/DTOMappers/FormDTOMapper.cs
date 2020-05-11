@@ -20,7 +20,6 @@ namespace Survello.Services.DTOMappers
             return new Form
             {
                 //Id = dto.Id,
-                CreatedOn = dto.CreatedOn,
                 LastModifiedOn = dto.LastModifiedOn,
                 DateOfExpiration = dto.DateOfExpiration,
                 Title = dto.Title,
@@ -42,7 +41,6 @@ namespace Survello.Services.DTOMappers
             return new FormDTO
             {
                 Id = entity.Id,
-                CreatedOn = entity.CreatedOn,
                 LastModifiedOn = entity.LastModifiedOn,
                 DateOfExpiration = entity.DateOfExpiration,
                 Title = entity.Title,

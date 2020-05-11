@@ -54,6 +54,22 @@ namespace Survello.Services.Services
 
             return formDto;
         }
+        public async Task<ICollection<FormDTO>> GetAllFormsAsync()
+        {
+            var form = await this.dbcontext.Forms
+                .Where(f=>f.IsDeleted == false)
+                .Include(f => f.TextQuestions)
+                .ToListAsync();
+
+            //if (form.Count == 0)
+            //{
+            //    throw new Exception(ExceptionMessages.ListNull);
+            //}
+
+            var formDto = form.MapFrom();
+
+            return formDto;
+        }
 
         public Task<FormDTO> UpdateFormAsync(FormDTO textQuestion)
         {
