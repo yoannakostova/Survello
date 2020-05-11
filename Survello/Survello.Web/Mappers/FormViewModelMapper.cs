@@ -20,10 +20,8 @@ namespace Survello.Web.Mappers
             return new FormDTO
             {
                 Id = viewModel.Id,
-                CreatedOn = viewModel.CreatedOn,
                 LastModifiedOn = viewModel.LastModifiedOn,
                 DateOfExpiration = viewModel.DateOfExpiration,
-                IsDeleted = viewModel.IsDeleted,
                 Title = viewModel.Title,
                 Description = viewModel.Description,
                 UserId = viewModel.UserId,
@@ -43,10 +41,8 @@ namespace Survello.Web.Mappers
             return new FormViewModel
             {
                 Id = dto.Id,
-                CreatedOn = dto.CreatedOn,
                 LastModifiedOn = dto.LastModifiedOn,
                 DateOfExpiration = dto.DateOfExpiration,
-                IsDeleted = dto.IsDeleted,
                 Title = dto.Title,
                 Description = dto.Description,
                 UserId = dto.UserId,
