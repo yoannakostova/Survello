@@ -20,5 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Survello.Models\Survello.Models.csproj" />
+    <ProjectReference Include="..\Survello.Seeder\Survello.Seeder.csproj" />
   </ItemGroup>
 </Project>

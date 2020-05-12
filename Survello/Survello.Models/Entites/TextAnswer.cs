@@ -10,6 +10,7 @@ namespace Survello.Models.Entites
         [Key]
         public Guid Id { get; set; }
         public string Answer { get; set; }
+        public bool IsDeleted { get; set; }
         public Guid TextQuestionId { get; set; }
         public TextQuestion TextQuestion { get; set; }
     }
