@@ -12,9 +12,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Survello.Database;
-using Survello.Database.Entites;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Survello.Web.Utilities;
+using Survello.Models.Entites;
 
 namespace Survello.Web
 {
