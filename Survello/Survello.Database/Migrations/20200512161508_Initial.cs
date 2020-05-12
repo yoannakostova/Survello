@@ -189,6 +189,7 @@ namespace Survello.Database.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Description = table.Column<string>(nullable: false),
                     IsRequired = table.Column<bool>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
                     FormId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
@@ -210,6 +211,7 @@ namespace Survello.Database.Migrations
                     Description = table.Column<string>(nullable: false),
                     IsLongAnswer = table.Column<bool>(nullable: false),
                     IsRequired = table.Column<bool>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
                     FormId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
@@ -224,29 +226,12 @@ namespace Survello.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MultipleChoiceAnswers",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    MultipleChoiceQuestionId = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MultipleChoiceAnswers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_MultipleChoiceAnswers_MultipleChoiceQuestions_MultipleChoiceQuestionId",
-                        column: x => x.MultipleChoiceQuestionId,
-                        principalTable: "MultipleChoiceQuestions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "MultipleChoiceOptions",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Option = table.Column<string>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
                     MultipleChouceQuestionId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
@@ -265,7 +250,9 @@ namespace Survello.Database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    CorelationToken = table.Column<Guid>(nullable: false),
                     Answer = table.Column<string>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
                     TextQuestionId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
@@ -275,6 +262,26 @@ namespace Survello.Database.Migrations
                         name: "FK_TextAnswers_TextQuestions_TextQuestionId",
                         column: x => x.TextQuestionId,
                         principalTable: "TextQuestions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MultipleChoiceAnswers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    CorelationToken = table.Column<Guid>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    MultipleChoiceOptionId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MultipleChoiceAnswers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MultipleChoiceAnswers_MultipleChoiceOptions_MultipleChoiceOptionId",
+                        column: x => x.MultipleChoiceOptionId,
+                        principalTable: "MultipleChoiceOptions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -324,9 +331,9 @@ namespace Survello.Database.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MultipleChoiceAnswers_MultipleChoiceQuestionId",
+                name: "IX_MultipleChoiceAnswers_MultipleChoiceOptionId",
                 table: "MultipleChoiceAnswers",
-                column: "MultipleChoiceQuestionId");
+                column: "MultipleChoiceOptionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MultipleChoiceOptions_MultipleChouceQuestionId",
@@ -370,19 +377,19 @@ namespace Survello.Database.Migrations
                 name: "MultipleChoiceAnswers");
 
             migrationBuilder.DropTable(
-                name: "MultipleChoiceOptions");
-
-            migrationBuilder.DropTable(
                 name: "TextAnswers");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "MultipleChoiceQuestions");
+                name: "MultipleChoiceOptions");
 
             migrationBuilder.DropTable(
                 name: "TextQuestions");
+
+            migrationBuilder.DropTable(
+                name: "MultipleChoiceQuestions");
 
             migrationBuilder.DropTable(
                 name: "Forms");

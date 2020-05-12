@@ -20,7 +20,8 @@ namespace Survello.Services.DTOMappers
             return new MultipleChoiceAnswer
             {
                 Id = dto.Id,
-                MultipleChoiceQuestionId = dto.MultipleChoiceQuestionId
+                MultipleChoiceOptionId = dto.MultipleChoiceOptionId,
+                CorelationToken = dto.CorelationToken
             };
         }
 
@@ -34,7 +35,8 @@ namespace Survello.Services.DTOMappers
             return new MultipleChoiceAnswerDTO
             {
                 Id = entity.Id,
-                MultipleChoiceQuestionId = entity.MultipleChoiceQuestionId
+                MultipleChoiceOptionId = entity.MultipleChoiceOptionId,
+                CorelationToken = entity.CorelationToken
             };
         }
 

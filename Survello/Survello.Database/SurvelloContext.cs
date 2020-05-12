@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Survello.Database.Config;
 using Survello.Models.Entites;
+using Survello.Seeder;
 using System;
 
 namespace Survello.Database
@@ -30,6 +31,8 @@ namespace Survello.Database
             modelBuilder.ApplyConfiguration(new TextAnswerConfig());
             modelBuilder.ApplyConfiguration(new MultipleChoiceOptionConfig());
             modelBuilder.ApplyConfiguration(new MultipleChoiceAnswerConfig());
+
+            modelBuilder.Seeder();
 
             base.OnModelCreating(modelBuilder);
         }

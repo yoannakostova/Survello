@@ -37,6 +37,7 @@ namespace Survello.Web
             services.AddIdentity<User, Role>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
+                options.User.RequireUniqueEmail = true;
             })
                 .AddEntityFrameworkStores<SurvelloContext>()
                 .AddDefaultTokenProviders();
@@ -49,7 +50,6 @@ namespace Survello.Web
                 option.Password.RequireLowercase = false;
                 option.Password.RequiredLength = 5;
                 option.Password.RequiredUniqueChars = 0;
-                //option.User.RequireUniqueEmail = true;
             });
 
             services.AddControllersWithViews();

@@ -12,6 +12,9 @@ namespace Survello.Database.Config
         public void Configure(EntityTypeBuilder<MultipleChoiceOption> builder)
         {
             builder
+                .HasQueryFilter(p => !p.IsDeleted);
+
+            builder
                 .HasKey(o => o.Id);
 
             builder
@@ -21,7 +24,7 @@ namespace Survello.Database.Config
             builder
                 .HasOne(o => o.MultipleChoiceQuestion)
                 .WithMany(o => o.Options)
-                .HasForeignKey(o => o.MultipleChouceQuestionId);
+                .HasForeignKey(o => o.MultipleChouceQuestionId);                
         }
     }
 }

@@ -12,6 +12,9 @@ namespace Survello.Database.Config
         public void Configure(EntityTypeBuilder<MultipleChoiceQuestion> builder)
         {
             builder
+                .HasQueryFilter(p => !p.IsDeleted);
+
+            builder
                 .HasKey(o => o.Id);
 
             builder

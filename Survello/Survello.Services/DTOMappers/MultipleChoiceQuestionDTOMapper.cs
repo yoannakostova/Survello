@@ -23,7 +23,6 @@ namespace Survello.Services.DTOMappers
                 Description = dto.Description,
                 IsRequired = dto.IsRequired,
                 Options = dto.Options.MapFrom(),
-                Answers = dto.Answers.MapFrom(),
                 FormId = dto.FormId
             };
         }
@@ -41,7 +40,6 @@ namespace Survello.Services.DTOMappers
                 Description = entity.Description,
                 IsRequired = entity.IsRequired,
                 Options = entity.Options.MapFrom(),
-                Answers = entity.Answers.MapFrom(),
                 FormId = entity.FormId,
                 FormName = entity.Form.Title
             };

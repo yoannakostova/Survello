@@ -21,7 +21,8 @@ namespace Survello.Web.Mappers
             {
                 Id = dto.Id,
                 Answer = dto.Answer,
-                TextQuestionId = dto.TextQuestionId
+                TextQuestionId = dto.TextQuestionId,
+                 CorelationToken = dto.CorelationToken
             };
         }
 
@@ -36,7 +37,8 @@ namespace Survello.Web.Mappers
             {
                 Id = viewModel.Id,
                 Answer = viewModel.Answer,
-                TextQuestionId = viewModel.TextQuestionId
+                TextQuestionId = viewModel.TextQuestionId,
+                 CorelationToken = viewModel.CorelationToken
             };
         }
 
