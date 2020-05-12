@@ -12,6 +12,7 @@ namespace Survello.Models.Entites
         public string Description { get; set; }
         public bool IsLongAnswer { get; set; }
         public bool IsRequired { get; set; }
+        public bool IsDeleted { get; set; }
         public Guid FormId { get; set; }
         public Form Form { get; set; }
         //TODO: Where to initialize the collection

@@ -21,6 +21,11 @@ namespace Survello.Database.Config
                 .HasOne(a => a.MultipleChoiceQuestion)
                 .WithMany(o => o.Answers)
                 .HasForeignKey(a => a.MultipleChoiceQuestionId);
+
+            builder
+                .HasOne(a => a.MultipleChoiceOption)
+                .WithMany(o => o.MultipleChoiceAnswers)
+                .HasForeignKey(a => a.MultipleChoiceOptionId);
         }
     }
 }
