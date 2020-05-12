@@ -9,13 +9,6 @@ namespace Survello.Services
 {
    public class UserService
     {
-        private readonly SurvelloContext context;
 
-        public UserService(SurvelloContext context)
-        {
-            this.context = context;
-        }
-
-        public async Task<UserDTO> 
     }
 }
