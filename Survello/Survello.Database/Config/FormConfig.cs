@@ -25,6 +25,7 @@ namespace Survello.Database.Config
                 .HasOne(f => f.User)
                 .WithMany(u => u.Forms)
                 .HasForeignKey(f => f.UserId);
+
         }
     }
 }

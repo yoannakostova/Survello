@@ -20,7 +20,8 @@ namespace Survello.Web.Mappers
             return new MultipleChoiceAnswerDTO
             {
                 Id = viewModel.Id,
-                MultipleChoiceQuestionId = viewModel.MultipleChoiceQuestionId
+                MultipleChoiceOptionId = viewModel.MultipleChoiceQuestionId,
+               CorelationToken = viewModel.CorelationToken
             };
         }
 
@@ -34,7 +35,8 @@ namespace Survello.Web.Mappers
             return new MultipleChoiceAnswerViewModel
             {
                 Id = dto.Id,
-                MultipleChoiceQuestionId = dto.MultipleChoiceQuestionId
+                MultipleChoiceQuestionId = dto.MultipleChoiceOptionId,
+                 CorelationToken = dto.CorelationToken
             };
         }
 

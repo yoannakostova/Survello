@@ -14,7 +14,6 @@ namespace Survello.Models.Entites
         public bool IsDeleted { get; set; }
         public Guid FormId { get; set; }
         public Form Form { get; set; }
-        public ICollection<MultipleChoiceAnswer> Answers { get; set; }
         public ICollection<MultipleChoiceOption> Options { get; set; }
     }
 }

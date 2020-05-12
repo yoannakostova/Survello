@@ -10,5 +10,6 @@ namespace Survello.Services.DTOEntities
         public string Option { get; set; }
         public Guid MultipleChouceQuestionId { get; set; }
         public string MultipleChoiceQuestionDescription { get; set; }
+        public ICollection<MultipleChoiceOptionDTO> MultipleChoiceOptions { get; set; }
     }
 }

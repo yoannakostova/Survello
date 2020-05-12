@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Survello.Database\Survello.Database.csproj" />
+    <ProjectReference Include="..\Survello.Models\Survello.Models.csproj" />
   </ItemGroup>
 
 </Project>
