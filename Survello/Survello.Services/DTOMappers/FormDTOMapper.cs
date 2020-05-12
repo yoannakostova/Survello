@@ -1,4 +1,4 @@
-﻿using Survello.Database.Entites;
+﻿using Survello.Models.Entites;
 using Survello.Services.ConstantMessages;
 using Survello.Services.DTOEntities;
 using System;

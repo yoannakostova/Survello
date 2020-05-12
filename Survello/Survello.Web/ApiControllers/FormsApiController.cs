@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Survello.Database.Entites;
 using Survello.Services.Services.Contracts;
 using Survello.Web.Mappers;
 using Survello.Web.Models;

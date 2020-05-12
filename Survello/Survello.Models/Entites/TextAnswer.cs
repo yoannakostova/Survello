@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Survello.Database.Entites
+namespace Survello.Models.Entites
 {
     public class TextAnswer
     {

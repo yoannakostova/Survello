@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Survello.Database.Config;
-using Survello.Database.Entites;
+using Survello.Models.Entites;
 using System;
 
 namespace Survello.Database

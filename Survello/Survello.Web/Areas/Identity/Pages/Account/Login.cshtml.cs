@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using Survello.Database.Entites;
+using Survello.Models.Entites;
 
 namespace Survello.Web.Areas.Identity.Pages.Account
 {
