@@ -12,7 +12,6 @@ namespace Survello.Web.Models
         public bool IsRequired { get; set; }
         public Guid FormId { get; set; }
         public string FormName { get; set; }
-        public ICollection<MultipleChoiceAnswerViewModel> Answers { get; set; }
         public ICollection<MultipleChoiceOptionViewModel> Options { get; set; }
     }
 }
