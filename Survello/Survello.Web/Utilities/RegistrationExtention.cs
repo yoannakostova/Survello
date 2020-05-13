@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.Extensions.DependencyInjection;
+using Survello.Services.Provider;
+using Survello.Services.Provider.Contract;
 using Survello.Services.Services;
 using Survello.Services.Services.Contracts;
 using System;
@@ -14,7 +17,8 @@ namespace Survello.Web.Utilities
         {
             services.AddScoped<ITextQuestionServices, TextQuestionServices>();
             services.AddScoped<IFormServices, FormServices>();
-
+            services.AddScoped<IDateTimeProvider, DateTimeProvider>();
+            services.AddSingleton<IEmailSender, EmailSender>();
 
             return services;
         }
