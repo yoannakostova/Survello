@@ -72,6 +72,9 @@ namespace Survello.Services.Services
             var form = await this.dbcontext.Forms
                 .Include(f => f.TextQuestions)
                     .ThenInclude(f => f.Answers)
+                .Include(f => f.MultipleChoiceQuestions)
+                    .ThenInclude(f => f.Options)
+                    .ThenInclude(f => f.MultipleChoiceAnswers)
                 .ToListAsync();
 
             //if (form.Count == 0)
