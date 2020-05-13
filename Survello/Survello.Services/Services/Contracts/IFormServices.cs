@@ -8,9 +8,9 @@ namespace Survello.Services.Services.Contracts
 {
     public interface IFormServices
     {
-        Task<FormDTO> CreateFormAsync(FormDTO formDto);
-        Task DeleteFormQuestion(Guid id);
-        Task<FormDTO> UpdateFormAsync(FormDTO formDto);
+        Task<FormDTO> CreateFormAsync(FormDTO tempForm);
+        Task<bool> DeleteFormQuestionAsync(Guid id);
+        Task<FormDTO> UpdateFormAsync(Guid id, string newTitle, string newDescription);
         Task<FormDTO> GetFormAsync(Guid id);
         Task<ICollection<FormDTO>> GetAllFormsAsync();
     }

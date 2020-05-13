@@ -55,8 +55,6 @@ namespace Survello.Web
             services.AddControllersWithViews();
             services.AddRazorPages();
 
-            services.AddSingleton<IEmailSender, EmailSender>();
-
             services.AddServices();
         }
 

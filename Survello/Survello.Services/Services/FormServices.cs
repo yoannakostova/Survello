@@ -3,6 +3,7 @@ using Survello.Database;
 using Survello.Services.ConstantMessages;
 using Survello.Services.DTOEntities;
 using Survello.Services.DTOMappers;
+using Survello.Services.Provider.Contract;
 using Survello.Services.Services.Contracts;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,12 @@ namespace Survello.Services.Services
     public class FormServices : IFormServices
     {
         private readonly SurvelloContext dbcontext;
+        private readonly IDateTimeProvider dateTimeProvider;
 
-        public FormServices(SurvelloContext dbcontext)
+        public FormServices(SurvelloContext dbcontext, IDateTimeProvider dateTimeProvider)
         {
             this.dbcontext = dbcontext ?? throw new ArgumentNullException(nameof(dbcontext));
+            this.dateTimeProvider = dateTimeProvider;
         }
         public async Task<FormDTO> CreateFormAsync(FormDTO tempForm)
         {
@@ -37,16 +40,26 @@ namespace Survello.Services.Services
             return formDto;
         }
 
-        public Task DeleteFormQuestion(Guid id)
+        public async Task<bool> DeleteFormQuestionAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var form = await this.dbcontext.Forms
+                .FirstOrDefaultAsync(f => f.Id == id)
+                ?? throw new Exception(ExceptionMessages.EntityNotFound);
+
+            form.IsDeleted = true;
+            form.DeletedOn = this.dateTimeProvider.GetDateTime();
+
+            await this.dbcontext.SaveChangesAsync();
+
+            return true;
         }
 
         public async Task<FormDTO> GetFormAsync(Guid id)
         {
             var form = await this.dbcontext.Forms
-                .Where(f => f.Id == id && f.IsDeleted == false)
-                .Include(f => f.TextQuestions) //TODO: Other type of questions to be included!
+                .Where(f => f.Id == id)
+                .Include(f => f.TextQuestions)
+                    .ThenInclude(f => f.Answers) //TODO: Other type of questions to be included!
                 .FirstOrDefaultAsync()
                 ?? throw new Exception(ExceptionMessages.EntityNotFound);
 
@@ -57,8 +70,8 @@ namespace Survello.Services.Services
         public async Task<ICollection<FormDTO>> GetAllFormsAsync()
         {
             var form = await this.dbcontext.Forms
-                .Where(f=>f.IsDeleted == false)
                 .Include(f => f.TextQuestions)
+                    .ThenInclude(f => f.Answers)
                 .ToListAsync();
 
             //if (form.Count == 0)
@@ -71,9 +84,25 @@ namespace Survello.Services.Services
             return formDto;
         }
 
-        public Task<FormDTO> UpdateFormAsync(FormDTO textQuestion)
+        public async Task<FormDTO> UpdateFormAsync(Guid id, string newTitle, string newDescription)
         {
-            throw new NotImplementedException();
+            var form = await this.dbcontext.Forms
+                     .Where(f => f.Id == id)
+                     .Include(f => f.TextQuestions)
+                        .ThenInclude(f => f.Answers)
+                     .FirstOrDefaultAsync()
+                    ?? throw new Exception(ExceptionMessages.EntityNotFound);
+
+            form.Title = newTitle;
+            form.Description = newDescription;
+
+            this.dbcontext.Update(form);
+            form.LastModifiedOn = this.dateTimeProvider.GetDateTime();
+            await this.dbcontext.SaveChangesAsync();
+
+            var updatedForm = form.MapFrom();
+
+            return updatedForm;
         }
     }
 }
