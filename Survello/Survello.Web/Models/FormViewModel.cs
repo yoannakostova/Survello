@@ -15,6 +15,6 @@ namespace Survello.Web.Models
         public int NumberOfFilledForms { get; set; }
         public Guid UserId { get; set; }
         public ICollection<MultipleChoiceQuestionViewModel> MultipleChoiceQuestions { get; set; }
-        public ICollection<TextQuestionViewModel> TextQuestions { get; set; }
+        public ICollection<TextQuestionViewModel> TextQuestions { get; set; } 
     }
 }
