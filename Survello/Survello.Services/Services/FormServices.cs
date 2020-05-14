@@ -40,7 +40,7 @@ namespace Survello.Services.Services
             return formDto;
         }
 
-        public async Task<bool> DeleteFormQuestionAsync(Guid id)
+        public async Task<bool> DeleteFormAsync(Guid id)
         {
             var form = await this.dbcontext.Forms
                 .FirstOrDefaultAsync(f => f.Id == id)
@@ -58,8 +58,8 @@ namespace Survello.Services.Services
         {
             var form = await this.dbcontext.Forms
                 .Where(f => f.Id == id)
-                .Include(f => f.TextQuestions)
-                    .ThenInclude(f => f.Answers) //TODO: Other type of questions to be included!
+                    .Include(f => f.TextQuestions)
+                .ThenInclude(f => f.Answers) //TODO: Other type of questions to be included!
                 .FirstOrDefaultAsync()
                 ?? throw new Exception(ExceptionMessages.EntityNotFound);
 
