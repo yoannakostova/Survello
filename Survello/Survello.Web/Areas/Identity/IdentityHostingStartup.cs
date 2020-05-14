@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Survello.Database;
-using Survello.Database.Entites;
+
 
 [assembly: HostingStartup(typeof(Survello.Web.Areas.Identity.IdentityHostingStartup))]
 namespace Survello.Web.Areas.Identity

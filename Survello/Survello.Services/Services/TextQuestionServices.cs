@@ -12,7 +12,7 @@ namespace Survello.Services.Services
     {
         private readonly SurvelloContext dbcontext;
 
-        public TextQuestionServices(SurvelloContext context)
+        public TextQuestionServices(SurvelloContext dbcontext)
         {
             this.dbcontext = dbcontext ?? throw new ArgumentNullException(nameof(dbcontext));
         }

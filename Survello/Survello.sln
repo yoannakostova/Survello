@@ -5,11 +5,15 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Survello.Web", "Survello.Web\Survello.Web.csproj", "{86A9BABA-0474-42F2-8893-89FE6FAD0215}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Survello.Database", "Survello.Database\Survello.Database.csproj", "{474A2A9A-230B-4109-9EE8-68AD8D5CE22F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Survello.Database", "Survello.Database\Survello.Database.csproj", "{474A2A9A-230B-4109-9EE8-68AD8D5CE22F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Survello.Services", "Survello.Services\Survello.Services.csproj", "{59C656BF-2208-408B-8229-C0F451171EAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Survello.Services", "Survello.Services\Survello.Services.csproj", "{59C656BF-2208-408B-8229-C0F451171EAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Survello.Tests", "Survello.Tests\Survello.Tests.csproj", "{A3AB2A49-2006-4938-A3C0-214A406FF04A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Survello.Tests", "Survello.Tests\Survello.Tests.csproj", "{A3AB2A49-2006-4938-A3C0-214A406FF04A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Survello.Models", "Survello.Models\Survello.Models.csproj", "{53CDA591-466D-4656-A2B2-1F8C962F0039}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Survello.Seeder", "Survello.Seeder\Survello.Seeder.csproj", "{34E16E5F-F93B-4763-8E5A-EA7F29CD29DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{A3AB2A49-2006-4938-A3C0-214A406FF04A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3AB2A49-2006-4938-A3C0-214A406FF04A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3AB2A49-2006-4938-A3C0-214A406FF04A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53CDA591-466D-4656-A2B2-1F8C962F0039}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53CDA591-466D-4656-A2B2-1F8C962F0039}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53CDA591-466D-4656-A2B2-1F8C962F0039}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53CDA591-466D-4656-A2B2-1F8C962F0039}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34E16E5F-F93B-4763-8E5A-EA7F29CD29DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34E16E5F-F93B-4763-8E5A-EA7F29CD29DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34E16E5F-F93B-4763-8E5A-EA7F29CD29DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34E16E5F-F93B-4763-8E5A-EA7F29CD29DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

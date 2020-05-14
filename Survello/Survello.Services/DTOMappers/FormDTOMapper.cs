@@ -1,4 +1,4 @@
-﻿using Survello.Database.Entites;
+﻿using Survello.Models.Entites;
 using Survello.Services.ConstantMessages;
 using Survello.Services.DTOEntities;
 using System;
@@ -14,16 +14,14 @@ namespace Survello.Services.DTOMappers
         {
             if (dto == null)
             {
-                throw new Exception(ExceptionMessages.EntityNull);
+                throw new Exception(ExceptionMessages.EntityNotFound);
             }
 
             return new Form
             {
-                Id = dto.Id,
-                CreatedOn = dto.CreatedOn,
+                //Id = dto.Id,
                 LastModifiedOn = dto.LastModifiedOn,
                 DateOfExpiration = dto.DateOfExpiration,
-                IsDeleted = dto.IsDeleted,
                 Title = dto.Title,
                 Description = dto.Description,
                 UserId = dto.UserId,
@@ -37,16 +35,14 @@ namespace Survello.Services.DTOMappers
         {
             if (entity == null)
             {
-                throw new Exception(ExceptionMessages.EntityNull);
+                throw new Exception(ExceptionMessages.EntityNotFound);
             }
 
             return new FormDTO
             {
                 Id = entity.Id,
-                CreatedOn = entity.CreatedOn,
                 LastModifiedOn = entity.LastModifiedOn,
                 DateOfExpiration = entity.DateOfExpiration,
-                IsDeleted = entity.IsDeleted,
                 Title = entity.Title,
                 Description = entity.Description,
                 UserId = entity.UserId,
