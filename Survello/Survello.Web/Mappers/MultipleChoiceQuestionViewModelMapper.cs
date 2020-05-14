@@ -23,7 +23,6 @@ namespace Survello.Web.Mappers
                 Description = viewModel.Description,
                 IsRequired = viewModel.IsRequired,
                 Options = viewModel.Options.MapFrom(),
-                Answers = viewModel.Answers.MapFrom(),
                 FormId = viewModel.FormId,
                 FormName = viewModel.FormName
             };
@@ -42,7 +41,6 @@ namespace Survello.Web.Mappers
                 Description = dto.Description,
                 IsRequired = dto.IsRequired,
                 Options = dto.Options.MapFrom(),
-                Answers = dto.Answers.MapFrom(),
                 FormId = dto.FormId,
                 FormName = dto.FormName
             };
