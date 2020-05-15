@@ -53,14 +53,14 @@ namespace Survello.Services.Services
             this.dbcontext.Update(multipleChoiceQuestion); //TODO: Deletion of options and answers?
             await this.dbcontext.SaveChangesAsync();
 
-                //foreach (var item in multipleChoiceQuestion.Options)
-                //{
-                //    item.IsDeleted = true;
-                //    foreach (var it in item.MultipleChoiceAnswers)
-                //    {
-                //        it.IsDeleted = true;
-                //    }
-                //}
+            //foreach (var item in multipleChoiceQuestion.Options)
+            //{
+            //    item.IsDeleted = true;
+            //    foreach (var answer in item.MultipleChoiceAnswers)
+            //    {
+            //        answer.IsDeleted = true;
+            //    }
+            //}
 
             return true;
         }
