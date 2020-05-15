@@ -235,7 +235,7 @@ namespace Survello.Database.Migrations
                         new
                         {
                             Id = new Guid("1009cb07-226e-430d-9173-87ee97472f6a"),
-                            CreatedOn = new DateTime(2020, 5, 15, 13, 12, 10, 467, DateTimeKind.Utc).AddTicks(7255),
+                            CreatedOn = new DateTime(2020, 5, 15, 13, 25, 10, 119, DateTimeKind.Utc).AddTicks(8303),
                             Description = "Test description 1.",
                             IsDeleted = false,
                             NumberOfFilledForms = 0,
@@ -245,7 +245,7 @@ namespace Survello.Database.Migrations
                         new
                         {
                             Id = new Guid("2009cb07-226e-430d-9173-87ee97472f6a"),
-                            CreatedOn = new DateTime(2020, 5, 15, 13, 12, 10, 468, DateTimeKind.Utc).AddTicks(4247),
+                            CreatedOn = new DateTime(2020, 5, 15, 13, 25, 10, 120, DateTimeKind.Utc).AddTicks(9921),
                             Description = "Test description 2.",
                             IsDeleted = false,
                             NumberOfFilledForms = 0,
@@ -255,7 +255,7 @@ namespace Survello.Database.Migrations
                         new
                         {
                             Id = new Guid("3009cb07-226e-430d-9173-87ee97472f6a"),
-                            CreatedOn = new DateTime(2020, 5, 15, 13, 12, 10, 468, DateTimeKind.Utc).AddTicks(4361),
+                            CreatedOn = new DateTime(2020, 5, 15, 13, 25, 10, 121, DateTimeKind.Utc).AddTicks(242),
                             Description = "Test description 3.",
                             IsDeleted = false,
                             NumberOfFilledForms = 0,
@@ -265,7 +265,7 @@ namespace Survello.Database.Migrations
                         new
                         {
                             Id = new Guid("4009cb07-226e-430d-9173-87ee97472f6a"),
-                            CreatedOn = new DateTime(2020, 5, 15, 13, 12, 10, 468, DateTimeKind.Utc).AddTicks(4376),
+                            CreatedOn = new DateTime(2020, 5, 15, 13, 25, 10, 121, DateTimeKind.Utc).AddTicks(265),
                             Description = "Test description 4",
                             IsDeleted = false,
                             NumberOfFilledForms = 0,
@@ -543,7 +543,7 @@ namespace Survello.Database.Migrations
                         new
                         {
                             Id = new Guid("0989cb07-226e-430d-9173-87ee97472f6a"),
-                            ConcurrencyStamp = "327ba0eb-8496-4c11-bff8-44f8ca46c5f6",
+                            ConcurrencyStamp = "dcd559b4-d87a-4fa6-bc0c-b763f219fe0a",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         });
@@ -761,15 +761,15 @@ namespace Survello.Database.Migrations
                         {
                             Id = new Guid("52d02f62-14ac-4152-872c-08d7eb74f484"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1f306fcb-3845-4257-a12d-0191b121dc5a",
-                            CreatedOn = new DateTime(2020, 5, 15, 13, 12, 10, 482, DateTimeKind.Utc).AddTicks(5202),
+                            ConcurrencyStamp = "efce1025-be83-4d17-ba08-d6523bf32340",
+                            CreatedOn = new DateTime(2020, 5, 15, 13, 25, 10, 133, DateTimeKind.Utc).AddTicks(3239),
                             Email = "nasko@survello.com",
                             EmailConfirmed = false,
                             IsDeleted = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "NASKO",
                             NormalizedUserName = "NASKO",
-                            PasswordHash = "AQAAAAEAACcQAAAAEELA+O/qGFW1qAmTZCLc+HBkB4s4yWRkkKLwCNEST9XYTkCeUbUA2TwgVzUwlIhuzQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEM2DJcYg5T0eP99mZ0rLJUvadfCL6FU6eBIE0WQTdtYFtg3hMTjZVo19aPg5gvkT3Q==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "321E275DD1E24957A7781D42BB68293B",
                             TwoFactorEnabled = false,
@@ -779,15 +779,15 @@ namespace Survello.Database.Migrations
                         {
                             Id = new Guid("22a2d89d-ee6e-4c94-e490-08d7eb6bae70"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f0427527-6f65-4e91-a28f-986921380a85",
-                            CreatedOn = new DateTime(2020, 5, 15, 13, 12, 10, 630, DateTimeKind.Utc).AddTicks(9071),
+                            ConcurrencyStamp = "802da9fc-ad65-44a7-a29f-d641de06664f",
+                            CreatedOn = new DateTime(2020, 5, 15, 13, 25, 10, 264, DateTimeKind.Utc).AddTicks(9186),
                             Email = "yoanna@survello.com",
                             EmailConfirmed = false,
                             IsDeleted = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "YOANNA",
                             NormalizedUserName = "YOANNA",
-                            PasswordHash = "AQAAAAEAACcQAAAAECGx1tLT4ealzN/jl5MeJiTVQk+iP+izfwj7CZWvRz65bG7zBZAa2OUbLTmfhRWFOQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIuUMvRzBHTCNQfZ+VgliVUOlqYOCdenFIdMpRUPtG+UiWBPBKXEqargYK4LJJlZzA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "431E275DD1E24957A7781D42BB68293B",
                             TwoFactorEnabled = false,
