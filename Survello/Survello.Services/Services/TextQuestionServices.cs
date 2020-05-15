@@ -39,7 +39,7 @@ namespace Survello.Services.Services
             return formDto;
         }
 
-        public async Task<bool> DeleteTextQuestion(Guid id)
+        public async Task<bool> DeleteTextQuestionAsync(Guid id)
         {
 
             var textQuestion = await this.dbcontext.TextQuestions
@@ -75,7 +75,7 @@ namespace Survello.Services.Services
             return entity.MapFrom();
         }
 
-        public async Task<TextQuestionDTO> GetTextQuestion(Guid id)
+        public async Task<TextQuestionDTO> GetTextQuestionAsync(Guid id)
         {
             var textQuestion = await this.dbcontext.TextQuestions
                 .Where(t => t.Id == id)

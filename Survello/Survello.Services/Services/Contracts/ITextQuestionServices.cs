@@ -9,9 +9,9 @@ namespace Survello.Services.Services.Contracts
     public interface ITextQuestionServices
     {
         Task<TextQuestionDTO> CreateTextQuestionAsync(TextQuestionDTO textQuestion);
-        Task<bool> DeleteTextQuestion(Guid id);
+        Task<bool> DeleteTextQuestionAsync(Guid id);
         Task<TextQuestionDTO> UpdateTextQuestionAsync(TextQuestionDTO textQuestion);
-        Task<TextQuestionDTO> GetTextQuestion(Guid id);
+        Task<TextQuestionDTO> GetTextQuestionAsync(Guid id);
         Task<ICollection<TextQuestionDTO>> GetAllTextQuestionInForm(Guid id);
     }
 }
