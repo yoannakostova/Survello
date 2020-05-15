@@ -1,4 +1,4 @@
-﻿using Survello.Database.Entites;
+﻿using Survello.Models.Entites;
 using Survello.Services.ConstantMessages;
 using Survello.Services.DTOEntities;
 using System;
@@ -14,13 +14,14 @@ namespace Survello.Services.DTOMappers
         {
             if (dto == null)
             {
-                throw new Exception(ExceptionMessages.EntityNull);
+                throw new Exception(ExceptionMessages.EntityNotFound);
             }
 
             return new MultipleChoiceAnswer
             {
                 Id = dto.Id,
-                MultipleChoiceQuestionId = dto.MultipleChoiceQuestionId
+                MultipleChoiceOptionId = dto.MultipleChoiceOptionId,
+                CorelationToken = dto.CorelationToken
             };
         }
 
@@ -28,13 +29,14 @@ namespace Survello.Services.DTOMappers
         {
             if (entity == null)
             {
-                throw new Exception(ExceptionMessages.EntityNull);
+                throw new Exception(ExceptionMessages.EntityNotFound);
             }
 
             return new MultipleChoiceAnswerDTO
             {
                 Id = entity.Id,
-                MultipleChoiceQuestionId = entity.MultipleChoiceQuestionId
+                MultipleChoiceOptionId = entity.MultipleChoiceOptionId,
+                CorelationToken = entity.CorelationToken
             };
         }
 

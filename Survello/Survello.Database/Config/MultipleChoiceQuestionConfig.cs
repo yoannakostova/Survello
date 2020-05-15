@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Survello.Database.Entites;
+using Survello.Models.Entites;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,6 +11,9 @@ namespace Survello.Database.Config
     {
         public void Configure(EntityTypeBuilder<MultipleChoiceQuestion> builder)
         {
+            builder
+                .HasQueryFilter(p => !p.IsDeleted);
+
             builder
                 .HasKey(o => o.Id);
 
