@@ -52,8 +52,6 @@ namespace Survello.Services.Services
             }
 
             textQuestion.IsDeleted = true;
-
-            await this.dbcontext.TextQuestions.AddAsync(textQuestion);
             await this.dbcontext.SaveChangesAsync();
 
             return true;
@@ -71,7 +69,7 @@ namespace Survello.Services.Services
                 IsRequired = textQuestion.IsRequired
             };
 
-            await this.dbcontext.TextQuestions.AddAsync(entity);
+            this.dbcontext.TextQuestions.Update(entity);
             await this.dbcontext.SaveChangesAsync();
 
             return entity.MapFrom();

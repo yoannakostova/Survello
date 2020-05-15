@@ -19,7 +19,7 @@ namespace Survello.Services.DTOMappers
 
             return new MultipleChoiceOption
             {
-                Id = dto.Id,
+                //Id = dto.Id,
                 Option = dto.Option,
                 MultipleChouceQuestionId = dto.MultipleChouceQuestionId
             };

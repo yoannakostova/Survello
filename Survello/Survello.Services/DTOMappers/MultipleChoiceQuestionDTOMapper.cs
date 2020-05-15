@@ -19,7 +19,7 @@ namespace Survello.Services.DTOMappers
 
             return new MultipleChoiceQuestion
             {
-                Id = dto.Id,
+                //Id = dto.Id, //no need since we set it as [Key]
                 Description = dto.Description,
                 IsRequired = dto.IsRequired,
                 Options = dto.Options.MapFrom(),
