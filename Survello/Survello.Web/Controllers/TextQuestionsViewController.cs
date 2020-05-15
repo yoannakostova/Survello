@@ -10,11 +10,11 @@ using Survello.Web.Models;
 
 namespace Survello.Web.Controllers
 {
-    public class TextQuestionViewController : Controller
+    public class TextQuestionsViewController : Controller
     {
         private readonly ITextQuestionServices textQuestionServices;
 
-        public TextQuestionViewController(ITextQuestionServices textQuestionServices)
+        public TextQuestionsViewController(ITextQuestionServices textQuestionServices)
         {
             this.textQuestionServices = textQuestionServices ?? throw new ArgumentNullException(nameof(textQuestionServices));
         }
@@ -27,9 +27,10 @@ namespace Survello.Web.Controllers
         }
 
         [HttpGet]
+
         public async Task<IActionResult> GetTextQuestion(Guid id)
         {
-            var textQuestion = await this.textQuestionServices.GetTextQuestion(id);
+            var textQuestion = await this.textQuestionServices.GetTextQuestionAsync(id);
 
             return PartialView(textQuestion);
         }
@@ -65,7 +66,7 @@ namespace Survello.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> DeleteTextQuestion(Guid id)
         {
-            bool result = await this.textQuestionServices.DeleteTextQuestion(id);
+            bool result = await this.textQuestionServices.DeleteTextQuestionAsync(id);
 
             if (result)
             {

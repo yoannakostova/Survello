@@ -25,7 +25,7 @@ namespace Survello.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetForm(Guid id)
+        public async Task<IActionResult> Details(Guid id)
         {
             var form = await this.formServices.GetFormAsync(id);
             return View("Details", form.MapFrom());

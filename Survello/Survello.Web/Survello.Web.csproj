@@ -22,8 +22,4 @@
     <ProjectReference Include="..\Survello.Services\Survello.Services.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\TextQuestionsView\" />
-  </ItemGroup>
-
 </Project>

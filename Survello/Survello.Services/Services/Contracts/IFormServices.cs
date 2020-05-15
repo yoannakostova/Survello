@@ -13,5 +13,6 @@ namespace Survello.Services.Services.Contracts
         Task<FormDTO> UpdateFormAsync(Guid id, string newTitle, string newDescription);
         Task<FormDTO> GetFormAsync(Guid id);
         Task<ICollection<FormDTO>> GetAllFormsAsync();
+        
     }
 }

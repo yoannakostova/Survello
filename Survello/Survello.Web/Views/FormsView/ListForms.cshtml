@@ -61,7 +61,7 @@
                 @Html.DisplayFor(modelItem => item.UserId)
             </td>
             <td>
-                <a asp-action="_Details" asp-route-id="@item.Id">Details</a>
+                <a asp-controller="FormsView" asp-action="Details" asp-route-id="@item.Id">Details</a>
             </td>
         </tr>
 }
