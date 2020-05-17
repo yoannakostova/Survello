@@ -1,0 +1,45 @@
+﻿@model Survello.Web.Models.TextQuestionViewModel
+<!-- Text input-->
+<div class="form-group row">
+    <label for="OrderNumber" class="col-sm-1 col-form-label"></label>
+    <div class="col-sm-11">
+        @*<label asp-for="Description" class="control-label"></label>*@
+        <input asp-for="Description" type="text" class="form-control" id="inputEmail3" placeholder="Enter your question">
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+</div>
+
+<!-- Multiple Radios For Answer's lenght -->
+<div class="form-group row">
+    <label for="OrderNumber" class="col-sm-2 col-form-label"></label>
+    <div class="custom-control custom-switch">
+        <input asp-for="IsLongAnswer" type="checkbox" class="custom-control-input" id="IsLongAnswer">
+        <label class="custom-control-label" for="IsLongAnswer">Long answer</label>
+        <span asp-validation-for="IsLongAnswer" class="text-danger"></span>
+    </div>
+
+    <!-- Multiple Radios For Is Required -->
+    <label for="OrderNumber" class="col-sm-2 col-form-label"></label>
+    <div class="custom-control custom-switch">
+        <input asp-for="IsRequired" type="checkbox" class="custom-control-input" id="IsRequired">
+        <label class="custom-control-label" for="IsRequired">Required</label>
+        <span asp-validation-for="IsRequired" class="text-danger"></span>
+    </div>
+</div>
+
+<!-- Textarea -->
+@*<div class="form-group row">
+        <label for="OrderNumber" class="col-sm-1 col-form-label"></label>
+        <div class="col-sm-11">
+            <textarea class="form-control" id="inputEmail3" placeholder="Enter your answer"></textarea>
+        </div>
+    </div>*@
+
+<!-- Textfield -->
+@*<div class="form-group row">
+        <label for="OrderNumber" class="col-sm-1 col-form-label"></label>
+        <div class="col-sm-11">
+            <input type="text" class="form-control" id="inputEmail3" placeholder="Enter your answer">
+        </div>
+    </div>*@
+

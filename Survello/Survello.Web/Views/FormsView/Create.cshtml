@@ -2,21 +2,25 @@
 
 @{
     ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
-
-<h4>FormViewModel</h4>
+<h1>Create Form</h1>
+<div class="row">
+    <div class="col-md-4">
+        <input class="btn btn-default" type="button" id="btnAddTQ" value="Add Text Question" />
+    </div>
+</div>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" id="form">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @*<div class="form-group">
-                <label asp-for="DateOfExpiration" class="control-label"></label>
-                <input asp-for="DateOfExpiration" class="form-control" />
-                <span asp-validation-for="DateOfExpiration" class="text-danger"></span>
-            </div>*@
+                    <label asp-for="DateOfExpiration" class="control-label"></label>
+                    <input asp-for="DateOfExpiration" class="form-control" />
+                    <span asp-validation-for="DateOfExpiration" class="text-danger"></span>
+                </div>*@
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
@@ -27,17 +31,22 @@
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
+            <div class="page-wrap" id="textQuestionsContainer">
+                @Html.EditorFor(model => model.TextQuestions)
+            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
+        @*html element from type hidden*@
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="ListForms">Back to List</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/allQuestionsOperations.js"></script>
 }
