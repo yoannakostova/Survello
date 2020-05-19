@@ -41,11 +41,11 @@ namespace Survello.Web.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create(FormViewModel model)
+        public async Task Create(FormViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return NotFound();
+                NotFound();
             }
             try
             {
@@ -55,11 +55,11 @@ namespace Survello.Web.Controllers
 
                 newForm.MapFrom();
 
-                return RedirectToAction("ListForms", "FormsView");
+                RedirectToAction("Index", "Home");
             }
             catch (Exception)
             {
-                return BadRequest();
+                BadRequest();
             }
         }
         [HttpPost]
