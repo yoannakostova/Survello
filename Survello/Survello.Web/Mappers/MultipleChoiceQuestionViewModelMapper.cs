@@ -17,14 +17,19 @@ namespace Survello.Web.Mappers
                 throw new Exception(ExceptionMessages.EntityNull);
             }
 
+            var dto = new MultipleChoiceQuestionDTO();
+            var option = new MultipleChoiceOptionDTO();
+
+            foreach (var item in viewModel.OptionsDescriptions)
+            {
+                
+            }
+
+
             return new MultipleChoiceQuestionDTO
             {
                 Id = viewModel.Id,
-                Description = viewModel.Description,
-                IsRequired = viewModel.IsRequired,
-                Options = viewModel.Options.MapFrom(),
-                FormId = viewModel.FormId,
-                FormName = viewModel.FormName
+               
             };
         }
 

@@ -41,6 +41,8 @@ namespace Survello.Web.Controllers
             return View();
         }
         [HttpPost]
+
+        //Maybe check this method in the future?
         public async Task Create(FormViewModel model)
         {
             if (!ModelState.IsValid)
@@ -50,6 +52,7 @@ namespace Survello.Web.Controllers
             try
             {
                 model.UserId = (await userManager.GetUserAsync(User)).Id;
+
                 var formDto = model.MapFrom();
                 var newForm = await this.formServices.CreateFormAsync(formDto);
 
@@ -61,13 +64,6 @@ namespace Survello.Web.Controllers
             {
                 BadRequest();
             }
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddTextQuestion([Bind("TextQuestions")] FormViewModel formVm)
-        {
-            formVm.TextQuestions.Add(new TextQuestionViewModel());
-            return PartialView("TextQuestionViewModels", formVm);
         }
     }
 }
