@@ -62,12 +62,6 @@ namespace Survello.Web.Controllers
                 BadRequest();
             }
         }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddTextQuestion([Bind("TextQuestions")] FormViewModel formVm)
-        {
-            formVm.TextQuestions.Add(new TextQuestionViewModel());
-            return PartialView("TextQuestionViewModels", formVm);
-        }
+
     }
 }
