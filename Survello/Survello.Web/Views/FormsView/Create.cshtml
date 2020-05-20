@@ -126,7 +126,6 @@
                 else {
                     $(`#corret${j}`).text("");
                 }
-
                 let OptionDesc = new Array()
                 for (let k = 0; k < info.length; k++) {
 
@@ -170,7 +169,7 @@
             msq++
             let div = document.getElementById('questions')
             let element =
-                `<div class="row">
+                `<div style="border-color:#b4e2f4" class="row">
                                 <div class="col-md-11">
                                         <input type = "text" class="form-control" id="descriptionMCQ${msq}" placeholder="Enter your question" />
                                         <span asp-validation-for="Description" class="text-danger"></span>
@@ -203,7 +202,7 @@
             let searchFor = "add" + id;
             let div = document.getElementById(searchFor)
             let element =
-                `<div class="col-sm-11">
+                `<div style="border-color:#b4e2f4" class="col-sm-11">
                                       <input type="text" class="form-control" id="option${opt}" placeholder="Enter your text here">
                              </div>`
             $(div).append(element)
