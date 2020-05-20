@@ -21,7 +21,7 @@ namespace Survello.Services.Services
         public FormServices(SurvelloContext dbcontext, IDateTimeProvider dateTimeProvider)
         {
             this.dbcontext = dbcontext ?? throw new ArgumentNullException(nameof(dbcontext));
-            this.dateTimeProvider = dateTimeProvider;
+            this.dateTimeProvider = dateTimeProvider ?? throw new ArgumentNullException(nameof(dbcontext));
         }
         public async Task<FormDTO> CreateFormAsync(FormDTO tempForm)
         {
@@ -31,7 +31,7 @@ namespace Survello.Services.Services
             }
 
             var form = tempForm.MapFrom();
-
+            
             await this.dbcontext.Forms.AddAsync(form);
             await this.dbcontext.SaveChangesAsync();
 
@@ -58,8 +58,8 @@ namespace Survello.Services.Services
         {
             var form = await this.dbcontext.Forms
                 .Where(f => f.Id == id)
-                    .Include(f => f.TextQuestions)
-                .ThenInclude(f => f.Answers) //TODO: Other type of questions to be included!
+                .Include(f => f.TextQuestions)
+                    .ThenInclude(f => f.Answers) //TODO: Other type of questions to be included!
                 .FirstOrDefaultAsync()
                 ?? throw new Exception(ExceptionMessages.EntityNotFound);
 

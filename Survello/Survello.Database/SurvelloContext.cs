@@ -19,6 +19,8 @@ namespace Survello.Database
         public DbSet<MultipleChoiceQuestion> MultipleChoiceQuestions { get; set; }
         public DbSet<MultipleChoiceOption> MultipleChoiceOptions { get; set; }
         public DbSet<MultipleChoiceAnswer> MultipleChoiceAnswers { get; set; }
+        public DbSet<DocumentQuestion> DocumentQuestions { get; set; }
+        public DbSet<DocumentAnswer> DocumentAnswers { get; set; }
         public DbSet<Form> Forms { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -31,6 +33,8 @@ namespace Survello.Database
             modelBuilder.ApplyConfiguration(new TextAnswerConfig());
             modelBuilder.ApplyConfiguration(new MultipleChoiceOptionConfig());
             modelBuilder.ApplyConfiguration(new MultipleChoiceAnswerConfig());
+            modelBuilder.ApplyConfiguration(new DocumentQuestionConfig());
+            modelBuilder.ApplyConfiguration(new DocumentAnswerConfig());
 
             modelBuilder.Seeder();
 

@@ -4,40 +4,109 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
-
-<h4>FormViewModel</h4>
+<h1>Create Form</h1>
+<div class="row">
+    <div class="col-md-4">
+        <button class="btn btn-primary" type="button" id="tq">Add Text Question</button>
+    </div>
+    <div class="col-md-4">
+        <input class="btn btn-default" type="button" id="btnAddMQ" value="Add Options Question" />
+    </div>
+</div>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @*<div class="form-group">
-                <label asp-for="DateOfExpiration" class="control-label"></label>
-                <input asp-for="DateOfExpiration" class="form-control" />
-                <span asp-validation-for="DateOfExpiration" class="text-danger"></span>
-            </div>*@
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+
+        <div class="form-group">
+            <input id="formTitle" class="form-control" />
+        </div>
+        <div class="form-group">
+            <input id="formDescription" class="form-control" />
+        </div>
+        <div id="questions">
+
+        </div>
+        <div class="form-group">
+            <button id="submitFormViewModel" onclick="create()" type="submit" value="Create" class="btn btn-primary">Create</button>
+        </div>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="ListForms">Back to List</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        let counter = 0;
+        $('#tq').on('click', () => {
+            counter++
+            let div = document.getElementById('questions')
+            let element = `<div class="col-sm-11">
+                                    <input type="text"  class="form-control" id="description{counter}" placeholder="Enter your question">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="OrderNumber" class="col-sm-2 col-form-label"></label>
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="isLongAnswerId${counter}">
+                                    <label class="custom-control-label" for="isLongAnswerId">Long answer</label>
+                                </div>
+
+                                <label for="OrderNumber" class="col-sm-2 col-form-label"></label>
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="isRequired${counter}">
+                                    <label class="custom-control-label" for="isRequired">Required</label>
+                                </div>`
+            $(div).append(element)
+        })
+
+        function create() {
+            let title = document.getElementById("formTitle").value;
+            let description = document.getElementById("formDescription").value;
+            let list = new Array();
+            for (let i = 1; i <= counter; i++) {
+
+                let modelTextQuestionIsRequired = false;
+                let modelTextQuestionIsLongAnswer = false;
+
+                let questionDescription = document.getElementById('description' + i.toString()).value;
+                let islongAnswer = document.getElementById('isLongAnswerId' + i.toString()).value;
+                let isRequired = document.getElementById('isRequired' + i.toString()).value;
+                if (islongAnswer === "on") {
+                    modelTextQuestionIsLongAnswer = true;
+                }
+                if (isRequired === "on") {
+                    modelTextQuestionIsRequired = true;
+                }
+                let TextQuestionViewModel = {}
+                //TextQuestionViewModel.FormTitle = '';
+                TextQuestionViewModel.Description = questionDescription;
+                TextQuestionViewModel.IsLongAnswer = modelTextQuestionIsLongAnswer;
+                TextQuestionViewModel.IsRequired = modelTextQuestionIsRequired;
+
+                list.push(TextQuestionViewModel);
+            }
+
+            let TextQuestions = JSON.stringify(list);
+            console.log(title);
+            console.log(description);
+
+
+            $.ajax({
+                type: 'Post',
+                url: 'Create',
+                data: {
+                    'Title': title,
+                    'Description': description,
+                    'TextQuestions': list
+                },
+                success: function () {
+                    window.location.replace("/FormsView/ListForms")
+                }
+            })
+        }
+    </script>
 }
