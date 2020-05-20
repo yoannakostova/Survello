@@ -68,7 +68,9 @@
 
         function create() {
             let title = document.getElementById("formTitle").value;
+
             let isEverythingOk = true;
+
             if (!title) {
                 isEverythingOk = false;
                 $('#idSpanTitle').text("Please enter title");
@@ -77,7 +79,9 @@
 
                 $('#idSpanTitle').text("");
             }
+
             let description = document.getElementById("formDescription").value;
+
             let TQlist = new Array();
             let MCQlist = new Array();
 
@@ -119,6 +123,7 @@
                 let info = $(`#add${j} :input`); //1 input -> length = 2
                 console.log(info);
                 console.log(info.length);
+
                 if (info.length < 2) {
                     $(`#corret${j}`).text("Please add at least 2 options");
                     isEverythingOk = false;
@@ -126,6 +131,7 @@
                 else {
                     $(`#corret${j}`).text("");
                 }
+
                 let OptionDesc = new Array()
                 for (let k = 0; k < info.length; k++) {
 
@@ -165,7 +171,6 @@
         let msq = 0;
 
         $('#btnAddMCQ').on('click', () => {
-
             msq++
             let div = document.getElementById('questions')
             let element =
@@ -194,7 +199,7 @@
             $(div).append(element)
         })
     </script>
-
+       
     <script>
         let opt = 0;
         function test(id) {

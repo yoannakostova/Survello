@@ -49,7 +49,19 @@ namespace Survello.Web.Controllers
             }
             try
             {
+
                 model.UserId = (await userManager.GetUserAsync(User)).Id;
+
+                foreach (var question in model.MultipleChoiceQuestions)
+                {
+                    foreach (var desc in question.OptionsDescriptions)
+                    {
+                        var optionModel = new MultipleChoiceOptionViewModel();
+                        optionModel.Option = desc;
+                        question.Options.Add(optionModel);
+                    }
+                }
+
                 var formDto = model.MapFrom();
                 var newForm = await this.formServices.CreateFormAsync(formDto);
 
