@@ -15,6 +15,7 @@ using Survello.Database;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Survello.Web.Utilities;
 using Survello.Models.Entites;
+using NToastNotify;
 
 namespace Survello.Web
 {
@@ -54,6 +55,11 @@ namespace Survello.Web
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddMvc().AddNToastNotifyToastr(new ToastrOptions()
+            {
+                ProgressBar = false,
+                PositionClass = ToastPositions.TopCenter
+            });
 
             services.AddServices();
         }
@@ -79,6 +85,7 @@ namespace Survello.Web
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseNToastNotify();
 
             app.UseEndpoints(endpoints =>
             {
