@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Survello.Web.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace Survello.Web.Models
         public string Description { get; set; }
         public int NumberOfFilledForms { get; set; }
         public Guid UserId { get; set; }
+        public Dictionary<int,IQuestion> QuestionNumbers { get; set; }
         public ICollection<MultipleChoiceQuestionViewModel> MultipleChoiceQuestions { get; set; } = new List<MultipleChoiceQuestionViewModel>();
         public ICollection<TextQuestionViewModel> TextQuestions { get; set; } = new List<TextQuestionViewModel>();
         public ICollection<DocumentQuestionViewModel> DocumentQuestions { get; set; } = new List<DocumentQuestionViewModel>();

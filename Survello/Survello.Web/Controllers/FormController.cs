@@ -54,6 +54,8 @@ namespace Survello.Web.Controllers
 
                 foreach (var question in model.MultipleChoiceQuestions)
                 {
+                    model.QuestionNumbers.Add(question.QuestionNumber, question);
+
                     foreach (var desc in question.OptionsDescriptions)
                     {
                         var optionModel = new MultipleChoiceOptionViewModel();
@@ -61,6 +63,17 @@ namespace Survello.Web.Controllers
                         question.Options.Add(optionModel);
                     }
                 }
+
+                foreach (var item in model.DocumentQuestions)
+                {
+                    model.QuestionNumbers.Add(item.QuestionNumber, item);
+                }
+
+                foreach (var item in model.TextQuestions)
+                {
+                    model.QuestionNumbers.Add(item.QuestionNumber, item);
+                }
+
 
                 var formDto = model.MapFrom();
                 var newForm = await this.formServices.CreateFormAsync(formDto);
@@ -73,6 +86,12 @@ namespace Survello.Web.Controllers
             {
                 BadRequest();
             }
+        }
+
+        [HttpGet]
+        public IActionResult Edit()
+        {
+            return View();
         }
 
     }

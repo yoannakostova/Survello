@@ -25,6 +25,7 @@ namespace Survello.Web.Controllers
         {
             return View();
         }
+
         [HttpPost]
         // GET: Emails/Details/5
         public IActionResult Index(FormSenderViewModel model)
