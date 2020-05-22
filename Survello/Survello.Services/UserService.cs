@@ -15,6 +15,5 @@ namespace Survello.Services
             this.context = context;
         }
 
-        public async Task<UserDTO> 
     }
 }
