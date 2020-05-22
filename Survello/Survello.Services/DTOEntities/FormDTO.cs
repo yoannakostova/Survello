@@ -15,5 +15,6 @@ namespace Survello.Services.DTOEntities
         public Guid UserId { get; set; }
         public ICollection<MultipleChoiceQuestionDTO> MultipleChoiceQuestions { get; set; }
         public ICollection<TextQuestionDTO> TextQuestions { get; set; }
+        public ICollection<DocumentQuestionDTO> DocumentQuestions { get; set; }
     }
 }

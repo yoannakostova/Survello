@@ -27,7 +27,8 @@ namespace Survello.Services.DTOMappers
                 UserId = dto.UserId,
                 NumberOfFilledForms = dto.NumberOfFilledForms,
                 MultipleChoiceQuestions = dto.MultipleChoiceQuestions.MapFrom(),
-                TextQuestions = dto.TextQuestions.MapFrom()
+                TextQuestions = dto.TextQuestions.MapFrom(),
+                DocumentQuestions = dto.DocumentQuestions.MapFrom()
             };
         }
 
@@ -48,7 +49,8 @@ namespace Survello.Services.DTOMappers
                 UserId = entity.UserId,
                 NumberOfFilledForms = entity.NumberOfFilledForms,
                 MultipleChoiceQuestions = entity.MultipleChoiceQuestions.MapFrom(),
-                TextQuestions = entity.TextQuestions.MapFrom()
+                TextQuestions = entity.TextQuestions.MapFrom(),
+                DocumentQuestions = entity.DocumentQuestions.MapFrom()
             };
         }
 

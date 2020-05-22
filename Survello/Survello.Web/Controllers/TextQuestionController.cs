@@ -10,11 +10,11 @@ using Survello.Web.Models;
 
 namespace Survello.Web.Controllers
 {
-    public class TextQuestionsViewController : Controller
+    public class TextQuestionController : Controller
     {
         private readonly ITextQuestionServices textQuestionServices;
 
-        public TextQuestionsViewController(ITextQuestionServices textQuestionServices)
+        public TextQuestionController(ITextQuestionServices textQuestionServices)
         {
             this.textQuestionServices = textQuestionServices ?? throw new ArgumentNullException(nameof(textQuestionServices));
         }

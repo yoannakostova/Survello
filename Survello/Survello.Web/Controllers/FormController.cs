@@ -11,12 +11,12 @@ using Survello.Web.Models;
 
 namespace Survello.Web.Controllers
 {
-    public class FormsViewController : Controller
+    public class FormController : Controller
     {
         private readonly IFormServices formServices;
         private readonly UserManager<User> userManager;
 
-        public FormsViewController(IFormServices formServices, UserManager<User> userManager)
+        public FormController(IFormServices formServices, UserManager<User> userManager)
         {
             this.formServices = formServices ?? throw new ArgumentNullException(nameof(formServices));
             this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));

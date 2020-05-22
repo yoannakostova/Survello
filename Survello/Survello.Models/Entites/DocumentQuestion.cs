@@ -11,6 +11,7 @@ namespace Survello.Models.Entites
         [Key]
         public Guid Id { get; set; }
         public string Description { get; set; }
+        public int FileNumberLimit { get; set; }
         public int FileSize { get; set; }
         public Guid FormId { get; set; }
         public Form Form { get; set; }
