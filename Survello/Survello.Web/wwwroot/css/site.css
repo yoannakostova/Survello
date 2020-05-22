@@ -27,6 +27,13 @@ a {
     border-color: #1861ac;
 }
 
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
     color: #fff;
     background-color: #1b6ec2;
@@ -51,6 +58,36 @@ body {
     line-height: 60px; /* Vertically center the text there */
 }
 
+div.outside {
+    margin: 30px;
+}
+
+div.text-input {
+    display: inline-block;
+    background-color: black;
+    color: white;
+    width: 300px;
+    white-space: normal;
+}
+
+.input-container {
+    white-space: nowrap;
+}
+
+.button-custom {
+    background-color: darkcyan; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+/* Green */
+
 /*Home*/
 .section-home {
     height: 600px;
@@ -68,7 +105,6 @@ body {
         opacity: 0;
     }
 }
-
 
 /*Back stop stop button*/
 #backUp {
