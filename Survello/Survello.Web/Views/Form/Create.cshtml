@@ -1,0 +1,294 @@
+﻿@model Survello.Web.Models.FormViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create Form</h1>
+<div class="row">
+    <div class="col-md-4">
+        <button class="btn btn-primary" type="button" id="btnAddTQ">Add Text Question</button>
+    </div>
+    <div class="col-md-4">
+        <input class="btn btn-default" type="button" id="btnAddMCQ" value="Add Options Question" />
+    </div>
+    <div class="col-md-4">
+        <input class="btn btn-default" type="button" id="btnAddDQ" value="Add Document Question" />
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+
+        <div class="form-group">
+            <input id="formTitle" class="form-control" />
+            <span id="idSpanTitle" style="color:red"></span>
+        </div>
+        <div class="form-group">
+            <input id="formDescription" class="form-control" />
+        </div>
+        <div id="questions">
+
+        </div>
+        <div class="form-group">
+            <button id="submitFormViewModel" onclick="create()" type="submit" value="Create" class="btn btn-primary">Create</button>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="ListForms">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        let counter = 0;
+        $('#btnAddTQ').on('click', () => {
+            counter++
+            let div = document.getElementById('questions')
+            let element =
+                `<div style="border-color:#b4e2f4" class="col-sm-11">
+                                        <input type="text" class="form-control" id="descriptionTQ${counter}" placeholder="Enter your question">
+                                        <span asp-validation-for="Description" class="text-danger"></span>
+                                            </div>
+
+                                        <div class="form-group row">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input" id="isLongAnswerTQ${counter}">
+                                                <label class="custom-control-label" for="isLongAnswerTQ${counter}">Long answer</label>
+                                            </div>
+
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input" id="isRequiredTQ${counter}">
+                                                <label class="custom-control-label" for="isRequiredTQ${counter}">Required</label>
+                                            </div>
+                                        </div>`
+
+            $(div).append(element)
+        })
+
+        function create() {
+            let title = document.getElementById("formTitle").value;
+
+            let isEverythingOk = true;
+
+            if (!title) {
+                isEverythingOk = false;
+                $('#idSpanTitle').text("Please enter title");
+            }
+            else {
+
+                $('#idSpanTitle').text("");
+            }
+
+            let description = document.getElementById("formDescription").value;
+
+            let TQlist = new Array();
+            let MCQlist = new Array();
+            let DQlist = new Array();
+
+            for (let i = 1; i <= counter; i++) {
+
+                let textQuestionIsRequired = false;
+                let textQuestionIsLongAnswer = false;
+
+                let textQuestionDescription = document.getElementById('descriptionTQ' + i.toString()).value;
+                let isLongAnswer = document.getElementById('isLongAnswerTQ' + i.toString());
+                let tqIsRequired = document.getElementById('isRequiredTQ' + i.toString());
+
+                if (isLongAnswer.checked) {
+                    textQuestionIsLongAnswer = true;
+                }
+                if (tqIsRequired.checked) {
+                    textQuestionIsRequired = true;
+                }
+
+                let TextQuestionViewModel = {}
+                TextQuestionViewModel.Description = textQuestionDescription;
+                TextQuestionViewModel.IsLongAnswer = textQuestionIsLongAnswer;
+                TextQuestionViewModel.IsRequired = textQuestionIsRequired;
+
+                TQlist.push(TextQuestionViewModel);
+            }
+
+            for (let j = 1; j <= msq; j++) {
+
+                let MCQIsRequired1 = false;
+
+                let MCQDescription = document.getElementById('descriptionMCQ' + j.toString()).value;
+                let MCQisRequired = document.getElementById('isRequiredMCQ' + j.toString());
+
+                if (MCQisRequired.checked) {
+                    MCQIsRequired1 = true;
+                }
+
+                let info = $(`#add${j} :input`); //1 input -> length = 2
+                console.log(info);
+                console.log(info.length);
+
+                if (info.length < 2) {
+                    $(`#corret${j}`).text("Please add at least 2 options");
+                    isEverythingOk = false;
+                }
+                else {
+                    $(`#corret${j}`).text("");
+                }
+
+                let OptionDesc = new Array()
+                for (let k = 0; k < info.length; k++) {
+
+                    let optionMCQ = info[k].value;
+                    console.log(optionMCQ);
+                    OptionDesc.push(optionMCQ);
+                }
+
+                let MultipleChouceQuestionViewModel = {}
+                MultipleChouceQuestionViewModel.Description = MCQDescription;
+                MultipleChouceQuestionViewModel.IsRequired = MCQIsRequired1;
+                MultipleChouceQuestionViewModel.OptionsDescriptions = OptionDesc;
+
+                MCQlist.push(MultipleChouceQuestionViewModel);
+            }
+
+                for (let i = 1; i <= dq; i++) {
+
+                let documentQuestionIsRequired = false;
+
+                let documentQuestionDescription = document.getElementById('descriptionDQ' + i.toString()).value;
+                let dqIsRequired = document.getElementById('isRequiredDQ' + i.toString());
+                let fileSize = $('#FileSize' + i.toString()).find(":selected").text();
+                let fileNumberLimit = $('#FileNumberLimit' + i.toString()).find(":selected").text();
+
+                if (dqIsRequired.checked) {
+                    documentQuestionIsRequired = true;
+                }
+
+                let DocumentQuestionViewModel = {}
+                    DocumentQuestionViewModel.Description = documentQuestionDescription;
+                    DocumentQuestionViewModel.IsRequired = documentQuestionIsRequired;
+                    DocumentQuestionViewModel.FileSize = fileSize;
+                    DocumentQuestionViewModel.FileNumberLimit = fileNumberLimit;
+                
+                DQlist.push(DocumentQuestionViewModel);
+            }
+
+            if (isEverythingOk) {
+
+                $.ajax({
+                    type: 'Post',
+                    url: 'Create',
+                    data: {
+                        'Title': title,
+                        'Description': description,
+                        'TextQuestions': TQlist,
+                        'MultipleChoiceQuestions': MCQlist,
+                        'DocumentQuestions': DQlist   
+                    },
+                    success: function () {
+                        window.location.replace("/Form/ListForms")
+                    }
+                })
+            }
+
+        }
+    </script>
+
+    <script>
+        let msq = 0;
+
+        $('#btnAddMCQ').on('click', () => {
+            msq++
+            let div = document.getElementById('questions')
+            let element =
+                                `<div style="border-color:#b4e2f4" class="row">
+                                        <div class="col-md-11">
+                                                <input type = "text" class="form-control" id="descriptionMCQ${msq}" placeholder="Enter your question" />
+                                                <span asp-validation-for="Description" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div id="add${msq}">
+                                                <span style="color:red" id="corret${msq}"> </span>
+                                        </div>
+                                        <br/>
+                                       <div class= "row">
+                                          <div class="col-md-4" id="counter">
+                                                <button onclick="test(this.id)" class="btn btn-default"  id="${msq}" > Add Option </button>
+                                            </div>
+                                           <br/>
+                                        <div class="custom-control custom-switch">
+                                            <input asp-for="IsRequired" type="checkbox" class="custom-control-input" id="isRequiredMCQ${msq}">
+                                            <label class="custom-control-label" for="isRequiredMCQ${msq}">Required</label>
+                                            <span asp-validation-for="IsRequired" class="text-danger"></span>
+                                        </div>
+                                        </div>
+                                        <br />`
+
+            $(div).append(element)
+        })
+    </script>
+    <script>
+        let dq = 0;
+        $('#btnAddDQ').on('click', () => {
+            dq++
+            let div = document.getElementById('questions')
+            let element =
+               
+                `<div style="border-color:#b4e2f4" class="col-sm-11">
+                    <input type="text" class="form-control" id="descriptionDQ${dq}" placeholder="Enter your question">
+                  </div>
+                   <div class="row">
+                       <div class="dropdown pull-left" id="FileNumberLimit${dq}">
+                           <label class="control-label">
+                               FileNumberLimit
+                              <select id="select1" class="form-control">
+                                   <option value="1">1</option>
+                                   <option value="2">2</option>
+                                   <option value="3">3</option>
+                                   <option value="4">4</option>
+                                   <option value="5">5</option>
+                                   <option value="6">6</option>
+                                   <option value="7">7</option>
+                                   <option value="8">8</option>
+                                   <option value="9">9</option>
+                                   <option value="10">10</option>
+                               </select>
+                           </label>
+                       </div>
+                       <div class="dropdown pull-right" id="FileSize${dq}">
+                           <label class="control-label">
+                               FileSize
+                             <select id="select1" class="form-control">
+                                   <option value="1">1MB</option>
+                                   <option value="10">10MB</option>
+                                   <option value="100">100MB</option>
+                                   <option value="1000">1GB</option>
+                               </select>
+                           </label>
+                       </div>
+                   </div>
+
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="isRequiredDQ${dq}">
+                            <label class="custom-control-label" for="isRequiredDQ${dq}">Required</label>
+                    </div>
+                        <br />`
+
+            $(div).append(element)
+        });
+    </script>
+    <script>
+        let opt = 0;
+        function test(id) {
+            opt++;
+            let searchFor = "add" + id;
+            let div = document.getElementById(searchFor)
+            let element =
+                `<div style="border-color:#b4e2f4" class="col-sm-11">
+                                              <input type="text" class="form-control" id="option${opt}" placeholder="Enter your text here">
+                                     </div>`
+            $(div).append(element)
+        }
+    </script>
+    }

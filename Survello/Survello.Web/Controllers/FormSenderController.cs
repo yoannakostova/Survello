@@ -9,12 +9,12 @@ using Survello.Web.Models;
 
 namespace Survello.Web.Controllers
 {
-    public class FormsSenderViewController : Controller
+    public class FormSenderController : Controller
     {
         private readonly IToastNotification toastNotification;
         private readonly IFormSenderServices formSenderServices;
 
-        public FormsSenderViewController(IToastNotification toastNotification, IFormSenderServices formSenderServices)
+        public FormSenderController(IToastNotification toastNotification, IFormSenderServices formSenderServices)
         {
             this.toastNotification = toastNotification ?? throw new ArgumentNullException(nameof(toastNotification));
             this.formSenderServices = formSenderServices ?? throw new ArgumentNullException(nameof(formSenderServices));

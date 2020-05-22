@@ -22,6 +22,7 @@ namespace Survello.Web.Mappers
                 Id = viewModel.Id,
                 Description = viewModel.Description,
                 IsRequired = viewModel.IsRequired,
+                IsMultipleAnswer = viewModel.IsMultipleAnswer,
                 Options = viewModel.Options.MapFrom(),
                 FormId = viewModel.FormId,
                 FormName = viewModel.FormName
@@ -40,6 +41,7 @@ namespace Survello.Web.Mappers
                 Id = dto.Id,
                 Description = dto.Description,
                 IsRequired = dto.IsRequired,
+                IsMultipleAnswer = dto.IsMultipleAnswer,
                 Options = dto.Options.MapFrom(),
                 FormId = dto.FormId,
                 FormName = dto.FormName

@@ -22,6 +22,7 @@ namespace Survello.Services.DTOMappers
                 //Id = dto.Id, //no need since we set it as [Key]
                 Description = dto.Description,
                 IsRequired = dto.IsRequired,
+                IsMultipleAnswer = dto.IsMultipleAnswer,
                 Options = dto.Options.MapFrom(),
                 FormId = dto.FormId
             };
@@ -39,6 +40,7 @@ namespace Survello.Services.DTOMappers
                 Id = entity.Id,
                 Description = entity.Description,
                 IsRequired = entity.IsRequired,
+                IsMultipleAnswer = entity.IsMultipleAnswer,
                 Options = entity.Options.MapFrom(),
                 FormId = entity.FormId,
                 FormName = entity.Form.Title
