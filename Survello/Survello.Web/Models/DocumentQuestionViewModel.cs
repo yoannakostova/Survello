@@ -1,5 +1,5 @@
 ﻿using Survello.Models.Entites;
-using Survello.Web.Models.NewFolder1;
+using Survello.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

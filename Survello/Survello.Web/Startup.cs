@@ -33,8 +33,7 @@ namespace Survello.Web
         {
             services.AddDbContext<SurvelloContext>(options =>
                 options.UseSqlServer(
-                    Environment.GetEnvironmentVariable("DefaultConnection")));
-            Environment.GetEnvironmentVariable("BlobConnectionString");
+                    Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<User, Role>(options =>
             {
