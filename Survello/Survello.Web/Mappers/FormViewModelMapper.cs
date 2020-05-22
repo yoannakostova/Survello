@@ -27,7 +27,8 @@ namespace Survello.Web.Mappers
                 UserId = viewModel.UserId,
                 NumberOfFilledForms = viewModel.NumberOfFilledForms,
                 MultipleChoiceQuestions = viewModel.MultipleChoiceQuestions.MapFrom(),
-                TextQuestions = viewModel.TextQuestions.MapFrom()
+                TextQuestions = viewModel.TextQuestions.MapFrom(),
+                DocumentQuestions = viewModel.DocumentQuestions.MapFrom()
             };
         }
 

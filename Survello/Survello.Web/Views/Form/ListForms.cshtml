@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Survello.Web.Models.FormViewModel>
+
+@{
+    ViewData["Title"] = "ListForms";
+}
+
+<h1>All Forms</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+@{
+    int counter = 0;
+}
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>
+                Rows
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.Raw("Modified On")
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberOfFilledForms)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            counter++;
+            <tr>
+                <th scope="row">@counter.ToString()</th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @if (item.LastModifiedOn == null)
+                    {
+                        @Html.Raw("Not modified yet.")
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.LastModifiedOn)
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberOfFilledForms)
+                </td>
+                <td>
+                    @*<a asp-controller="FormsView" asp-action="Edit" asp-route-id="@item.Id">Edit</a>*@
+                    <a asp-controller="FormSender" asp-action="Index" type="button" class="btn btn-primary">Share</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

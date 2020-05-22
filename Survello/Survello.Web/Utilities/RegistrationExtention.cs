@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.DependencyInjection;
+using NToastNotify;
 using Survello.Services.Provider;
 using Survello.Services.Provider.Contract;
 using Survello.Services.Services;
@@ -15,9 +16,11 @@ namespace Survello.Web.Utilities
     {
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
+
             services.AddScoped<ITextQuestionServices, TextQuestionServices>();
             services.AddScoped<IFormServices, FormServices>();
             services.AddScoped<IDateTimeProvider, DateTimeProvider>();
+            services.AddScoped<IFormSenderServices, FormSenderServices>();
             services.AddSingleton<IEmailSender, EmailSender>();
 
             return services;
