@@ -13,6 +13,7 @@ namespace Survello.Web.Models
         public bool IsMultipleAnswer { get; set; }
         public Guid FormId { get; set; }
         public string FormName { get; set; }
+        public int QuestionNumber { get; set; }
         public ICollection<string> OptionsDescriptions { get; set; }
         public ICollection<MultipleChoiceOptionViewModel> Options { get; set; } = new List<MultipleChoiceOptionViewModel>();
     }

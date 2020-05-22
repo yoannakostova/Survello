@@ -14,6 +14,7 @@ namespace Survello.Web.Models
         public string FileSize { get; set; }
         public Guid FormId { get; set; }
         public bool IsRequired { get; set; }
+        public int QuestionNumber { get; set; }
         public ICollection<DocumentAnswerViewModel> Answers { get; set; } = new List<DocumentAnswerViewModel>();
     }
 }

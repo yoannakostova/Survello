@@ -1,0 +1,16 @@
+﻿@model Survello.Web.Models.TextQuestionViewModel
+
+<div>
+    <div style="display:inline-block;width:80%; color:darkcyan" id="questionNumber">
+        <div style="text-align:center">
+            <h5>@Model.Description</h5>
+        </div>
+        <div style="text-align:center">
+            <input type="text" class="form-control" id="descriptionTQ${counter}" placeholder="Enter your answer">
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+    </div>
+    <br />
+    <br />
+</div>
+

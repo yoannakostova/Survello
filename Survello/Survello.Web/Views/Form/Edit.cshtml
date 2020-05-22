@@ -1,0 +1,74 @@
+﻿@model Survello.Web.Models.FormViewModel
+
+<h4>FormViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DateOfExpiration" class="control-label"></label>
+                <input asp-for="DateOfExpiration" class="form-control" />
+                <span asp-validation-for="DateOfExpiration" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+@{
+    int counter = 1;
+    int realQuestionNumber = 1;
+
+    while (counter <= 10)
+    {
+        foreach (var item in Model.TextQuestions)
+        {
+            if (item.QuestionNumber == counter)
+            {
+                <h6>@realQuestionNumber</h6>
+                <partial name="TextQuestionTemplate" />
+                realQuestionNumber++;
+                break;
+            }
+        }
+
+        foreach (var item in Model.MultipleChoiceQuestions)
+        {
+            if (item.QuestionNumber == counter)
+            {
+                <h6>@realQuestionNumber</h6>
+                <partial name="MultipleChoiceQuestionTemplate" />
+                realQuestionNumber++;
+                break;
+            }
+        }
+
+        foreach (var item in Model.DocumentQuestions)
+        {
+            <h6>@realQuestionNumber</h6>
+            if (item.QuestionNumber == counter)
+            {
+                <partial name="DocumentQuestionTemplate" />
+                realQuestionNumber++;
+                break;
+            }
+        }
+    }
+}
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

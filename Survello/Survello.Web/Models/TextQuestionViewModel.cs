@@ -13,6 +13,7 @@ namespace Survello.Web.Models
         public bool IsRequired { get; set; }
         public Guid FormId { get; set; }
         public string FormTitle { get; set; }
+        public int QuestionNumber { get; set; }
         public ICollection<TextAnswerViewModel> Answers { get; set; } = new List<TextAnswerViewModel>();
     }
 }

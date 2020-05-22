@@ -4,9 +4,9 @@
     ViewData["Title"] = "Create";
 }
 
-    <div>
-        <img class="center" src="~/images/create-form.png" />
-    </div>
+<div>
+    <img class="center" src="~/images/create-form.png" />
+</div>
 <div class="row">
     <div class="col-md-4">
         <input class="button-custom" type="button" id="btnAddTQ" value="Add Text Question" />
@@ -41,31 +41,33 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
+<script>
+        let questionNumber = 0
         let counter = 0;
         $('#btnAddTQ').on('click', () => {
+            questionNumber++
             counter++
             let div = document.getElementById('questions')
             let element =
                 `<html lang="en">
-                <div style="display:inline-block;width:80%; color:darkcyan ">
-                    <div style="text-align:center">
-                        <input type="text" class="form-control" id="descriptionTQ${counter}" placeholder="Enter your question">
-                        <span asp-validation-for="Description" class="text-danger"></span>
-                    </div>
+                    <div style="display:inline-block;width:80%; color:darkcyan" id="questionNumber">
+                        <div style="text-align:center">
+                            <input type="text" class="form-control" id="descriptionTQ${counter}" placeholder="Enter your question">
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
 
-                    <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="isLongAnswerTQ${counter}">
-                        <label class="custom-control-label" for="isLongAnswerTQ${counter}">Long answer</label>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="isLongAnswerTQ${counter}">
+                            <label class="custom-control-label" for="isLongAnswerTQ${counter}">Long answer</label>
+                        </div>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="isRequiredTQ${counter}">
+                            <label class="custom-control-label" for="isRequiredTQ${counter}">Required</label>
+                        </div>
                     </div>
-                    <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="isRequiredTQ${counter}">
-                        <label class="custom-control-label" for="isRequiredTQ${counter}">Required</label>
-                    </div>
-                </div>
-                <br />
-                <br />
-                <script type="text/javascript" src="./index.js">`
+                    <br />
+                    <br />
+                    <script type="text/javascript" src="./index.js">`
 
             $(div).append(element)
         })
@@ -98,6 +100,7 @@
                 let textQuestionDescription = document.getElementById('descriptionTQ' + i.toString()).value;
                 let isLongAnswer = document.getElementById('isLongAnswerTQ' + i.toString());
                 let tqIsRequired = document.getElementById('isRequiredTQ' + i.toString());
+                let numberOfQuestionTQ = questionNumber;
 
                 if (isLongAnswer.checked) {
                     textQuestionIsLongAnswer = true;
@@ -110,6 +113,7 @@
                 TextQuestionViewModel.Description = textQuestionDescription;
                 TextQuestionViewModel.IsLongAnswer = textQuestionIsLongAnswer;
                 TextQuestionViewModel.IsRequired = textQuestionIsRequired;
+                TextQuestionViewModel.QuestionNumber = numberOfQuestionTQ;
 
                 TQlist.push(TextQuestionViewModel);
             }
@@ -120,6 +124,7 @@
 
                 let MCQDescription = document.getElementById('descriptionMCQ' + j.toString()).value;
                 let MCQisRequired = document.getElementById('isRequiredMCQ' + j.toString());
+                let numberOfQuestionMCQ = questionNumber;
 
                 if (MCQisRequired.checked) {
                     MCQIsRequired1 = true;
@@ -149,6 +154,7 @@
                 MultipleChouceQuestionViewModel.Description = MCQDescription;
                 MultipleChouceQuestionViewModel.IsRequired = MCQIsRequired1;
                 MultipleChouceQuestionViewModel.OptionsDescriptions = OptionDesc;
+                MultipleChouceQuestionViewModel.QuestionNumber = numberOfQuestionMCQ;
 
                 MCQlist.push(MultipleChouceQuestionViewModel);
             }
@@ -161,6 +167,7 @@
                 let dqIsRequired = document.getElementById('isRequiredDQ' + i.toString());
                 let fileSize = $('#FileSize' + i.toString()).find(":selected").text();
                 let fileNumberLimit = $('#FileNumberLimit' + i.toString()).find(":selected").text();
+                let numberOfQuestionDQ = questionNumber;
 
                 if (dqIsRequired.checked) {
                     documentQuestionIsRequired = true;
@@ -171,6 +178,7 @@
                 DocumentQuestionViewModel.IsRequired = documentQuestionIsRequired;
                 DocumentQuestionViewModel.FileSize = fileSize;
                 DocumentQuestionViewModel.FileNumberLimit = fileNumberLimit;
+                DocumentQuestionViewModel.QuestionNumber = numberOfQuestionDQ;
 
                 DQlist.push(DocumentQuestionViewModel);
             }
@@ -194,99 +202,99 @@
             }
 
         }
-    </script>
 
-    <script>
         let msq = 0;
 
         $('#btnAddMCQ').on('click', () => {
+            questionNumber++
             msq++
             let div = document.getElementById('questions')
             let element =
                 `<html lang="en">
-                     <div style="display:inline-block;width:80%; color:darkcyan ">
-            <div style="text-align:center">
-                <input type="text" class="form-control" id="descriptionMCQ${msq}" placeholder="Enter your question" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <br />
-            <div class="custom-control custom-switch">
-                <input asp-for="IsRequired" type="checkbox" class="custom-control-input" id="isRequiredMCQ${msq}">
-                <label class="custom-control-label" for="isRequiredMCQ${msq}">Required</label>
-                <span asp-validation-for="IsRequired" class="text-danger"></span>
-            </div>
-            <br />
-            <div id="add${msq}">
-                <span style="color:red" id="corret${msq}"> </span>
-            </div>
-            <div class="row">
-                <div class="col-md-4" id="counter">
-                    <button onclick="test(this.id)" class="btn btn-default" id="${msq}"> Add Option </button>
+                         <div style="display:inline-block;width:80%; color:darkcyan ">
+                <div style="text-align:center">
+                    <input type="text" class="form-control" id="descriptionMCQ${msq}" placeholder="Enter your question" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <br />
+                <div class="custom-control custom-switch">
+                    <input asp-for="IsRequired" type="checkbox" class="custom-control-input" id="isRequiredMCQ${msq}">
+                    <label class="custom-control-label" for="isRequiredMCQ${msq}">Required</label>
+                    <span asp-validation-for="IsRequired" class="text-danger"></span>
+                </div>
+                <br />
+                <div id="add${msq}">
+                    <span style="color:red" id="corret${msq}"> </span>
+                </div>
+                <div class="row">
+                    <div class="col-md-4" id="counter">
+                        <button onclick="test(this.id)" class="btn btn-default" id="${msq}"> Add Option </button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <script type="text/javascript" src="./index.js">`
+            <script type="text/javascript" src="./index.js">`
 
             $(div).append(element)
         })
-    </script>
-    <script>
+
+
         let dq = 0;
         $('#btnAddDQ').on('click', () => {
+            questionNumber++
             dq++
             let div = document.getElementById('questions')
             let element =
 
                 `<div style="display:inline-block;width:80%; color:darkcyan ">
-    <div style="text-align:center">
-        <input type="text" class="form-control" id="descriptionDQ${dq}" placeholder="Enter your question">
-    </div>
-    <div class="row">
-        <div class="dropdown pull-left" id="FileNumberLimit${dq}">
-            <label class="control-label">
-                Files limit
-                <select id="select1" class="form-control">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                </select>
-            </label>
+        <div style="text-align:center">
+            <input type="text" class="form-control" id="descriptionDQ${dq}" placeholder="Enter your question">
         </div>
-     </div>
-     <div  class="row">
-        <div class="dropdown pull-right" id="FileSize${dq}">
-            <label class="control-label">
-                File size
-                <select id="select1" class="form-control">
-                    <option value="1">1MB</option>
-                    <option value="10">10MB</option>
-                    <option value="100">100MB</option>
-                    <option value="1000">1GB</option>
-                </select>
-            </label>
+        <div class="row">
+            <div class="dropdown pull-left" id="FileNumberLimit${dq}">
+                <label class="control-label">
+                    Files limit
+                    <select id="select1" class="form-control">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </label>
+            </div>
+         </div>
+         <div  class="row">
+            <div class="dropdown pull-right" id="FileSize${dq}">
+                <label class="control-label">
+                    File size
+                    <select id="select1" class="form-control">
+                        <option value="1">1MB</option>
+                        <option value="10">10MB</option>
+                        <option value="100">100MB</option>
+                        <option value="1000">1GB</option>
+                    </select>
+                </label>
+            </div>
+          </div>
+       </div>
+
+        <div class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" id="isRequiredDQ${dq}">
+            <label class="custom-control-label" for="isRequiredDQ${dq}">Required</label>
         </div>
       </div>
-   </div>
-
-    <div class="custom-control custom-switch">
-        <input type="checkbox" class="custom-control-input" id="isRequiredDQ${dq}">
-        <label class="custom-control-label" for="isRequiredDQ${dq}">Required</label>
-    </div>
-</div>
-<br />
-<br />`
+      <br />
+      <br />`
 
             $(div).append(element)
         });
-    </script>
-    <script>
+
+
         let opt = 0;
         function test(id) {
             opt++;
@@ -294,9 +302,9 @@
             let div = document.getElementById(searchFor)
             let element =
                 `<div style="border-color:#b4e2f4" class="col-sm-11">
-                                                  <input type="text" class="form-control" id="option${opt}" placeholder="Enter your text here">
-                                         </div>`
+                     <input type="text" class="form-control" id="option${opt}" placeholder="Enter your text here">
+                 </div>`
             $(div).append(element)
         }
-    </script>
+</script>
 }

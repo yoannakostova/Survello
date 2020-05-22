@@ -74,6 +74,11 @@ namespace Survello.Web.Controllers
                 BadRequest();
             }
         }
+        [HttpGet]
+        public IActionResult Edit()
+        {
+            return View();
+        }
 
     }
 }
