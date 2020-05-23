@@ -50,7 +50,7 @@ namespace Survello.Web.Controllers
             try
             {
 
-                model.UserId = (await userManager.GetUserAsync(User)).Id;
+                //model.UserId = (await userManager.GetUserAsync(User)).Id;
 
                 foreach (var question in model.MultipleChoiceQuestions)
                 {
@@ -89,9 +89,11 @@ namespace Survello.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit()
+        public IActionResult Edit(FormViewModel model = null)
         {
-            return View();
+            var newModel = model;
+
+            return View(newModel);
         }
 
     }

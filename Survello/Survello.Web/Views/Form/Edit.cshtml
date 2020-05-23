@@ -2,42 +2,48 @@
 
 
 @{
-    bool isInEditMode = Model != null;
+    bool isInEditMode = true;
+    if (!Model.MultipleChoiceQuestions.Any() && !Model.TextQuestions.Any() && !Model.DocumentQuestions.Any())
+    {
+        isInEditMode = false;
+    }
+
+
     if (isInEditMode)
     {
-        // action should be Edit
+        Model.QuestionNumbers.OrderBy(q => q.Key);
+
+        foreach (var key in Model.QuestionNumbers.Keys)
+        {
+            var question = Model.QuestionNumbers[key];
+
+            if (question is TextQuestionViewModel)
+            {
+                <partial name="TextQuestionTemplate" model="question" />
+            }
+            if (question is MultipleChoiceQuestionViewModel)
+            {
+                <partial name="MultipleChoiceQuestionTemplate" model="question" />
+            }
+            if (question is DocumentQuestionViewModel)
+            {
+                <partial name="DocumentQuestionTemplate" model="question" />
+            }
+        }
     }
     else
     {
-        // action should be Create
+        <div style="border-color:#b4e2f4" class="col-sm-11">
+            <div class="form-group">
+                <input id="formTitle" class="form-control" value="Untitled" />
+                <span id="idSpanTitle" style="color:red"></span>
+            </div>
+            <div class="form-group">
+                <input id="formDescription" class="form-control" placeholder="Description" />
+            </div>
+        </div>
     }
 }
-
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="DateOfExpiration" class="control-label"></label>
-                <input asp-for="DateOfExpiration" class="form-control" />
-                <span asp-validation-for="DateOfExpiration" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
 
 <div class="row">
     <div class="col-md-4">
@@ -49,29 +55,20 @@
     <div class="col-md-4">
         <input class="button-custom" type="button" id="btnAddDQ" value="Add Document Question" />
     </div>
+
+    <div id="questions">
+
+    </div>
+
+</div>
+<div class="form-group">
+    <input id="submitFormViewModel" type="button" onclick="create()" class="button-custom" value="Create" />
+</div>
+<div>
+    <a style="color:darkcyan" asp-action="ListForms">Back to List</a>
 </div>
 
-@{
-    Model.QuestionNumbers.OrderBy(q => q.Key);
 
-    foreach (var key in Model.QuestionNumbers.Keys)
-    {
-        var question = Model.QuestionNumbers[key];
-
-        if (question is TextQuestionViewModel)
-        {
-            <partial name="TextQuestionTemplate" model="question" />
-        }
-        if (question is MultipleChoiceQuestionViewModel)
-        {
-            <partial name="MultipleChoiceQuestionTemplate" model="question" />
-        }
-        if (question is DocumentQuestionViewModel)
-        {
-            <partial name="DocumentQuestionTemplate" model="question" />
-        }
-    }
-}
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
@@ -83,24 +80,24 @@
             let div = document.getElementById('questions')
             let element =
                 `<html lang="en">
-                        <div style="display:inline-block;width:80%; color:darkcyan" id="questionNumber">
-                            <div style="text-align:center">
-                                <input type="text" class="form-control" id="descriptionTQ${counter}" placeholder="Enter your question">
-                                <span asp-validation-for="Description" class="text-danger"></span>
-                            </div>
+                                                                                                    <div style="display:inline-block;width:80%; color:darkcyan" id="questionNumber">
+                                                                                                        <div style="text-align:center">
+                                                                                                            <input type="text" class="form-control" id="descriptionTQ${counter}" placeholder="Enter your question">
+                                                                                                            <span asp-validation-for="Description" class="text-danger"></span>
+                                                                                                        </div>
 
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="isLongAnswerTQ${counter}">
-                                <label class="custom-control-label" for="isLongAnswerTQ${counter}">Long answer</label>
-                            </div>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="isRequiredTQ${counter}">
-                                <label class="custom-control-label" for="isRequiredTQ${counter}">Required</label>
-                            </div>
-                        </div>
-                        <br />
-                        <br />
-                        <script type="text/javascript" src="./index.js">`
+                                                                                                        <div class="custom-control custom-switch">
+                                                                                                            <input type="checkbox" class="custom-control-input" id="isLongAnswerTQ${counter}">
+                                                                                                            <label class="custom-control-label" for="isLongAnswerTQ${counter}">Long answer</label>
+                                                                                                        </div>
+                                                                                                        <div class="custom-control custom-switch">
+                                                                                                            <input type="checkbox" class="custom-control-input" id="isRequiredTQ${counter}">
+                                                                                                            <label class="custom-control-label" for="isRequiredTQ${counter}">Required</label>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <br />
+                                                                                                    <br />
+                                                                                                    <script type="text/javascript" src="./index.js">`
 
             $(div).append(element)
         })
@@ -244,28 +241,28 @@
             let div = document.getElementById('questions')
             let element =
                 `<html lang="en">
-                             <div style="display:inline-block;width:80%; color:darkcyan ">
-                    <div style="text-align:center">
-                        <input type="text" class="form-control" id="descriptionMCQ${msq}" placeholder="Enter your question" />
-                        <span asp-validation-for="Description" class="text-danger"></span>
-                    </div>
-                    <br />
-                    <div class="custom-control custom-switch">
-                        <input asp-for="IsRequired" type="checkbox" class="custom-control-input" id="isRequiredMCQ${msq}">
-                        <label class="custom-control-label" for="isRequiredMCQ${msq}">Required</label>
-                        <span asp-validation-for="IsRequired" class="text-danger"></span>
-                    </div>
-                    <br />
-                    <div id="add${msq}">
-                        <span style="color:red" id="corret${msq}"> </span>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4" id="counter">
-                            <button onclick="test(this.id)" class="btn btn-default" id="${msq}"> Add Option </button>
-                        </div>
-                    </div>
-                </div>
-                <script type="text/javascript" src="./index.js">`
+                                                                                                         <div style="display:inline-block;width:80%; color:darkcyan ">
+                                                                                                <div style="text-align:center">
+                                                                                                    <input type="text" class="form-control" id="descriptionMCQ${msq}" placeholder="Enter your question" />
+                                                                                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                                                                                </div>
+                                                                                                <br />
+                                                                                                <div class="custom-control custom-switch">
+                                                                                                    <input asp-for="IsRequired" type="checkbox" class="custom-control-input" id="isRequiredMCQ${msq}">
+                                                                                                    <label class="custom-control-label" for="isRequiredMCQ${msq}">Required</label>
+                                                                                                    <span asp-validation-for="IsRequired" class="text-danger"></span>
+                                                                                                </div>
+                                                                                                <br />
+                                                                                                <div id="add${msq}">
+                                                                                                    <span style="color:red" id="corret${msq}"> </span>
+                                                                                                </div>
+                                                                                                <div class="row">
+                                                                                                    <div class="col-md-4" id="counter">
+                                                                                                        <button onclick="test(this.id)" class="btn btn-default" id="${msq}"> Add Option </button>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <script type="text/javascript" src="./index.js">`
 
             $(div).append(element)
         })
@@ -279,50 +276,50 @@
             let element =
 
                 `<div style="display:inline-block;width:80%; color:darkcyan ">
-            <div style="text-align:center">
-                <input type="text" class="form-control" id="descriptionDQ${dq}" placeholder="Enter your question">
-            </div>
-            <div class="row">
-                <div class="dropdown pull-left" id="FileNumberLimit${dq}">
-                    <label class="control-label">
-                        Files limit
-                        <select id="select1" class="form-control">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                        </select>
-                    </label>
-                </div>
-             </div>
-             <div  class="row">
-                <div class="dropdown pull-right" id="FileSize${dq}">
-                    <label class="control-label">
-                        File size
-                        <select id="select1" class="form-control">
-                            <option value="1">1MB</option>
-                            <option value="10">10MB</option>
-                            <option value="100">100MB</option>
-                            <option value="1000">1GB</option>
-                        </select>
-                    </label>
-                </div>
-              </div>
-           </div>
+                                                                                        <div style="text-align:center">
+                                                                                            <input type="text" class="form-control" id="descriptionDQ${dq}" placeholder="Enter your question">
+                                                                                        </div>
+                                                                                        <div class="row">
+                                                                                            <div class="dropdown pull-left" id="FileNumberLimit${dq}">
+                                                                                                <label class="control-label">
+                                                                                                    Files limit
+                                                                                                    <select id="select1" class="form-control">
+                                                                                                        <option value="1">1</option>
+                                                                                                        <option value="2">2</option>
+                                                                                                        <option value="3">3</option>
+                                                                                                        <option value="4">4</option>
+                                                                                                        <option value="5">5</option>
+                                                                                                        <option value="6">6</option>
+                                                                                                        <option value="7">7</option>
+                                                                                                        <option value="8">8</option>
+                                                                                                        <option value="9">9</option>
+                                                                                                        <option value="10">10</option>
+                                                                                                    </select>
+                                                                                                </label>
+                                                                                            </div>
+                                                                                         </div>
+                                                                                         <div  class="row">
+                                                                                            <div class="dropdown pull-right" id="FileSize${dq}">
+                                                                                                <label class="control-label">
+                                                                                                    File size
+                                                                                                    <select id="select1" class="form-control">
+                                                                                                        <option value="1">1MB</option>
+                                                                                                        <option value="10">10MB</option>
+                                                                                                        <option value="100">100MB</option>
+                                                                                                        <option value="1000">1GB</option>
+                                                                                                    </select>
+                                                                                                </label>
+                                                                                            </div>
+                                                                                          </div>
+                                                                                       </div>
 
-            <div class="custom-control custom-switch">
-                <input type="checkbox" class="custom-control-input" id="isRequiredDQ${dq}">
-                <label class="custom-control-label" for="isRequiredDQ${dq}">Required</label>
-            </div>
-          </div>
-          <br />
-          <br />`
+                                                                                        <div class="custom-control custom-switch">
+                                                                                            <input type="checkbox" class="custom-control-input" id="isRequiredDQ${dq}">
+                                                                                            <label class="custom-control-label" for="isRequiredDQ${dq}">Required</label>
+                                                                                        </div>
+                                                                                      </div>
+                                                                                      <br />
+                                                                                      <br />`
 
             $(div).append(element)
         });
@@ -335,8 +332,8 @@
             let div = document.getElementById(searchFor)
             let element =
                 `<div style="border-color:#b4e2f4" class="col-sm-11">
-                         <input type="text" class="form-control" id="option${opt}" placeholder="Enter your text here">
-                     </div>`
+                                                                                                     <input type="text" class="form-control" id="option${opt}" placeholder="Enter your text here">
+                                                                                                 </div>`
             $(div).append(element)
         }
     </script>
