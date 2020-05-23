@@ -24,8 +24,10 @@
             @Html.DisplayFor(model => model.NumberOfFilledForms)
         </dd>
     </dl>
+    <input />
 </div>
 @foreach (var item in Model.TextQuestions)
 {
 <partial name="_Details" model="item"/>
 }
+

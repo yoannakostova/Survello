@@ -49,12 +49,9 @@ namespace Survello.Web.Controllers
             }
             try
             {
-
-                //model.UserId = (await userManager.GetUserAsync(User)).Id;
-
                 foreach (var question in model.MultipleChoiceQuestions)
                 {
-                    model.QuestionNumbers.Add(question.QuestionNumber, question);
+                    //model.QuestionNumbers.Add(question.QuestionNumber, question);
 
                     foreach (var desc in question.OptionsDescriptions)
                     {
@@ -64,15 +61,15 @@ namespace Survello.Web.Controllers
                     }
                 }
 
-                foreach (var item in model.DocumentQuestions)
-                {
-                    model.QuestionNumbers.Add(item.QuestionNumber, item);
-                }
+                //foreach (var item in model.DocumentQuestions)
+                //{
+                //    model.QuestionNumbers.Add(item.QuestionNumber, item);
+                //}
 
-                foreach (var item in model.TextQuestions)
-                {
-                    model.QuestionNumbers.Add(item.QuestionNumber, item);
-                }
+                //foreach (var item in model.TextQuestions)
+                //{
+                //    model.QuestionNumbers.Add(item.QuestionNumber, item);
+                //}
 
 
                 var formDto = model.MapFrom();
