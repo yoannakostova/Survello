@@ -8,6 +8,6 @@ namespace Survello.Services.Services.Contracts
 {
     public interface ITextQuestionServices
     {
-        Task<ICollection<CreateTextQuestionDTO>> GetAllTextQuestionInForm(Guid id);
+        Task<ICollection<TextQuestionDTO>> GetAllTextQuestionInForm(Guid id);
     }
 }

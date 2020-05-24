@@ -22,7 +22,7 @@ namespace Survello.Services.Services
             this.dbcontext = dbcontext ?? throw new ArgumentNullException(nameof(dbcontext));
         }
 
-        public async Task<ICollection<CreateTextQuestionDTO>> GetAllTextQuestionInForm(Guid id)
+        public async Task<ICollection<TextQuestionDTO>> GetAllTextQuestionInForm(Guid id)
         {
             var textQuestions = await this.dbcontext.TextQuestions
                 .Where(t => t.FormId == id)

@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace Survello.Web.Mappers
 {
-    public static class CreateMultipleChoiceQuestionViewModelMapper
+    public static class MultipleChoiceQuestionViewModelMapper
     {
-        public static CreateMultipleChoiceQuestionDTO MapFrom(this CreateMultipleChoiceQuestionViewModel viewModel)
+        public static MultipleChoiceQuestionDTO MapFrom(this CreateMultipleChoiceQuestionViewModel viewModel)
         {
             if (viewModel == null)
             {
                 throw new Exception(ExceptionMessages.EntityNull);
             }
 
-            return new CreateMultipleChoiceQuestionDTO
+            return new MultipleChoiceQuestionDTO
             {
                 Id = viewModel.Id,
                 Description = viewModel.Description,
@@ -28,7 +28,7 @@ namespace Survello.Web.Mappers
             };
         }
 
-        public static CreateMultipleChoiceQuestionViewModel MapFrom(this CreateMultipleChoiceQuestionDTO dto)
+        public static CreateMultipleChoiceQuestionViewModel MapFrom(this MultipleChoiceQuestionDTO dto)
         {
             if (dto == null)
             {
@@ -46,12 +46,12 @@ namespace Survello.Web.Mappers
             };
         }
 
-        public static ICollection<CreateMultipleChoiceQuestionViewModel> MapFrom(this ICollection<CreateMultipleChoiceQuestionDTO> dtos)
+        public static ICollection<CreateMultipleChoiceQuestionViewModel> MapFrom(this ICollection<MultipleChoiceQuestionDTO> dtos)
         {
             return dtos.Select(MapFrom).ToList();
         }
 
-        public static ICollection<CreateMultipleChoiceQuestionDTO> MapFrom(this ICollection<CreateMultipleChoiceQuestionViewModel> viewModels)
+        public static ICollection<MultipleChoiceQuestionDTO> MapFrom(this ICollection<CreateMultipleChoiceQuestionViewModel> viewModels)
         {
             return viewModels.Select(MapFrom).ToList();
         }

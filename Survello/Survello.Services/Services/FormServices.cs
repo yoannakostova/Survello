@@ -23,7 +23,7 @@ namespace Survello.Services.Services
             this.dbcontext = dbcontext ?? throw new ArgumentNullException(nameof(dbcontext));
             this.dateTimeProvider = dateTimeProvider ?? throw new ArgumentNullException(nameof(dbcontext));
         }
-        public async Task<CreateFormDTO> CreateFormAsync(CreateFormDTO tempForm)
+        public async Task<FormDTO> CreateFormAsync(FormDTO tempForm)
         {
             if (tempForm == null)
             {
@@ -55,7 +55,7 @@ namespace Survello.Services.Services
 
             return true;
         }
-        public async Task<ICollection<CreateFormDTO>> GetUserFormsAsync(Guid userId)
+        public async Task<ICollection<FormDTO>> GetUserFormsAsync(Guid userId)
         {
             var forms = await this.dbcontext.Forms
                 .Where(f => f.UserId == userId)
@@ -76,7 +76,7 @@ namespace Survello.Services.Services
             return formsDto;
         }
 
-        public async Task<CreateFormDTO> GetFormAsync(Guid id)
+        public async Task<FormDTO> GetFormAsync(Guid id)
         {
             var form = await this.dbcontext.Forms
                 .Where(f => f.Id == id)
@@ -108,6 +108,10 @@ namespace Survello.Services.Services
             var formsDto = forms.MapToListFormsDTO();
 
             return formsDto;
+        }
+        public async Task<FormDTO> GetAnswer(Guid id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

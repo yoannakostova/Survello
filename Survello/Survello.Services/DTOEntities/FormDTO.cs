@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Survello.Services.DTOEntities
 {
-    public class CreateFormDTO
+    public class FormDTO
     {
         public Guid Id { get; set; }
         public DateTime? LastModifiedOn { get; set; }
@@ -13,8 +13,8 @@ namespace Survello.Services.DTOEntities
         public string Description { get; set; }
         public int NumberOfFilledForms { get; set; }
         public Guid UserId { get; set; }
-        public ICollection<CreateMultipleChoiceQuestionDTO> MultipleChoiceQuestions { get; set; }
-        public ICollection<CreateTextQuestionDTO> TextQuestions { get; set; }
-        public ICollection<CreateDocumentQuestionDTO> DocumentQuestions { get; set; }
+        public ICollection<MultipleChoiceQuestionDTO> MultipleChoiceQuestions { get; set; }
+        public ICollection<TextQuestionDTO> TextQuestions { get; set; }
+        public ICollection<DocumentQuestionDTO> DocumentQuestions { get; set; }
     }
 }

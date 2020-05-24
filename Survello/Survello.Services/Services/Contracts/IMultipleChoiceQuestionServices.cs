@@ -8,6 +8,6 @@ namespace Survello.Services.Services.Contracts
 {
     public interface IMultipleChoiceQuestionServices
     {
-        Task<ICollection<CreateMultipleChoiceQuestionDTO>> GetAllMultipleQuestionsInFormAsync(Guid id);
+        Task<ICollection<MultipleChoiceQuestionDTO>> GetAllMultipleQuestionsInFormAsync(Guid id);
     }
 }

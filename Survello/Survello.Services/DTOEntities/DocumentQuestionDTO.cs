@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Survello.Services.DTOEntities
 {
-   public class CreateDocumentQuestionDTO
+   public class DocumentQuestionDTO
     {
         public Guid Id { get; set; }
         public string Description { get; set; }

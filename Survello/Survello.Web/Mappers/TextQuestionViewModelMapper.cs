@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Survello.Web.Mappers
 {
-    public static class CreateTextQuestionViewModelMapper
+    public static class TextQuestionViewModelMapper
     {
-        public static CreateTextQuestionViewModel MapFrom(this CreateTextQuestionDTO dto)
+        public static CreateTextQuestionViewModel MapFrom(this TextQuestionDTO dto)
         {
             if (dto == null)
             {
@@ -27,14 +27,14 @@ namespace Survello.Web.Mappers
             };
         }
 
-        public static CreateTextQuestionDTO MapFrom(this CreateTextQuestionViewModel viewModel)
+        public static TextQuestionDTO MapFrom(this CreateTextQuestionViewModel viewModel)
         {
             if (viewModel == null)
             {
                 throw new Exception(ExceptionMessages.EntityNull);
             }
 
-            return new CreateTextQuestionDTO
+            return new TextQuestionDTO
             {
                 Id = viewModel.Id,
                 Description = viewModel.Description,
@@ -44,12 +44,12 @@ namespace Survello.Web.Mappers
             };
         }
 
-        public static ICollection<CreateTextQuestionDTO> MapFrom(this ICollection<CreateTextQuestionViewModel> viewModels)
+        public static ICollection<TextQuestionDTO> MapFrom(this ICollection<CreateTextQuestionViewModel> viewModels)
         {
             return viewModels.Select(MapFrom).ToList();
         }
 
-        public static ICollection<CreateTextQuestionViewModel> MapFrom(this ICollection<CreateTextQuestionDTO> dtos)
+        public static ICollection<CreateTextQuestionViewModel> MapFrom(this ICollection<TextQuestionDTO> dtos)
         {
             return dtos.Select(MapFrom).ToList();
         }

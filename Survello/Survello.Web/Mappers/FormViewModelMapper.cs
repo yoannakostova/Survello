@@ -8,30 +8,28 @@ using System.Threading.Tasks;
 
 namespace Survello.Web.Mappers
 {
-    public static class CreateFormViewModelMapper
+    public static class FormViewModelMapper
     {
-        public static CreateFormDTO MapFrom(this CreateFormViewModel viewModel)
+        public static FormDTO MapFrom(this CreateFormViewModel viewModel)
         {
             if (viewModel == null)
             {
                 throw new Exception(ExceptionMessages.EntityNull);
             }
 
-            return new CreateFormDTO
+            return new FormDTO
             {
                 Id = viewModel.Id,
-                LastModifiedOn = viewModel.LastModifiedOn,
                 DateOfExpiration = viewModel.DateOfExpiration,
                 Title = viewModel.Title,
                 Description = viewModel.Description,
                 UserId = viewModel.UserId,
-                NumberOfFilledForms = viewModel.NumberOfFilledForms,
                 MultipleChoiceQuestions = viewModel.MultipleChoiceQuestions.MapFrom(),
                 TextQuestions = viewModel.TextQuestions.MapFrom(),
                 DocumentQuestions = viewModel.DocumentQuestions.MapFrom()
             };
         }
-        public static CreateFormViewModel MapFrom(this CreateFormDTO dto)
+        public static CreateFormViewModel MapFrom(this FormDTO dto)
         {
             if (dto == null)
             {
@@ -41,12 +39,10 @@ namespace Survello.Web.Mappers
             return new CreateFormViewModel
             {
                 Id = dto.Id,
-                LastModifiedOn = dto.LastModifiedOn,
                 DateOfExpiration = dto.DateOfExpiration,
                 Title = dto.Title,
                 Description = dto.Description,
                 UserId = dto.UserId,
-                NumberOfFilledForms = dto.NumberOfFilledForms,
                 MultipleChoiceQuestions = dto.MultipleChoiceQuestions.MapFrom(),
                 TextQuestions = dto.TextQuestions.MapFrom(),
                 DocumentQuestions = dto.DocumentQuestions.MapFrom()
@@ -54,12 +50,12 @@ namespace Survello.Web.Mappers
 
         }
 
-        public static ICollection<CreateFormViewModel> MapFrom(this ICollection<CreateFormDTO> dtos)
+        public static ICollection<CreateFormViewModel> MapFrom(this ICollection<FormDTO> dtos)
         {
             return dtos.Select(MapFrom).ToList();
         }
 
-        public static ICollection<CreateFormDTO> MapFrom(this ICollection<CreateFormViewModel> viewModel)
+        public static ICollection<FormDTO> MapFrom(this ICollection<CreateFormViewModel> viewModel)
         {
             return viewModel.Select(MapFrom).ToList();
         }

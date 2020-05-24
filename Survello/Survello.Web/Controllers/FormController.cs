@@ -35,6 +35,7 @@ namespace Survello.Web.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public async Task Create(CreateFormViewModel model)
         {
@@ -45,10 +46,9 @@ namespace Survello.Web.Controllers
             try
             {
                 model.UserId = (await userManager.GetUserAsync(User)).Id;
+
                 foreach (var question in model.MultipleChoiceQuestions)
                 {
-                    //model.QuestionNumbers.Add(question.QuestionNumber, question);
-
                     foreach (var desc in question.OptionsDescriptions)
                     {
                         var optionModel = new MultipleChoiceOptionViewModel();
@@ -56,17 +56,6 @@ namespace Survello.Web.Controllers
                         question.Options.Add(optionModel);
                     }
                 }
-
-                //foreach (var item in model.DocumentQuestions)
-                //{
-                //    model.QuestionNumbers.Add(item.QuestionNumber, item);
-                //}
-
-                //foreach (var item in model.TextQuestions)
-                //{
-                //    model.QuestionNumbers.Add(item.QuestionNumber, item);
-                //}
-
 
                 var formDto = model.MapFrom();
                 var newForm = await this.formServices.CreateFormAsync(formDto);
@@ -77,17 +66,37 @@ namespace Survello.Web.Controllers
             }
             catch (Exception)
             {
-               NotFound();
+                NotFound();
             }
         }
 
         [HttpGet]
-        public IActionResult Edit(CreateFormViewModel model = null)
+        public async Task<IActionResult> Edit(Guid id)
         {
-            var newModel = model;
+            var model = (await this.formServices.GetFormAsync(id)).MapFrom();
 
-            return View(newModel);
+            foreach (var question in model.DocumentQuestions)
+            {
+                model.QuestionNumbers.Add(question.QuestionNumber, question);
+            }
+
+            foreach (var question in model.MultipleChoiceQuestions)
+            {
+                model.QuestionNumbers.Add(question.QuestionNumber, question);
+            }
+
+            foreach (var question in model.TextQuestions)
+            {
+                model.QuestionNumbers.Add(question.QuestionNumber, question);
+            }
+
+            return View(model);
         }
 
+        [HttpPost]
+        public IActionResult Edit()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
