@@ -31,7 +31,6 @@ namespace Survello.Web.Mappers
                 DocumentQuestions = viewModel.DocumentQuestions.MapFrom()
             };
         }
-
         public static CreateFormViewModel MapFrom(this CreateFormDTO dto)
         {
             if (dto == null)
@@ -52,6 +51,7 @@ namespace Survello.Web.Mappers
                 TextQuestions = dto.TextQuestions.MapFrom(),
                 DocumentQuestions = dto.DocumentQuestions.MapFrom()
             };
+
         }
 
         public static ICollection<CreateFormViewModel> MapFrom(this ICollection<CreateFormDTO> dtos)
