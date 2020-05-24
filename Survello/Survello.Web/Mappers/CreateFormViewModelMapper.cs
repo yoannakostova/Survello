@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace Survello.Web.Mappers
 {
-    public static class FormViewModelMapper
+    public static class CreateFormViewModelMapper
     {
-        public static FormDTO MapFrom(this FormViewModel viewModel)
+        public static CreateFormDTO MapFrom(this CreateFormViewModel viewModel)
         {
             if (viewModel == null)
             {
                 throw new Exception(ExceptionMessages.EntityNull);
             }
 
-            return new FormDTO
+            return new CreateFormDTO
             {
                 Id = viewModel.Id,
                 LastModifiedOn = viewModel.LastModifiedOn,
@@ -32,14 +32,14 @@ namespace Survello.Web.Mappers
             };
         }
 
-        public static FormViewModel MapFrom(this FormDTO dto)
+        public static CreateFormViewModel MapFrom(this CreateFormDTO dto)
         {
             if (dto == null)
             {
                 throw new Exception(ExceptionMessages.EntityNull);
             }
 
-            return new FormViewModel
+            return new CreateFormViewModel
             {
                 Id = dto.Id,
                 LastModifiedOn = dto.LastModifiedOn,
@@ -49,16 +49,17 @@ namespace Survello.Web.Mappers
                 UserId = dto.UserId,
                 NumberOfFilledForms = dto.NumberOfFilledForms,
                 MultipleChoiceQuestions = dto.MultipleChoiceQuestions.MapFrom(),
-                TextQuestions = dto.TextQuestions.MapFrom()
+                TextQuestions = dto.TextQuestions.MapFrom(),
+                DocumentQuestions = dto.DocumentQuestions.MapFrom()
             };
         }
 
-        public static ICollection<FormViewModel> MapFrom(this ICollection<FormDTO> dtos)
+        public static ICollection<CreateFormViewModel> MapFrom(this ICollection<CreateFormDTO> dtos)
         {
             return dtos.Select(MapFrom).ToList();
         }
 
-        public static ICollection<FormDTO> MapFrom(this ICollection<FormViewModel> viewModel)
+        public static ICollection<CreateFormDTO> MapFrom(this ICollection<CreateFormViewModel> viewModel)
         {
             return viewModel.Select(MapFrom).ToList();
         }

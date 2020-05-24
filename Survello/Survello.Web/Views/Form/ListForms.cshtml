@@ -1,17 +1,16 @@
-﻿@model IEnumerable<Survello.Web.Models.FormViewModel>
+﻿@model IEnumerable<Survello.Web.Models.ListFormsViewModel>
 
 @{
     ViewData["Title"] = "ListForms";
 }
 
-<h1>All Forms</h1>
-
+<h1>ListForms</h1>
+@{ 
+    var counter = 0;
+}
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-@{
-    int counter = 0;
-}
 <table class="table table-bordered table-striped table-hover">
     <thead>
         <tr>
@@ -42,7 +41,7 @@
                 <td>
                     @if (item.LastModifiedOn == null)
                     {
-                        @Html.Raw("Not modified yet.")
+                        @Html.DisplayFor(modelItem => item.CreatedOn)
                     }
                     else
                     {

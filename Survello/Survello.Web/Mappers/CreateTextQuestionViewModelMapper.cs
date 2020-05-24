@@ -8,52 +8,48 @@ using System.Threading.Tasks;
 
 namespace Survello.Web.Mappers
 {
-    public static class TextQuestionViewModelMapper
+    public static class CreateTextQuestionViewModelMapper
     {
-        public static TextQuestionViewModel MapFrom(this TextQuestionDTO dto)
+        public static CreateTextQuestionViewModel MapFrom(this CreateTextQuestionDTO dto)
         {
             if (dto == null)
             {
                 throw new Exception(ExceptionMessages.EntityNull);
             }
 
-            return new TextQuestionViewModel
+            return new CreateTextQuestionViewModel
             {
                 Id = dto.Id,
                 Description = dto.Description,
                 IsLongAnswer = dto.IsLongAnswer,
                 IsRequired = dto.IsRequired,
-                Answers = dto.Answers.MapFrom(),
-                FormId = dto.FormId,
-                FormTitle = dto.FormTitle
+                QuestionNumber = dto.QuestionNumber
             };
         }
 
-        public static TextQuestionDTO MapFrom(this TextQuestionViewModel viewModel)
+        public static CreateTextQuestionDTO MapFrom(this CreateTextQuestionViewModel viewModel)
         {
             if (viewModel == null)
             {
                 throw new Exception(ExceptionMessages.EntityNull);
             }
 
-            return new TextQuestionDTO
+            return new CreateTextQuestionDTO
             {
                 Id = viewModel.Id,
                 Description = viewModel.Description,
                 IsLongAnswer = viewModel.IsLongAnswer,
                 IsRequired = viewModel.IsRequired,
-                Answers = viewModel.Answers.MapFrom(),
-                FormId = viewModel.FormId,
-                FormTitle = viewModel.FormTitle
+                QuestionNumber = viewModel.QuestionNumber
             };
         }
 
-        public static ICollection<TextQuestionDTO> MapFrom(this ICollection<TextQuestionViewModel> viewModels)
+        public static ICollection<CreateTextQuestionDTO> MapFrom(this ICollection<CreateTextQuestionViewModel> viewModels)
         {
             return viewModels.Select(MapFrom).ToList();
         }
 
-        public static ICollection<TextQuestionViewModel> MapFrom(this ICollection<TextQuestionDTO> dtos)
+        public static ICollection<CreateTextQuestionViewModel> MapFrom(this ICollection<CreateTextQuestionDTO> dtos)
         {
             return dtos.Select(MapFrom).ToList();
         }

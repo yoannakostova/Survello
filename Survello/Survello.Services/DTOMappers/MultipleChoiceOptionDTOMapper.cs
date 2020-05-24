@@ -35,8 +35,8 @@ namespace Survello.Services.DTOMappers
             return new MultipleChoiceOptionDTO
             {
                 Id = entity.Id,
-                  Option = entity.Option,
-                   MultipleChouceQuestionId = entity.MultipleChouceQuestionId
+                Option = entity.Option,
+                MultipleChouceQuestionId = entity.MultipleChouceQuestionId
             };
         }
 

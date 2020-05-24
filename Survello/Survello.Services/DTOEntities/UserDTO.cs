@@ -10,6 +10,6 @@ namespace Survello.Services.DTOEntities
         public DateTime LastModifiedOn { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime DeletedOn { get; set; }
-        public ICollection<FormDTO> Forms { get; set; }
+        public ICollection<CreateFormDTO> Forms { get; set; }
     }
 }

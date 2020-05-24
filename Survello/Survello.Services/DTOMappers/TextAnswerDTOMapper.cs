@@ -38,7 +38,6 @@ namespace Survello.Services.DTOMappers
                 Id = entity.Id,
                 Answer = entity.Answer,
                 TextQuestionId = entity.TextQuestionId,
-                TextQuestionDescription = entity.TextQuestion.Description,
                  CorelationToken = entity.CorelationToken
                  
             };

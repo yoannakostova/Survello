@@ -8,51 +8,50 @@ using System.Text;
 
 namespace Survello.Services.DTOMappers
 {
-    public static class MultipleChoiceQuestionDTOMapper
+    public static class CreateTextQuestionDTOMapper
     {
-        public static MultipleChoiceQuestion MapFrom(this MultipleChoiceQuestionDTO dto)
+        public static TextQuestion MapFrom(this CreateTextQuestionDTO dto)
         {
             if (dto == null)
             {
                 throw new Exception(ExceptionMessages.EntityNotFound);
             }
 
-            return new MultipleChoiceQuestion
+            return new TextQuestion
             {
-                //Id = dto.Id, //no need since we set it as [Key]
+                Id = dto.Id,
                 Description = dto.Description,
+                IsLongAnswer = dto.IsLongAnswer,
                 IsRequired = dto.IsRequired,
-                IsMultipleAnswer = dto.IsMultipleAnswer,
-                Options = dto.Options.MapFrom(),
-                FormId = dto.FormId
+                FormId = dto.FormId, 
+                QuestionNumber = dto.QuestionNumber
             };
         }
 
-        public static MultipleChoiceQuestionDTO MapFrom(this MultipleChoiceQuestion entity)
+        public static CreateTextQuestionDTO MapFrom(this TextQuestion entity)
         {
             if (entity == null)
             {
                 throw new Exception(ExceptionMessages.EntityNotFound);
             }
 
-            return new MultipleChoiceQuestionDTO
+            return new CreateTextQuestionDTO
             {
                 Id = entity.Id,
                 Description = entity.Description,
+                IsLongAnswer = entity.IsLongAnswer,
                 IsRequired = entity.IsRequired,
-                IsMultipleAnswer = entity.IsMultipleAnswer,
-                Options = entity.Options.MapFrom(),
                 FormId = entity.FormId,
-                FormName = entity.Form.Title
+                QuestionNumber = entity.QuestionNumber
             };
         }
 
-        public static ICollection<MultipleChoiceQuestionDTO> MapFrom(this ICollection<MultipleChoiceQuestion> entities)
+        public static ICollection<CreateTextQuestionDTO> MapFrom(this ICollection<TextQuestion> entities)
         {
             return entities.Select(MapFrom).ToList();
         }
 
-        public static ICollection<MultipleChoiceQuestion> MapFrom(this ICollection<MultipleChoiceQuestionDTO> dtos)
+        public static ICollection<TextQuestion> MapFrom(this ICollection<CreateTextQuestionDTO> dtos)
         {
             return dtos.Select(MapFrom).ToList();
         }
