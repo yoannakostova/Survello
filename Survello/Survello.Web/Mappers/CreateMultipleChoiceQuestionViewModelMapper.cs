@@ -8,52 +8,50 @@ using System.Threading.Tasks;
 
 namespace Survello.Web.Mappers
 {
-    public static class MultipleChoiceQuestionViewModelMapper
+    public static class CreateMultipleChoiceQuestionViewModelMapper
     {
-        public static MultipleChoiceQuestionDTO MapFrom(this MultipleChoiceQuestionViewModel viewModel)
+        public static CreateMultipleChoiceQuestionDTO MapFrom(this CreateMultipleChoiceQuestionViewModel viewModel)
         {
             if (viewModel == null)
             {
                 throw new Exception(ExceptionMessages.EntityNull);
             }
 
-            return new MultipleChoiceQuestionDTO
+            return new CreateMultipleChoiceQuestionDTO
             {
                 Id = viewModel.Id,
                 Description = viewModel.Description,
                 IsRequired = viewModel.IsRequired,
                 IsMultipleAnswer = viewModel.IsMultipleAnswer,
                 Options = viewModel.Options.MapFrom(),
-                FormId = viewModel.FormId,
-                FormName = viewModel.FormName
+                QuestionNumber = viewModel.QuestionNumber
             };
         }
 
-        public static MultipleChoiceQuestionViewModel MapFrom(this MultipleChoiceQuestionDTO dto)
+        public static CreateMultipleChoiceQuestionViewModel MapFrom(this CreateMultipleChoiceQuestionDTO dto)
         {
             if (dto == null)
             {
                 throw new Exception(ExceptionMessages.EntityNull);
             }
 
-            return new MultipleChoiceQuestionViewModel
+            return new CreateMultipleChoiceQuestionViewModel
             {
                 Id = dto.Id,
                 Description = dto.Description,
                 IsRequired = dto.IsRequired,
                 IsMultipleAnswer = dto.IsMultipleAnswer,
                 Options = dto.Options.MapFrom(),
-                FormId = dto.FormId,
-                FormName = dto.FormName
+                QuestionNumber = dto.QuestionNumber
             };
         }
 
-        public static ICollection<MultipleChoiceQuestionViewModel> MapFrom(this ICollection<MultipleChoiceQuestionDTO> dtos)
+        public static ICollection<CreateMultipleChoiceQuestionViewModel> MapFrom(this ICollection<CreateMultipleChoiceQuestionDTO> dtos)
         {
             return dtos.Select(MapFrom).ToList();
         }
 
-        public static ICollection<MultipleChoiceQuestionDTO> MapFrom(this ICollection<MultipleChoiceQuestionViewModel> viewModels)
+        public static ICollection<CreateMultipleChoiceQuestionDTO> MapFrom(this ICollection<CreateMultipleChoiceQuestionViewModel> viewModels)
         {
             return viewModels.Select(MapFrom).ToList();
         }

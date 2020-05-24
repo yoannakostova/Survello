@@ -11,6 +11,5 @@ namespace Survello.Web.Models
         public Guid CorelationToken { get; set; }
         public string Answer { get; set; }
         public Guid TextQuestionId { get; set; }
-        public string TextQuestionDescription { get; set; }
     }
 }

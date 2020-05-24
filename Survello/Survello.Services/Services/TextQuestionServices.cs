@@ -22,74 +22,7 @@ namespace Survello.Services.Services
             this.dbcontext = dbcontext ?? throw new ArgumentNullException(nameof(dbcontext));
         }
 
-        public async Task<TextQuestionDTO> CreateTextQuestionAsync(TextQuestionDTO textQuestion)
-        {
-            if (textQuestion == null)
-            {
-                throw new Exception(ExceptionMessages.EntityNull);
-            }
-
-            var tq = textQuestion.MapFrom();
-
-            await this.dbcontext.TextQuestions.AddAsync(tq);
-            await this.dbcontext.SaveChangesAsync();
-
-            var formDto = tq.MapFrom();
-
-            return formDto;
-        }
-
-        public async Task<bool> DeleteTextQuestionAsync(Guid id)
-        {
-
-            var textQuestion = await this.dbcontext.TextQuestions
-                .Where(t => t.Id == id)
-                .FirstOrDefaultAsync();
-
-            if (textQuestion == null)
-            {
-                throw new Exception(ExceptionMessages.EntityNull);
-            }
-
-            textQuestion.IsDeleted = true;
-            await this.dbcontext.SaveChangesAsync();
-
-            return true;
-        }
-
-        public async Task<TextQuestionDTO> UpdateTextQuestionAsync(TextQuestionDTO textQuestion)
-        {
-            var entity = new TextQuestion
-            {
-                Id = textQuestion.Id,
-                Answers = textQuestion.Answers.MapFrom(),
-                Description = textQuestion.Description,
-                FormId = textQuestion.FormId,
-                IsLongAnswer = textQuestion.IsLongAnswer,
-                IsRequired = textQuestion.IsRequired
-            };
-
-            this.dbcontext.TextQuestions.Update(entity);
-            await this.dbcontext.SaveChangesAsync();
-
-            return entity.MapFrom();
-        }
-
-        public async Task<TextQuestionDTO> GetTextQuestionAsync(Guid id)
-        {
-            var textQuestion = await this.dbcontext.TextQuestions
-                .Where(t => t.Id == id)
-                .FirstOrDefaultAsync();
-
-            if (textQuestion == null)
-            {
-                throw new Exception(ExceptionMessages.EntityNull);
-            }
-
-            return textQuestion.MapFrom();
-        }
-
-        public async Task<ICollection<TextQuestionDTO>> GetAllTextQuestionInForm(Guid id)
+        public async Task<ICollection<CreateTextQuestionDTO>> GetAllTextQuestionInForm(Guid id)
         {
             var textQuestions = await this.dbcontext.TextQuestions
                 .Where(t => t.FormId == id)

@@ -23,16 +23,11 @@ namespace Survello.Web.Controllers
         }
         public async Task<IActionResult> ListForms()
         {
-            var allForms = await this.formServices.GetAllFormsAsync();
+            //var userId = (await userManager.GetUserAsync(User)).Id;
+            //var allForms = await this.formServices.GetUserFormsAsync(userId);
+            var allForms = (await this.formServices.GetAllFormsAsync()).MapToListFormsViewModel();
 
-            return View(allForms.MapFrom());
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Details(Guid id)
-        {
-            var form = await this.formServices.GetFormAsync(id);
-            return View("Details", form.MapFrom());
+            return View(allForms);
         }
 
         [HttpGet]
@@ -41,7 +36,7 @@ namespace Survello.Web.Controllers
             return View();
         }
         [HttpPost]
-        public async Task Create(FormViewModel model)
+        public async Task Create(CreateFormViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -49,6 +44,7 @@ namespace Survello.Web.Controllers
             }
             try
             {
+                model.UserId = (await userManager.GetUserAsync(User)).Id;
                 foreach (var question in model.MultipleChoiceQuestions)
                 {
                     //model.QuestionNumbers.Add(question.QuestionNumber, question);
@@ -81,12 +77,12 @@ namespace Survello.Web.Controllers
             }
             catch (Exception)
             {
-                BadRequest();
+               NotFound();
             }
         }
 
         [HttpGet]
-        public IActionResult Edit(FormViewModel model = null)
+        public IActionResult Edit(CreateFormViewModel model = null)
         {
             var newModel = model;
 

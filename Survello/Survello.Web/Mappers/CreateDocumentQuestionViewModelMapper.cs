@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Survello.Web.Mappers
 {
-    public static class DocumentQuestionViewModelMapper
+    public static class CreateDocumentQuestionViewModelMapper
     {
-        public static DocumentQuestionDTO MapFrom(this DocumentQuestionViewModel viewModel)
+        public static CreateDocumentQuestionDTO MapFrom(this CreateDocumentQuestionViewModel viewModel)
         {
             if (viewModel == null)
             {
@@ -19,21 +19,21 @@ namespace Survello.Web.Mappers
             }
             var fileSize = int.Parse(viewModel.FileSize.Substring(0,viewModel.FileSize.Length - 2));
 
-            return new DocumentQuestionDTO
+            return new CreateDocumentQuestionDTO
             {
                 Id = viewModel.Id,
                 Description = viewModel.Description,
                 FileNumberLimit = viewModel.FileNumberLimit,
                 FileSize = fileSize,
                 IsRequired = viewModel.IsRequired,
-                Answers = viewModel.Answers.MapFrom()
+                QuestionNumber = viewModel.QuestionNumber
             };
         }
-        public static ICollection<DocumentQuestionDTO> MapFrom(this ICollection<DocumentQuestionViewModel> viewModels)
+        public static ICollection<CreateDocumentQuestionDTO> MapFrom(this ICollection<CreateDocumentQuestionViewModel> viewModels)
         {
             return viewModels.Select(MapFrom).ToList();
         }
-        public static DocumentQuestionViewModel MapFrom(this DocumentQuestionDTO dto)
+        public static CreateDocumentQuestionViewModel MapFrom(this CreateDocumentQuestionDTO dto)
         {
             if (dto == null)
             {
@@ -41,17 +41,17 @@ namespace Survello.Web.Mappers
             }
 
 
-            return new DocumentQuestionViewModel
+            return new CreateDocumentQuestionViewModel
             {
                 Id = dto.Id,
                 Description = dto.Description,
                 FileNumberLimit = dto.FileNumberLimit,
-                //FileSize = dto.FileSize,
+                FileSize = dto.FileSize.ToString(),
                 IsRequired = dto.IsRequired,
-                Answers = dto.Answers.MapFrom()
+                QuestionNumber = dto.QuestionNumber
             };
         }
-        public static ICollection<DocumentQuestionViewModel> MapFrom(this ICollection<DocumentQuestionDTO> dtos)
+        public static ICollection<CreateDocumentQuestionViewModel> MapFrom(this ICollection<CreateDocumentQuestionDTO> dtos)
         {
             return dtos.Select(MapFrom).ToList();
         }

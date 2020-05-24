@@ -9,6 +9,6 @@ namespace Survello.Web.Models
     {
         public Guid Id { get; set; }
         public Guid CorelationToken { get; set; }
-        public Guid MultipleChoiceQuestionId { get; set; }
+        public Guid MultipleChoiceOptionId { get; set; }
     }
 }

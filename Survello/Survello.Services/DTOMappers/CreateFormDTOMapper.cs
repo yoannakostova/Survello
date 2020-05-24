@@ -8,9 +8,9 @@ using System.Text;
 
 namespace Survello.Services.DTOMappers
 {
-    public static class FormDTOMapper
+    public static class CreateFormDTOMapper
     {
-        public static Form MapFrom(this FormDTO dto)
+        public static Form MapFrom(this CreateFormDTO dto)
         {
             if (dto == null)
             {
@@ -32,14 +32,14 @@ namespace Survello.Services.DTOMappers
             };
         }
 
-        public static FormDTO MapFrom(this Form entity)
+        public static CreateFormDTO MapFrom(this Form entity)
         {
             if (entity == null)
             {
                 throw new Exception(ExceptionMessages.EntityNotFound);
             }
 
-            return new FormDTO
+            return new CreateFormDTO
             {
                 Id = entity.Id,
                 LastModifiedOn = entity.LastModifiedOn,
@@ -54,12 +54,12 @@ namespace Survello.Services.DTOMappers
             };
         }
 
-        public static ICollection<FormDTO> MapFrom(this ICollection<Form> entities)
+        public static ICollection<CreateFormDTO> MapFrom(this ICollection<Form> entities)
         {
             return entities.Select(MapFrom).ToList();
         }
 
-        public static ICollection<Form> MapFrom(this ICollection<FormDTO> dtos)
+        public static ICollection<Form> MapFrom(this ICollection<CreateFormDTO> dtos)
         {
             return dtos.Select(MapFrom).ToList();
         }

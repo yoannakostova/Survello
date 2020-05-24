@@ -1,4 +1,4 @@
-﻿@model Survello.Web.Models.FormViewModel
+﻿@model Survello.Web.Models.CreateFormViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -226,13 +226,13 @@ $(div).append(element)
                         textQuestionIsRequired = true;
                     }
 
-                    let TextQuestionViewModel = {}
-                    TextQuestionViewModel.Description = textQuestionDescription;
-                    TextQuestionViewModel.IsLongAnswer = textQuestionIsLongAnswer;
-                    TextQuestionViewModel.IsRequired = textQuestionIsRequired;
-                    TextQuestionViewModel.QuestionNumber = GCvalue;
+                    let CreateTextQuestionViewModel = {}
+                    CreateTextQuestionViewModel.Description = textQuestionDescription;
+                    CreateTextQuestionViewModel.IsLongAnswer = textQuestionIsLongAnswer;
+                    CreateTextQuestionViewModel.IsRequired = textQuestionIsRequired;
+                    CreateTextQuestionViewModel.QuestionNumber = GCvalue;
 
-                    TQlist.push(TextQuestionViewModel);
+                    TQlist.push(CreateTextQuestionViewModel);
                 } 
    
             }
@@ -274,13 +274,13 @@ $(div).append(element)
                         OptionDesc.push(optionMCQ);
                     }
 
-                    let MultipleChouceQuestionViewModel = {}
-                    MultipleChouceQuestionViewModel.Description = MCQDescription;
-                    MultipleChouceQuestionViewModel.IsRequired = MCQIsRequired1;
-                    MultipleChouceQuestionViewModel.OptionsDescriptions = OptionDesc;
-                    MultipleChouceQuestionViewModel.QuestionNumber = GCvalue;
+                    let CreateMultipleChoiceQuestionViewModel = {}
+                    CreateMultipleChoiceQuestionViewModel.Description = MCQDescription;
+                    CreateMultipleChoiceQuestionViewModel.IsRequired = MCQIsRequired1;
+                    CreateMultipleChoiceQuestionViewModel.OptionsDescriptions = OptionDesc;
+                    CreateMultipleChoiceQuestionViewModel.QuestionNumber = GCvalue;
 
-                    MCQlist.push(MultipleChouceQuestionViewModel);
+                    MCQlist.push(CreateMultipleChoiceQuestionViewModel);
                 }
             }
 
@@ -303,14 +303,14 @@ $(div).append(element)
                         documentQuestionIsRequired = true;
                     }
 
-                    let DocumentQuestionViewModel = {}
-                    DocumentQuestionViewModel.Description = documentQuestionDescription;
-                    DocumentQuestionViewModel.IsRequired = documentQuestionIsRequired;
-                    DocumentQuestionViewModel.FileSize = fileSize;
-                    DocumentQuestionViewModel.FileNumberLimit = fileNumberLimit;
-                    DocumentQuestionViewModel.QuestionNumber = GCvalue;
+                    let CreateDocumentQuestionViewModel = {}
+                    CreateDocumentQuestionViewModel.Description = documentQuestionDescription;
+                    CreateDocumentQuestionViewModel.IsRequired = documentQuestionIsRequired;
+                    CreateDocumentQuestionViewModel.FileSize = fileSize;
+                    CreateDocumentQuestionViewModel.FileNumberLimit = fileNumberLimit;
+                    CreateDocumentQuestionViewModel.QuestionNumber = GCvalue;
 
-                    DQlist.push(DocumentQuestionViewModel);
+                    DQlist.push(CreateDocumentQuestionViewModel);
                 }          
             }
 

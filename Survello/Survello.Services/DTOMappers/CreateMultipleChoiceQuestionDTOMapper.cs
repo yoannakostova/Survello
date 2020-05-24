@@ -8,51 +8,52 @@ using System.Text;
 
 namespace Survello.Services.DTOMappers
 {
-    public static class TextQuestionDTOMapper
+    public static class CreateMultipleChoiceQuestionDTOMapper
     {
-        public static TextQuestion MapFrom(this TextQuestionDTO dto)
+        public static MultipleChoiceQuestion MapFrom(this CreateMultipleChoiceQuestionDTO dto)
         {
             if (dto == null)
             {
                 throw new Exception(ExceptionMessages.EntityNotFound);
             }
 
-            return new TextQuestion
+            return new MultipleChoiceQuestion
             {
-                Id = dto.Id,
+                //Id = dto.Id, //no need since we set it as [Key]
                 Description = dto.Description,
-                IsLongAnswer = dto.IsLongAnswer,
                 IsRequired = dto.IsRequired,
+                IsMultipleAnswer = dto.IsMultipleAnswer,
+                Options = dto.Options.MapFrom(),
                 FormId = dto.FormId,
-                Answers = dto.Answers.MapFrom()
+                QuestionNumber = dto.QuestionNumber
             };
         }
 
-        public static TextQuestionDTO MapFrom(this TextQuestion entity)
+        public static CreateMultipleChoiceQuestionDTO MapFrom(this MultipleChoiceQuestion entity)
         {
             if (entity == null)
             {
                 throw new Exception(ExceptionMessages.EntityNotFound);
             }
 
-            return new TextQuestionDTO
+            return new CreateMultipleChoiceQuestionDTO
             {
                 Id = entity.Id,
                 Description = entity.Description,
-                IsLongAnswer = entity.IsLongAnswer,
                 IsRequired = entity.IsRequired,
-                Answers = entity.Answers.MapFrom(),
+                IsMultipleAnswer = entity.IsMultipleAnswer,
+                Options = entity.Options.MapFrom(),
                 FormId = entity.FormId,
-                FormTitle = entity.Form.Title
+                QuestionNumber = entity.QuestionNumber
             };
         }
 
-        public static ICollection<TextQuestionDTO> MapFrom(this ICollection<TextQuestion> entities)
+        public static ICollection<CreateMultipleChoiceQuestionDTO> MapFrom(this ICollection<MultipleChoiceQuestion> entities)
         {
             return entities.Select(MapFrom).ToList();
         }
 
-        public static ICollection<TextQuestion> MapFrom(this ICollection<TextQuestionDTO> dtos)
+        public static ICollection<MultipleChoiceQuestion> MapFrom(this ICollection<CreateMultipleChoiceQuestionDTO> dtos)
         {
             return dtos.Select(MapFrom).ToList();
         }

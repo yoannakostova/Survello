@@ -8,30 +8,30 @@ using System.Text;
 
 namespace Survello.Services.DTOMappers
 {
-    public static class DocumentQuestionDTOMapper
+    public static class CreateDocumentQuestionDTOMapper
     {
-        public static DocumentQuestionDTO MapFrom(this DocumentQuestion entity)
+        public static CreateDocumentQuestionDTO MapFrom(this DocumentQuestion entity)
         {
             if (entity == null)
             {
                 throw new Exception(ExceptionMessages.EntityNull);
             }
 
-            return new DocumentQuestionDTO
+            return new CreateDocumentQuestionDTO
             {
                 Id = entity.Id,
                 Description = entity.Description,
                 FileNumberLimit = entity.FileNumberLimit,
                 FileSize = entity.FileSize,
                 IsRequired = entity.IsRequired,
-                Answers = entity.Answers.MapFrom()
+                QuestionNumber = entity.QuestionNumber
             };
         }
-        public static ICollection<DocumentQuestionDTO> MapFrom(this ICollection<DocumentQuestion> entities)
+        public static ICollection<CreateDocumentQuestionDTO> MapFrom(this ICollection<DocumentQuestion> entities)
         {
             return entities.Select(MapFrom).ToList();
         }
-        public static DocumentQuestion MapFrom(this DocumentQuestionDTO dto)
+        public static DocumentQuestion MapFrom(this CreateDocumentQuestionDTO dto)
         {
             if (dto == null)
             {
@@ -45,10 +45,10 @@ namespace Survello.Services.DTOMappers
                 FileNumberLimit = dto.FileNumberLimit,
                 FileSize = dto.FileSize,
                 IsRequired = dto.IsRequired,
-                Answers = dto.Answers.MapFrom()
+                QuestionNumber = dto.QuestionNumber
             };
         }
-        public static ICollection<DocumentQuestion> MapFrom(this ICollection<DocumentQuestionDTO> dtos)
+        public static ICollection<DocumentQuestion> MapFrom(this ICollection<CreateDocumentQuestionDTO> dtos)
         {
             return dtos.Select(MapFrom).ToList();
         }
