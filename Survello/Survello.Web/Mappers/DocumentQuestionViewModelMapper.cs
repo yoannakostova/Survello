@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Survello.Web.Mappers
 {
-    public static class CreateDocumentQuestionViewModelMapper
+    public static class DocumentQuestionViewModelMapper
     {
-        public static CreateDocumentQuestionDTO MapFrom(this CreateDocumentQuestionViewModel viewModel)
+        public static DocumentQuestionDTO MapFrom(this CreateDocumentQuestionViewModel viewModel)
         {
             if (viewModel == null)
             {
@@ -19,7 +19,7 @@ namespace Survello.Web.Mappers
             }
             var fileSize = int.Parse(viewModel.FileSize.Substring(0,viewModel.FileSize.Length - 2));
 
-            return new CreateDocumentQuestionDTO
+            return new DocumentQuestionDTO
             {
                 Id = viewModel.Id,
                 Description = viewModel.Description,
@@ -29,11 +29,11 @@ namespace Survello.Web.Mappers
                 QuestionNumber = viewModel.QuestionNumber
             };
         }
-        public static ICollection<CreateDocumentQuestionDTO> MapFrom(this ICollection<CreateDocumentQuestionViewModel> viewModels)
+        public static ICollection<DocumentQuestionDTO> MapFrom(this ICollection<CreateDocumentQuestionViewModel> viewModels)
         {
             return viewModels.Select(MapFrom).ToList();
         }
-        public static CreateDocumentQuestionViewModel MapFrom(this CreateDocumentQuestionDTO dto)
+        public static CreateDocumentQuestionViewModel MapFrom(this DocumentQuestionDTO dto)
         {
             if (dto == null)
             {
@@ -51,7 +51,7 @@ namespace Survello.Web.Mappers
                 QuestionNumber = dto.QuestionNumber
             };
         }
-        public static ICollection<CreateDocumentQuestionViewModel> MapFrom(this ICollection<CreateDocumentQuestionDTO> dtos)
+        public static ICollection<CreateDocumentQuestionViewModel> MapFrom(this ICollection<DocumentQuestionDTO> dtos)
         {
             return dtos.Select(MapFrom).ToList();
         }

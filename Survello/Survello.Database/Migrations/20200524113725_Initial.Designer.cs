@@ -10,8 +10,8 @@ using Survello.Database;
 namespace Survello.Database.Migrations
 {
     [DbContext(typeof(SurvelloContext))]
-    [Migration("20200522205520_QuestionProperty")]
-    partial class QuestionProperty
+    [Migration("20200524113725_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -243,7 +243,7 @@ namespace Survello.Database.Migrations
                         new
                         {
                             Id = new Guid("1009cb07-226e-430d-9173-87ee97472f6a"),
-                            CreatedOn = new DateTime(2020, 5, 22, 20, 55, 19, 288, DateTimeKind.Utc).AddTicks(2387),
+                            CreatedOn = new DateTime(2020, 5, 24, 11, 37, 24, 407, DateTimeKind.Utc).AddTicks(9202),
                             Description = "Test description 1.",
                             IsDeleted = false,
                             NumberOfFilledForms = 0,
@@ -253,7 +253,7 @@ namespace Survello.Database.Migrations
                         new
                         {
                             Id = new Guid("2009cb07-226e-430d-9173-87ee97472f6a"),
-                            CreatedOn = new DateTime(2020, 5, 22, 20, 55, 19, 288, DateTimeKind.Utc).AddTicks(7513),
+                            CreatedOn = new DateTime(2020, 5, 24, 11, 37, 24, 408, DateTimeKind.Utc).AddTicks(2379),
                             Description = "Test description 2.",
                             IsDeleted = false,
                             NumberOfFilledForms = 0,
@@ -263,7 +263,7 @@ namespace Survello.Database.Migrations
                         new
                         {
                             Id = new Guid("3009cb07-226e-430d-9173-87ee97472f6a"),
-                            CreatedOn = new DateTime(2020, 5, 22, 20, 55, 19, 288, DateTimeKind.Utc).AddTicks(7608),
+                            CreatedOn = new DateTime(2020, 5, 24, 11, 37, 24, 408, DateTimeKind.Utc).AddTicks(2440),
                             Description = "Test description 3.",
                             IsDeleted = false,
                             NumberOfFilledForms = 0,
@@ -273,7 +273,7 @@ namespace Survello.Database.Migrations
                         new
                         {
                             Id = new Guid("4009cb07-226e-430d-9173-87ee97472f6a"),
-                            CreatedOn = new DateTime(2020, 5, 22, 20, 55, 19, 288, DateTimeKind.Utc).AddTicks(7620),
+                            CreatedOn = new DateTime(2020, 5, 24, 11, 37, 24, 408, DateTimeKind.Utc).AddTicks(2449),
                             Description = "Test description 4",
                             IsDeleted = false,
                             NumberOfFilledForms = 0,
@@ -565,7 +565,7 @@ namespace Survello.Database.Migrations
                         new
                         {
                             Id = new Guid("0989cb07-226e-430d-9173-87ee97472f6a"),
-                            ConcurrencyStamp = "781eb484-cb76-4f0a-9335-d2415cf0271e",
+                            ConcurrencyStamp = "65a68a12-c66d-47a7-a77f-d40213bfea13",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         });
@@ -790,15 +790,15 @@ namespace Survello.Database.Migrations
                         {
                             Id = new Guid("52d02f62-14ac-4152-872c-08d7eb74f484"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a3e83055-8b5b-440f-a904-9e5d47be9763",
-                            CreatedOn = new DateTime(2020, 5, 22, 20, 55, 19, 296, DateTimeKind.Utc).AddTicks(5619),
+                            ConcurrencyStamp = "57057c91-2e9c-40be-abec-20eba3394d3a",
+                            CreatedOn = new DateTime(2020, 5, 24, 11, 37, 24, 413, DateTimeKind.Utc).AddTicks(1843),
                             Email = "nasko@survello.com",
                             EmailConfirmed = false,
                             IsDeleted = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "NASKO",
                             NormalizedUserName = "NASKO",
-                            PasswordHash = "AQAAAAEAACcQAAAAEC28sdn/lN4gef4Zxgxj6HBa/G1AM0fGdZFqHopz5JR2m7jyshv3LW9svLbNCbf/yQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEhDST3DhWiZRkmCZGxmfBvTEsMTivp/MfrXURqFpXL4UNJ7i4me2GFNvXWWYyGblQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "321E275DD1E24957A7781D42BB68293B",
                             TwoFactorEnabled = false,
@@ -808,15 +808,15 @@ namespace Survello.Database.Migrations
                         {
                             Id = new Guid("22a2d89d-ee6e-4c94-e490-08d7eb6bae70"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7d32d456-c246-4efa-9b47-5725b5f91d35",
-                            CreatedOn = new DateTime(2020, 5, 22, 20, 55, 19, 325, DateTimeKind.Utc).AddTicks(3737),
+                            ConcurrencyStamp = "357eeda4-3d47-4ad2-91ba-19871c161955",
+                            CreatedOn = new DateTime(2020, 5, 24, 11, 37, 24, 431, DateTimeKind.Utc).AddTicks(6538),
                             Email = "yoanna@survello.com",
                             EmailConfirmed = false,
                             IsDeleted = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "YOANNA",
                             NormalizedUserName = "YOANNA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMEogKOisQIiiL880sXmCd9jhPtfcatph/74YLna3c0URLjHsCYWqi4AOcYaRSs24w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGGK5BTXoJ4wHvqxLDVtb7mmsWItpBp7KIBL9uEcQSqwchnb9/3C6HM6qMDYJr7YdA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "431E275DD1E24957A7781D42BB68293B",
                             TwoFactorEnabled = false,

@@ -3,36 +3,35 @@
 
 @{
     bool isInEditMode = true;
-    //if (!Model.MultipleChoiceQuestions.Any() && !Model.TextQuestions.Any() && !Model.DocumentQuestions.Any())
-    //{
-    //    isInEditMode = false;
-    //}
+    if (!Model.MultipleChoiceQuestions.Any() && !Model.TextQuestions.Any() && !Model.DocumentQuestions.Any())
+    {
+        isInEditMode = false;
+    }
 
     if (isInEditMode)
     {
-        Model.QuestionNumbers.OrderBy(q => q.Key);
 
         foreach (var key in Model.QuestionNumbers.Keys)
         {
             var question = Model.QuestionNumbers[key];
 
-            var name = question.GetType().ToString();
-            name = name.Substring(name.Length - 9, 9) + "Template";
+            //var name = question.GetType().ToString();
+            //name = name.Substring(name.Length - 9, 9) + "Template";
 
-            <partial name="@name" model="question" />
+            //<partial name="@name" model="question" />
 
-            @*if (question is TextQuestionViewModel)
+            if (question is CreateTextQuestionViewModel)
             {
                 <partial name="TextQuestionTemplate" model="question" />
             }
-            if (question is MultipleChoiceQuestionViewModel)
+            if (question is CreateMultipleChoiceQuestionViewModel)
             {
                 <partial name="MultipleChoiceQuestionTemplate" model="question" />
             }
-            if (question is DocumentQuestionViewModel)
+            if (question is CreateDocumentQuestionViewModel)
             {
                 <partial name="DocumentQuestionTemplate" model="question" />
-            }*@
+            }
         }
     }
     else
@@ -59,16 +58,11 @@
     <div class="col-md-4">
         <input class="button-custom" type="button" id="btnAddDQ" value="Add Document Question" />
     </div>
-
     <div id="questions">
-
     </div>
-
 </div>
 <div class="form-group">
     <input id="submitFormViewModel" type="button" onclick="create()" class="button-custom" value="Create" />
 </div>
-<div>
-    <a style="color:darkcyan" asp-action="ListForms">Back to List</a>
-</div>
+
 

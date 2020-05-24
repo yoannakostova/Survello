@@ -8,9 +8,9 @@ using System.Text;
 
 namespace Survello.Services.DTOMappers
 {
-    public static class CreateMultipleChoiceQuestionDTOMapper
+    public static class MultipleChoiceQuestionDTOMapper
     {
-        public static MultipleChoiceQuestion MapFrom(this CreateMultipleChoiceQuestionDTO dto)
+        public static MultipleChoiceQuestion MapFrom(this MultipleChoiceQuestionDTO dto)
         {
             if (dto == null)
             {
@@ -29,14 +29,14 @@ namespace Survello.Services.DTOMappers
             };
         }
 
-        public static CreateMultipleChoiceQuestionDTO MapFrom(this MultipleChoiceQuestion entity)
+        public static MultipleChoiceQuestionDTO MapFrom(this MultipleChoiceQuestion entity)
         {
             if (entity == null)
             {
                 throw new Exception(ExceptionMessages.EntityNotFound);
             }
 
-            return new CreateMultipleChoiceQuestionDTO
+            return new MultipleChoiceQuestionDTO
             {
                 Id = entity.Id,
                 Description = entity.Description,
@@ -48,12 +48,12 @@ namespace Survello.Services.DTOMappers
             };
         }
 
-        public static ICollection<CreateMultipleChoiceQuestionDTO> MapFrom(this ICollection<MultipleChoiceQuestion> entities)
+        public static ICollection<MultipleChoiceQuestionDTO> MapFrom(this ICollection<MultipleChoiceQuestion> entities)
         {
             return entities.Select(MapFrom).ToList();
         }
 
-        public static ICollection<MultipleChoiceQuestion> MapFrom(this ICollection<CreateMultipleChoiceQuestionDTO> dtos)
+        public static ICollection<MultipleChoiceQuestion> MapFrom(this ICollection<MultipleChoiceQuestionDTO> dtos)
         {
             return dtos.Select(MapFrom).ToList();
         }

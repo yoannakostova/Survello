@@ -1,0 +1,31 @@
+﻿@model Survello.Web.Models.AnswerFormViewModel
+
+@{
+    foreach (var key in Model.QuestionNumbers.Keys)
+    {
+        var question = Model.QuestionNumbers[key];
+
+        //var name = question.GetType().ToString();
+        //name = name.Substring(name.Length - 9, 9) + "Template";
+
+        //<partial name="@name" model="question" />
+
+        if (question is CreateTextQuestionViewModel)
+        {
+            <partial name="TextQuestionTemplate" model="question" />            
+        }
+        if (question is CreateMultipleChoiceQuestionViewModel)
+        {
+            <partial name="MultipleChoiceQuestionTemplate" model="question" />
+        }
+        if (question is CreateDocumentQuestionViewModel)
+        {
+            <partial name="DocumentQuestionTemplate" model="question" />
+        }
+    }
+}
+
+<div>
+    <a asp-action="Index">Home</a>
+</div>
+

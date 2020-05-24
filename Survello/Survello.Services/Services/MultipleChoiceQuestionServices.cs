@@ -22,7 +22,7 @@ namespace Survello.Services.Services
             this.dbcontext = dbcontext ?? throw new ArgumentNullException(nameof(dbcontext));
         }
 
-        public async Task<ICollection<CreateMultipleChoiceQuestionDTO>> GetAllMultipleQuestionsInFormAsync(Guid id)
+        public async Task<ICollection<MultipleChoiceQuestionDTO>> GetAllMultipleQuestionsInFormAsync(Guid id)
         {
             var multipleChoiceQuestion = await this.dbcontext.MultipleChoiceQuestions
                 .Where(t => t.FormId == id)

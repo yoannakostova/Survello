@@ -8,9 +8,9 @@ using System.Text;
 
 namespace Survello.Services.DTOMappers
 {
-    public static class CreateTextQuestionDTOMapper
+    public static class TextQuestionDTOMapper
     {
-        public static TextQuestion MapFrom(this CreateTextQuestionDTO dto)
+        public static TextQuestion MapFrom(this TextQuestionDTO dto)
         {
             if (dto == null)
             {
@@ -28,14 +28,14 @@ namespace Survello.Services.DTOMappers
             };
         }
 
-        public static CreateTextQuestionDTO MapFrom(this TextQuestion entity)
+        public static TextQuestionDTO MapFrom(this TextQuestion entity)
         {
             if (entity == null)
             {
                 throw new Exception(ExceptionMessages.EntityNotFound);
             }
 
-            return new CreateTextQuestionDTO
+            return new TextQuestionDTO
             {
                 Id = entity.Id,
                 Description = entity.Description,
@@ -46,12 +46,12 @@ namespace Survello.Services.DTOMappers
             };
         }
 
-        public static ICollection<CreateTextQuestionDTO> MapFrom(this ICollection<TextQuestion> entities)
+        public static ICollection<TextQuestionDTO> MapFrom(this ICollection<TextQuestion> entities)
         {
             return entities.Select(MapFrom).ToList();
         }
 
-        public static ICollection<TextQuestion> MapFrom(this ICollection<CreateTextQuestionDTO> dtos)
+        public static ICollection<TextQuestion> MapFrom(this ICollection<TextQuestionDTO> dtos)
         {
             return dtos.Select(MapFrom).ToList();
         }

@@ -8,16 +8,16 @@ using System.Text;
 
 namespace Survello.Services.DTOMappers
 {
-    public static class CreateDocumentQuestionDTOMapper
+    public static class DocumentQuestionDTOMapper
     {
-        public static CreateDocumentQuestionDTO MapFrom(this DocumentQuestion entity)
+        public static DocumentQuestionDTO MapFrom(this DocumentQuestion entity)
         {
             if (entity == null)
             {
                 throw new Exception(ExceptionMessages.EntityNull);
             }
 
-            return new CreateDocumentQuestionDTO
+            return new DocumentQuestionDTO
             {
                 Id = entity.Id,
                 Description = entity.Description,
@@ -27,11 +27,11 @@ namespace Survello.Services.DTOMappers
                 QuestionNumber = entity.QuestionNumber
             };
         }
-        public static ICollection<CreateDocumentQuestionDTO> MapFrom(this ICollection<DocumentQuestion> entities)
+        public static ICollection<DocumentQuestionDTO> MapFrom(this ICollection<DocumentQuestion> entities)
         {
             return entities.Select(MapFrom).ToList();
         }
-        public static DocumentQuestion MapFrom(this CreateDocumentQuestionDTO dto)
+        public static DocumentQuestion MapFrom(this DocumentQuestionDTO dto)
         {
             if (dto == null)
             {
@@ -48,7 +48,7 @@ namespace Survello.Services.DTOMappers
                 QuestionNumber = dto.QuestionNumber
             };
         }
-        public static ICollection<DocumentQuestion> MapFrom(this ICollection<CreateDocumentQuestionDTO> dtos)
+        public static ICollection<DocumentQuestion> MapFrom(this ICollection<DocumentQuestionDTO> dtos)
         {
             return dtos.Select(MapFrom).ToList();
         }
