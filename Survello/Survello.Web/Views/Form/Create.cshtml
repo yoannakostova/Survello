@@ -91,6 +91,11 @@ $(div).append(element)
         <span asp-validation-for="IsRequired" class="text-danger"></span>
     </div>
     <br />
+    <div class="custom-control custom-switch">
+        <input asp-for="IsMultipleAnswer" type="checkbox" class="custom-control-input" id="isMultipleAnswerMCQ${msq}">
+        <label class="custom-control-label" for="isMultipleAnswerMCQ${msq}">Multiple Answer</label>
+        <span asp-validation-for="IsMultipleAnswer" class="text-danger"></span>
+    </div>
     <div id="add${msq}">
         <span style="color:red" id="corret${msq}"> </span>
     </div>
@@ -241,6 +246,7 @@ $(div).append(element)
             for (let j = 1; j <= msq; j++) {
 
                 let MCQIsRequired1 = false;
+                let MCQisMultipleAnswer1 = false;
 
                 if (document.getElementById('descriptionMCQ' + j.toString()) === null) {
                     continue;
@@ -248,10 +254,14 @@ $(div).append(element)
                 else {
                     let MCQDescription = document.getElementById('descriptionMCQ' + j.toString()).value;
                     let MCQisRequired = document.getElementById('isRequiredMCQ' + j.toString());
+                    let MCQisMultipleAnswer = document.getElementById('isMultipleAnswer' + j.toString());
                     let GCvalue = document.getElementById('getValueMCQ' + j.toString()).value;
 
                     if (MCQisRequired.checked) {
                         MCQIsRequired1 = true;
+                    }
+                    if (MCQisMultipleAnswer.checked) {
+                        MCQisMultipleAnswer1 = true;
                     }
 
                     let info = $(`#add${j} :input`); //1 input -> length = 2
@@ -277,6 +287,7 @@ $(div).append(element)
                     let CreateMultipleChoiceQuestionViewModel = {}
                     CreateMultipleChoiceQuestionViewModel.Description = MCQDescription;
                     CreateMultipleChoiceQuestionViewModel.IsRequired = MCQIsRequired1;
+                    CreateMultipleChoiceQuestionViewModel.IsMultipleAnswer = MCQisMultipleAnswer1;
                     CreateMultipleChoiceQuestionViewModel.OptionsDescriptions = OptionDesc;
                     CreateMultipleChoiceQuestionViewModel.QuestionNumber = GCvalue;
 

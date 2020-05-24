@@ -16,6 +16,7 @@ namespace Survello.Web.Models
         [Required]
         [StringLength(150, ErrorMessage = "The {0} value cannot exceed {1} characters.")]
         public string Title { get; set; }
+        [StringLength(300, ErrorMessage = "The {0} value cannot exceed {1} characters.")]
         public string Description { get; set; }
         public int NumberOfFilledForms { get; set; }
         public Guid UserId { get; set; }
