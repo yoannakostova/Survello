@@ -17,6 +17,7 @@ namespace Survello.Web.Models
         public bool IsRequired { get; set; }
         public bool IsMultipleAnswer { get; set; }
         public int QuestionNumber { get; set; }
+        public string Answer { get; set; }
         public ICollection<string> OptionsDescriptions { get; set; }
         public ICollection<MultipleChoiceOptionViewModel> Options { get; set; } = new List<MultipleChoiceOptionViewModel>();
     }

@@ -17,5 +17,6 @@ namespace Survello.Web.Models
         public bool IsLongAnswer { get; set; }
         public bool IsRequired { get; set; }
         public int QuestionNumber { get; set; }
+        public string Answer { get; set; }
     }
 }
