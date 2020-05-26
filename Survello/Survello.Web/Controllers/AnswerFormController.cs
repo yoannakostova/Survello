@@ -20,13 +20,13 @@ namespace Survello.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> CreateAnswer(Guid id)
         {
-            var form = (await this.formServices.GetFormAsync(id)).MapToAnswerFormViewModel();
-
-            return View(form);
+            //var form = (await this.formServices.GetFormAsync(id)).MapToAnswerFormViewModel();
+            throw new NotImplementedException();
+            //return View(form);
         }
 
         [HttpPost]
-        public IActionResult CreateAnswer(AnswerFormViewModel model)
+        public IActionResult CreateAnswer(FormViewModel model)
         {
             if (!ModelState.IsValid)
             {

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Survello.Web.Models
 {
-    public class CreateDocumentQuestionViewModel :IQuestion
+    public class DocumentQuestionViewModel :Question
     {
         public Guid Id { get; set; }
         [Required]

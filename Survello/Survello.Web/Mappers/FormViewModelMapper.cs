@@ -10,7 +10,7 @@ namespace Survello.Web.Mappers
 {
     public static class FormViewModelMapper
     {
-        public static FormDTO MapFrom(this CreateFormViewModel viewModel)
+        public static FormDTO MapFrom(this FormViewModel viewModel)
         {
             if (viewModel == null)
             {
@@ -29,33 +29,50 @@ namespace Survello.Web.Mappers
                 DocumentQuestions = viewModel.DocumentQuestions.MapFrom()
             };
         }
-        public static CreateFormViewModel MapFrom(this FormDTO dto)
+        public static FormViewModel MapFrom(this FormDTO dto)
         {
             if (dto == null)
             {
                 throw new Exception(ExceptionMessages.EntityNull);
             }
 
-            return new CreateFormViewModel
+            List<TextQuestionViewModel> textQuestions = new List<TextQuestionViewModel>();
+            foreach (var item in dto.TextQuestions)
+            {
+                textQuestions.Add(item.MapFrom());
+            }
+
+            List<MultipleChoiceQuestionViewModel> multipleChoiceQuestions = new List<MultipleChoiceQuestionViewModel>();
+            foreach (var item in dto.MultipleChoiceQuestions)
+            {
+                multipleChoiceQuestions.Add(item.MapFrom());
+            }
+
+            List<DocumentQuestionViewModel> documentQuestions = new List<DocumentQuestionViewModel>();
+            foreach (var item in dto.DocumentQuestions)
+            {
+                documentQuestions.Add(item.MapFrom());
+            }
+
+            return new FormViewModel
             {
                 Id = dto.Id,
                 DateOfExpiration = dto.DateOfExpiration,
                 Title = dto.Title,
                 Description = dto.Description,
                 UserId = dto.UserId,
-                MultipleChoiceQuestions = dto.MultipleChoiceQuestions.MapFrom(),
-                TextQuestions = dto.TextQuestions.MapFrom(),
-                DocumentQuestions = dto.DocumentQuestions.MapFrom()
+                MultipleChoiceQuestions = multipleChoiceQuestions,
+                TextQuestions = textQuestions,
+                DocumentQuestions = documentQuestions
             };
-
         }
 
-        public static ICollection<CreateFormViewModel> MapFrom(this ICollection<FormDTO> dtos)
+        public static ICollection<FormViewModel> MapFrom(this ICollection<FormDTO> dtos)
         {
             return dtos.Select(MapFrom).ToList();
         }
 
-        public static ICollection<FormDTO> MapFrom(this ICollection<CreateFormViewModel> viewModel)
+        public static ICollection<FormDTO> MapFrom(this ICollection<FormViewModel> viewModel)
         {
             return viewModel.Select(MapFrom).ToList();
         }

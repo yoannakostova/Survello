@@ -8,15 +8,17 @@ using System.Threading.Tasks;
 
 namespace Survello.Web.Models
 {
-    public class CreateTextQuestionViewModel :IQuestion
+    public class MultipleChoiceQuestionViewModel : Question
     {
+        [Required]
         public Guid Id { get; set; }
         [Required]
         [StringLength(100, ErrorMessage = "The {0} value cannot exceed {1} characters.")]
         public string Description { get; set; }
-        public bool IsLongAnswer { get; set; }
         public bool IsRequired { get; set; }
+        public bool IsMultipleAnswer { get; set; }
         public int QuestionNumber { get; set; }
-        public string Answer { get; set; }
+        public List<string> OptionsDescriptions { get; set; } = new List<string>();
+        public List<MultipleChoiceOptionViewModel> Options { get; set; } = new List<MultipleChoiceOptionViewModel>();
     }
 }

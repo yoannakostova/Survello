@@ -1,57 +1,93 @@
-﻿@model Survello.Web.Models.AnswerFormViewModel
+﻿@model Survello.Web.Models.FormViewModel
 @{
     ViewData["Title"] = "CreateAnswer";
 }
-    <form asp-action="CreateAnswer" id="submit">
+
         @{
-        <div class="form-group row">
-            <label>@Model.Title</label>
-        </div>
-            foreach (var key in Model.QuestionNumbers.Keys)
-            {
-                var question = Model.QuestionNumbers[key];
+            <div class="form-group row">
+               
+            </div>
 
-                //var name = question.GetType().ToString();
-                //name = name.Substring(name.Length - 9, 9) + "Template";
+            //int counter = Model.TextQuestions.Count + Model.DocumentQuestions.Count + Model.MultipleChoiceQuestions.Count();
+            //int currentCounter = 0;
 
-                //<partial name="@name" model="question" />
+            //while (true)
+            //{
+            //    foreach (var item in Model.TextQuestions)
+            //    {
+            //        if (item.QuestionNumber == currentCounter)
+            //        {
+            //            var question = item;
 
-                if (question is CreateTextQuestionViewModel)
+                        
+            //            break;
+            //        }
+            //    }
+            //    break;
+            //}
+
+
+
+
+            ////for (int i = 0; i < Model.QuestionNumbers.Keys.Count; i++)
+            ////{
+
+            //    //var name = question.GetType().ToString();
+            //    //name = name.Substring(name.Length - 9, 9) + "Template";
+
+            //    //<partial name="@name" model="question" />
+
+            //    //if (Model.QuestionNumbers[i] is CreateTextQuestionViewModel)
+            //    //{
+                @*var textQuestion = Model.QuestionNumbers[i] as CreateTextQuestionViewModel;
+                string sth = textQuestion.Description;
+
+                @Html.DisplayText(sth);
+                @Html.TextBox(textQuestion.Answer, null, new { @class = "form-control" });*@
+
+
+
+
+                @*@Html.TextBox("Answer", null, new { @class = "form-control" });
+
+                foreach (var item in Model.QuestionNumbers[i])
                 {
-                    <partial name="_TextQuestionTemplate" model="question" />
-                    @*<div id="tqContainer">
-                        @Html.EditorFor(question => question.TextQuestions)
-                    </div>*@
+                    @Html.HiddenFor(q => q.TextQuestions[j].Description)
+                    @Html.TextBox("Answer", null, new { @class = "form-control" });
+                }*@
 
-                }
-                if (question is CreateMultipleChoiceQuestionViewModel)
-                {
-                    <partial name="MultipleChoiceQuestionTemplate" model="question" />
-                }
-                if (question is CreateDocumentQuestionViewModel)
-                {
-                    <partial name="DocumentQuestionTemplate" model="question" />
+            //// }
 
-                }
-            }
-        }
-        @*for (int i = 0; i < Model.QuestionNumbers.Count; i++)
-        {
-            if (Model.QuestionNumbers[i] is CreateTextQuestionViewModel)
-            {
-                @Html.EditorFor(modelItem => (modelItem.TextQuestions as Survello.Web.Models.AnswerFormViewModel).
-                @Html.DisplayNameFor(question => question.TextQuestions[i])
+
+
+
+
+
+
+
+
+
+
+
+
+            ////if (question is CreateMultipleChoiceQuestionViewModel)
+            ////{
+            ////    // <partial name="MultipleChoiceQuestionTemplate" model="question" />
+            ////}
+            ////if (question is CreateDocumentQuestionViewModel)
+            ////{
+            ////    //<partial name="DocumentQuestionTemplate" model="question" />
+
+            ////}
 
             }
-            }
-        }*@
+        
         <div class="col-md-2">
             <input type="submit" value="Create" id="submit" class="btn btn-default" />
         </div>
-        </form>
 
-        <div>
-            <a asp-action="Index">Home</a>
-        </div>
+<div>
+    <a asp-action="Index">Home</a>
+</div>
 
 

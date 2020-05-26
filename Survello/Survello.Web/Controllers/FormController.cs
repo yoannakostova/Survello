@@ -37,7 +37,7 @@ namespace Survello.Web.Controllers
         }
 
         [HttpPost]
-        public async Task Create(CreateFormViewModel model)
+        public async Task Create(FormViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -75,20 +75,20 @@ namespace Survello.Web.Controllers
         {
             var model = (await this.formServices.GetFormAsync(id)).MapFrom();
 
-            foreach (var question in model.DocumentQuestions)
-            {
-                model.QuestionNumbers.Add(question.QuestionNumber, question);
-            }
+            //foreach (var question in model.DocumentQuestions)
+            //{
+            //    model.QuestionNumbers.Add(question.QuestionNumber, question);
+            //}
 
-            foreach (var question in model.MultipleChoiceQuestions)
-            {
-                model.QuestionNumbers.Add(question.QuestionNumber, question);
-            }
+            //foreach (var question in model.MultipleChoiceQuestions)
+            //{
+            //    model.QuestionNumbers.Add(question.QuestionNumber, question);
+            //}
 
-            foreach (var question in model.TextQuestions)
-            {
-                model.QuestionNumbers.Add(question.QuestionNumber, question);
-            }
+            //foreach (var question in model.TextQuestions)
+            //{
+            //    model.QuestionNumbers.Add(question.QuestionNumber, question);
+            //}
 
             return View(model);
         }
@@ -96,6 +96,26 @@ namespace Survello.Web.Controllers
         [HttpPost]
         public IActionResult Edit()
         {
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Answer(Guid id)
+        {
+            var form = (await this.formServices.GetFormAsync(id)).MapFrom();
+
+            return View(form);
+        }
+
+        //TODO: HiddenFor leaves IDs visible in the browser! 
+        [HttpPost]
+        public async Task<IActionResult> Answer(FormViewModel form)
+        {
+            Guid id = form.Id;
+            var new_form =(await this.formServices.GetFormAsync(id)).MapFrom();
+            
+
+
             throw new NotImplementedException();
         }
     }

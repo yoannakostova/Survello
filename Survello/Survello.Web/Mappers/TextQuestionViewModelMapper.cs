@@ -10,14 +10,14 @@ namespace Survello.Web.Mappers
 {
     public static class TextQuestionViewModelMapper
     {
-        public static CreateTextQuestionViewModel MapFrom(this TextQuestionDTO dto)
+        public static TextQuestionViewModel MapFrom(this TextQuestionDTO dto)
         {
             if (dto == null)
             {
                 throw new Exception(ExceptionMessages.EntityNull);
             }
 
-            return new CreateTextQuestionViewModel
+            return new TextQuestionViewModel
             {
                 Id = dto.Id,
                 Description = dto.Description,
@@ -27,7 +27,7 @@ namespace Survello.Web.Mappers
             };
         }
 
-        public static TextQuestionDTO MapFrom(this CreateTextQuestionViewModel viewModel)
+        public static TextQuestionDTO MapFrom(this TextQuestionViewModel viewModel)
         {
             if (viewModel == null)
             {
@@ -44,12 +44,12 @@ namespace Survello.Web.Mappers
             };
         }
 
-        public static ICollection<TextQuestionDTO> MapFrom(this ICollection<CreateTextQuestionViewModel> viewModels)
+        public static ICollection<TextQuestionDTO> MapFrom(this ICollection<TextQuestionViewModel> viewModels)
         {
             return viewModels.Select(MapFrom).ToList();
         }
 
-        public static ICollection<CreateTextQuestionViewModel> MapFrom(this ICollection<TextQuestionDTO> dtos)
+        public static ICollection<TextQuestionViewModel> MapFrom(this ICollection<TextQuestionDTO> dtos)
         {
             return dtos.Select(MapFrom).ToList();
         }

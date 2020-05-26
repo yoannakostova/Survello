@@ -11,6 +11,6 @@ namespace Survello.Web.Models
         public DateTime LastModifiedOn { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime DeletedOn { get; set; }
-        public ICollection<CreateFormViewModel> Forms { get; set; }
+        public ICollection<FormViewModel> Forms { get; set; }
     }
 }
