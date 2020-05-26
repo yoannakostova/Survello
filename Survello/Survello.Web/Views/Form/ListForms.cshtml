@@ -5,7 +5,7 @@
 }
 
 <h1>ListForms</h1>
-@{ 
+@{
     var counter = 0;
 }
 <p>
@@ -53,11 +53,51 @@
                 </td>
                 <td>
                     <a asp-controller="Form" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                    <a asp-controller="FormSender" asp-action="Index" asp-route-id="@item.Id" type="button" class="btn btn-primary">Share</a>
+                    <a asp-controller="FormSender" asp-action="SendMail" asp-route-id="@item.Id" type="button" class="btn btn-primary">Share</a>
                     <a asp-controller="Form" asp-action="Answer" asp-route-id="@item.Id" type="button" class="btn btn-primary">Answer Form</a>
+
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="@item.Id" onclick="showModal(this.id)" data-container="@Guid.NewGuid()">Share Form</button>
+
+                    <!-- Modal -->
+                    <div class="modal @item.Id fade" id="@item.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Share your Form:</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                        <div class="form-group">
+                                            <label asp-for="@item.Recipients" class="col-form-label">Recipient:</label>
+                                            <input asp-for="@item.Recipients" id="@item.Id+rec" class="form-control">
+                                            <span asp-validation-for="@item.Recipients" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="@item.Subject" class="col-form-label">Subject:</label>
+                                            <input asp-for="@item.Subject" id="@item.Id+subject" class="form-control">
+                                            <span asp-validation-for="@item.Subject" class="text-danger"></span>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="button" value="@item.Id" onclick="saveModal(this.value)" class="btn btn-primary">Share</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
+
+@section scripts {
+    <script src="~/js/shareModal.js"></script>
+}

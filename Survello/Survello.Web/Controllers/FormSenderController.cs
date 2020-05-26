@@ -27,19 +27,18 @@ namespace Survello.Web.Controllers
         }
 
         [HttpPost]
-        // GET: Emails/Details/5
-        public IActionResult Index(FormSenderViewModel model)
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> SendMail(Guid id, string allRecipients, string subj)
         {
-            if (!ModelState.IsValid)
+            if (id == Guid.Empty || allRecipients == null)
             {
                 //TODO: Middleware to be added and may be some toast notification.
                 return NotFound();
             }
             try
             {
-                string to = model.To;
-                string subject = model.Subject;
-                var isEmailSend = this.formSenderServices.SendEmail(to, subject);
+                this.toastNotification.AddSuccessToastMessage("Email was sent successfully"!);
+                var isEmailSent = await this.formSenderServices.ShareFormAsync(id, allRecipients, subj);
 
                 this.toastNotification.AddSuccessToastMessage("Email was sent successfully"!);
             }
@@ -47,7 +46,7 @@ namespace Survello.Web.Controllers
             {
                 this.toastNotification.AddErrorToastMessage("Something went wrong... Please try again!");
             }
-            return RedirectToAction("ListForms", "FormsView");
+            return RedirectToAction("ListForms", "Form");
         }
     }
 }
