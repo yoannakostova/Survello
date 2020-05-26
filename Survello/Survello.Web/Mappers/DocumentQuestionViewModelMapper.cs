@@ -11,7 +11,7 @@ namespace Survello.Web.Mappers
 {
     public static class DocumentQuestionViewModelMapper
     {
-        public static DocumentQuestionDTO MapFrom(this CreateDocumentQuestionViewModel viewModel)
+        public static DocumentQuestionDTO MapFrom(this DocumentQuestionViewModel viewModel)
         {
             if (viewModel == null)
             {
@@ -29,11 +29,11 @@ namespace Survello.Web.Mappers
                 QuestionNumber = viewModel.QuestionNumber
             };
         }
-        public static ICollection<DocumentQuestionDTO> MapFrom(this ICollection<CreateDocumentQuestionViewModel> viewModels)
+        public static ICollection<DocumentQuestionDTO> MapFrom(this ICollection<DocumentQuestionViewModel> viewModels)
         {
             return viewModels.Select(MapFrom).ToList();
         }
-        public static CreateDocumentQuestionViewModel MapFrom(this DocumentQuestionDTO dto)
+        public static DocumentQuestionViewModel MapFrom(this DocumentQuestionDTO dto)
         {
             if (dto == null)
             {
@@ -41,7 +41,7 @@ namespace Survello.Web.Mappers
             }
 
 
-            return new CreateDocumentQuestionViewModel
+            return new DocumentQuestionViewModel
             {
                 Id = dto.Id,
                 Description = dto.Description,
@@ -51,7 +51,7 @@ namespace Survello.Web.Mappers
                 QuestionNumber = dto.QuestionNumber
             };
         }
-        public static ICollection<CreateDocumentQuestionViewModel> MapFrom(this ICollection<DocumentQuestionDTO> dtos)
+        public static ICollection<DocumentQuestionViewModel> MapFrom(this ICollection<DocumentQuestionDTO> dtos)
         {
             return dtos.Select(MapFrom).ToList();
         }

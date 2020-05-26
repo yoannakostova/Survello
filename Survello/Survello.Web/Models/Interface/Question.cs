@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace Survello.Web.Models.Interface
 {
-    public interface IQuestion
+    public abstract class Question
     {
 
     }
 }
+

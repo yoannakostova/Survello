@@ -54,6 +54,7 @@
                 <td>
                     <a asp-controller="Form" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                     <a asp-controller="FormSender" asp-action="Index" asp-route-id="@item.Id" type="button" class="btn btn-primary">Share</a>
+                    <a asp-controller="Form" asp-action="Answer" asp-route-id="@item.Id" type="button" class="btn btn-primary">Answer Form</a>
                 </td>
             </tr>
         }

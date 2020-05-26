@@ -1,4 +1,4 @@
-﻿@model Survello.Web.Models.CreateFormViewModel
+﻿@model Survello.Web.Models.FormViewModel
 
 
 @{
@@ -20,15 +20,15 @@
 
             //<partial name="@name" model="question" />
 
-            if (question is CreateTextQuestionViewModel)
+            if (question is TextQuestionViewModel)
             {
                 <partial name="TextQuestionTemplate" model="question" />
             }
-            if (question is CreateMultipleChoiceQuestionViewModel)
+            if (question is MultipleChoiceQuestionViewModel)
             {
                 <partial name="MultipleChoiceQuestionTemplate" model="question" />
             }
-            if (question is CreateDocumentQuestionViewModel)
+            if (question is DocumentQuestionViewModel)
             {
                 <partial name="DocumentQuestionTemplate" model="question" />
             }

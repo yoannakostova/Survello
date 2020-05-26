@@ -10,7 +10,7 @@ namespace Survello.Web.Mappers
 {
     public static class MultipleChoiceQuestionViewModelMapper
     {
-        public static MultipleChoiceQuestionDTO MapFrom(this CreateMultipleChoiceQuestionViewModel viewModel)
+        public static MultipleChoiceQuestionDTO MapFrom(this MultipleChoiceQuestionViewModel viewModel)
         {
             if (viewModel == null)
             {
@@ -28,30 +28,37 @@ namespace Survello.Web.Mappers
             };
         }
 
-        public static CreateMultipleChoiceQuestionViewModel MapFrom(this MultipleChoiceQuestionDTO dto)
+        public static MultipleChoiceQuestionViewModel MapFrom(this MultipleChoiceQuestionDTO dto)
         {
             if (dto == null)
             {
                 throw new Exception(ExceptionMessages.EntityNull);
             }
 
-            return new CreateMultipleChoiceQuestionViewModel
+            List<MultipleChoiceOptionViewModel> options = new List<MultipleChoiceOptionViewModel>();
+
+            foreach (var item in dto.Options)
+            {
+                options.Add(item.MapFrom());
+            }
+
+            return new MultipleChoiceQuestionViewModel
             {
                 Id = dto.Id,
                 Description = dto.Description,
                 IsRequired = dto.IsRequired,
                 IsMultipleAnswer = dto.IsMultipleAnswer,
-                Options = dto.Options.MapFrom(),
+                Options = options,
                 QuestionNumber = dto.QuestionNumber
             };
         }
 
-        public static ICollection<CreateMultipleChoiceQuestionViewModel> MapFrom(this ICollection<MultipleChoiceQuestionDTO> dtos)
+        public static ICollection<MultipleChoiceQuestionViewModel> MapFrom(this ICollection<MultipleChoiceQuestionDTO> dtos)
         {
             return dtos.Select(MapFrom).ToList();
         }
 
-        public static ICollection<MultipleChoiceQuestionDTO> MapFrom(this ICollection<CreateMultipleChoiceQuestionViewModel> viewModels)
+        public static ICollection<MultipleChoiceQuestionDTO> MapFrom(this ICollection<MultipleChoiceQuestionViewModel> viewModels)
         {
             return viewModels.Select(MapFrom).ToList();
         }
