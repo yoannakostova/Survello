@@ -6,12 +6,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\DocumentAnswer\**" />
     <Compile Remove="Views\DocumentQuestion\**" />
     <Compile Remove="Views\Shared\TextQuestion\**" />
+    <Content Remove="Views\DocumentAnswer\**" />
     <Content Remove="Views\DocumentQuestion\**" />
     <Content Remove="Views\Shared\TextQuestion\**" />
+    <EmbeddedResource Remove="Views\DocumentAnswer\**" />
     <EmbeddedResource Remove="Views\DocumentQuestion\**" />
     <EmbeddedResource Remove="Views\Shared\TextQuestion\**" />
+    <None Remove="Views\DocumentAnswer\**" />
     <None Remove="Views\DocumentQuestion\**" />
     <None Remove="Views\Shared\TextQuestion\**" />
   </ItemGroup>
@@ -34,10 +38,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Survello.Database\Survello.Database.csproj" />
     <ProjectReference Include="..\Survello.Services\Survello.Services.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\DocumentAnswer\" />
   </ItemGroup>
 
 </Project>

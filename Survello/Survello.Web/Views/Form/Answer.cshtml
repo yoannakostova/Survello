@@ -27,103 +27,86 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
 
-            @for (int i = 0; i < Model.QuestionNumbers.Count; i++)
+
+            @{
+
+                int textCounter = 0;
+                int multipleChoiceCounter = 0;
+                int documentCounter = 0;
+
+            }
+            @for (int i = 0; i < Model.LastQuestionNumber; i++)
             {
                 //Text question
 
-                if (Model.QuestionNumbers[i].QuestionType == "Text")
-                {
-                    for (int j = 0; j < Model.TextQuestions.Count; j++)
-                    {
-                        if (Model.TextQuestions[j].Id == Model.QuestionNumbers[i].Id)
-                        {
-                            <div class="form-group">
-                                @Html.DisplayFor(modelItem => Model.TextQuestions[i].Description, new { @class = "control-label col-md-4" })
-                                <div class="col-md-6">
 
-                                    @Html.HiddenFor(modelItem => (Model.TextQuestions[i].Id))
-                                    <div class="form-group">
-                                        <div>
-                                            @Html.EditorFor(modelItem => (Model.TextQuestions[i]).Answer)
-                                        </div>
-                                    </div>
+                if (textCounter < Model.TextQuestions.Count && Model.TextQuestions[textCounter].QuestionNumber == i)
+                {
+                    <div class="form-group">
+                        @Html.DisplayFor(modelItem => Model.TextQuestions[textCounter].Description, new { @class = "control-label col-md-4" })
+                        <div class="col-md-6">
+
+                            @Html.HiddenFor(modelItem => (Model.TextQuestions[textCounter].Id))
+                            <div class="form-group">
+                                <div>
+                                    @Html.EditorFor(modelItem => (Model.TextQuestions[textCounter]).Answer)
                                 </div>
                             </div>
-                            <br />
-                        }
-                    }
+                        </div>
+                    </div>
+                    <br />
+
+                    textCounter++;
                 }
-
-                //Multiple choice question
-
-                if (Model.QuestionNumbers[i].QuestionType == "Multiple")
+                if (multipleChoiceCounter < Model.MultipleChoiceQuestions.Count && Model.MultipleChoiceQuestions[multipleChoiceCounter].QuestionNumber == i)
                 {
-                    for (int j = 0; j < Model.MultipleChoiceQuestions.Count; j++)
-                    {
-                        if (Model.MultipleChoiceQuestions[j].Id == Model.QuestionNumbers[i].Id)
-                        {
-                            @Html.HiddenFor(modelItem => (Model.MultipleChoiceQuestions[j].Id))
+                    @Html.HiddenFor(modelItem => (Model.MultipleChoiceQuestions[multipleChoiceCounter].Id))
+                    <div class="form-group">
+                        @Html.DisplayFor(modelItem => Model.MultipleChoiceQuestions[multipleChoiceCounter].Description, new { @class = "control-label col-md-4" })
+                        <div class="col-md-6">
                             <div class="form-group">
-                                @Html.DisplayFor(modelItem => Model.MultipleChoiceQuestions[j].Description, new { @class = "control-label col-md-4" })
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <div class="col-md-10">
+                                <div class="col-md-10">
 
-                                            @for (int k = 0; k < Model.MultipleChoiceQuestions[j].Options.Count; k++)
-                                            {
-                                                @Html.HiddenFor(item => (Model.MultipleChoiceQuestions[j].Options[k].Id))
+                                    @for (int k = 0; k < Model.MultipleChoiceQuestions[multipleChoiceCounter].Options.Count; k++)
+                                    {
+                                        @Html.HiddenFor(item => (Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Id))
 
-                                                if (Model.MultipleChoiceQuestions[j].IsMultipleAnswer == true)
-                                                {
-                                                    <label class="form-check-label">
-                                                        <input class="form-check-input" type="checkbox" asp-for="@Model.MultipleChoiceQuestions[j].Options[k].Answer" value="@Model.MultipleChoiceQuestions[j].Options[k].Option" />
+                                        if (Model.MultipleChoiceQuestions[multipleChoiceCounter].IsMultipleAnswer == true)
+                                        {
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Answer" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Option" />
 
-                                                        @Model.MultipleChoiceQuestions[j].Options[k].Option
-                                                    </label>
-                                                }
-                                                else
-                                                {
+                                                @Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Option
+                                            </label>
+                                        }
+                                        else
+                                        {
+                                            <label class="form-check-label" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Answer">
+                                                <input type="radio" name="gg" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Answer" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Option" />
 
-                                                    @*<label class="form-check-label" asp-for="@Model.MultipleChoiceQuestions[j].Options[k].Answer">
-                    <input type="radio" asp-for="@Model.MultipleChoiceQuestions[j].Options[k].Answer" value="@Model.MultipleChoiceQuestions[j].Options[k].Option" />
-
-                    @Model.MultipleChoiceQuestions[j].Options[k].Option
-                </label>*@
-                                                    <label class="form-check-label" asp-for="@Model.MultipleChoiceQuestions[j].Options[k].Answer">
-                                                        <input type="radio" name="gg" asp-for="@Model.MultipleChoiceQuestions[j].Options[k].Answer" value="@Model.MultipleChoiceQuestions[j].Options[k].Option" />
-
-                                                        @Model.MultipleChoiceQuestions[j].Options[k].Option
-                                                    </label>
-                                                }
-                                            }
-                                        </div>
-                                    </div>
+                                                @Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Option
+                                            </label>
+                                        }
+                                    }
                                 </div>
                             </div>
-                            <br />
-                        }
-                    }
+                        </div>
+                    </div>
+                    <br />
+
+                    multipleChoiceCounter++;
                 }
-
-                //Document question
-
-                if (Model.QuestionNumbers[i].QuestionType == "Document")
+                if (documentCounter < Model.DocumentQuestions.Count &&  Model.DocumentQuestions[documentCounter].QuestionNumber == i)
                 {
-                    for (int j = 0; j < Model.DocumentQuestions.Count; j++)
-                    {
-                        if (Model.DocumentQuestions[j].Id == Model.QuestionNumbers[i].Id)
-                        {
-                            @Html.HiddenFor(modelItem => (Model.DocumentQuestions[j].Id))
-                            <div id="custom-file-label" style="font-size: smaller"></div>
-                            <div class="form-group">
-                                @Html.DisplayFor(modelItem => Model.DocumentQuestions[j].Description)
-                                <label asp-for="@Model.DocumentQuestions[j].Files" class="btn btn-primary btn-sm"></label>
-                                <input asp-for="@Model.DocumentQuestions[j].Files" type="file" multiple="multiple" />
+                    @Html.HiddenFor(modelItem => (Model.DocumentQuestions[documentCounter].Id))
+                    <div id="custom-file-label" style="font-size: smaller"></div>
+                    <div class="form-group">
+                        @Html.DisplayFor(modelItem => Model.DocumentQuestions[documentCounter].Description)
+                        <label asp-for="@Model.DocumentQuestions[documentCounter].Files" class="btn btn-primary btn-sm"></label>
+                        <input asp-for="@Model.DocumentQuestions[documentCounter].Files" type="file" multiple="multiple" />
 
-                            </div>
-
-                        }
-                    }
+                    </div>
+                    documentCounter++;
                 }
             }
             <div class="form-group">
@@ -134,9 +117,6 @@
         </form>
     </div>
 </div>
-
-
-
 
 <div>
     <a asp-action="Index">Back to List</a>

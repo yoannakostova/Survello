@@ -1,9 +1,9 @@
 ﻿using Survello.Services.ConstantMessages;
 using Survello.Services.DTOEntities;
 using Survello.Web.Models;
-using Survello.Web.Models.Interface;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Survello.Web.Mappers
@@ -38,45 +38,31 @@ namespace Survello.Web.Mappers
                 throw new Exception(ExceptionMessages.EntityNull);
             }
 
-            List<Question> questions = new List<Question>();
+            List<int> positionsInForm = new List<int>();
 
             List<TextQuestionViewModel> textQuestions = new List<TextQuestionViewModel>();
             foreach (var item in dto.TextQuestions)
             {
                 textQuestions.Add(item.MapFrom());
-
-                Question question = new Question();
-                question.Id = item.Id;
-                question.Position = item.QuestionNumber;
-                question.QuestionType = "Text";
-                questions.Add(question);
+                positionsInForm.Add(item.QuestionNumber);
             }
 
             List<MultipleChoiceQuestionViewModel> multipleChoiceQuestions = new List<MultipleChoiceQuestionViewModel>();
             foreach (var item in dto.MultipleChoiceQuestions)
             {
                 multipleChoiceQuestions.Add(item.MapFrom());
-
-                Question question = new Question();
-                question.Id = item.Id;
-                question.Position = item.QuestionNumber;
-                question.QuestionType = "Multiple";
-                questions.Add(question);
+                positionsInForm.Add(item.QuestionNumber);
             }
 
             List<DocumentQuestionViewModel> documentQuestions = new List<DocumentQuestionViewModel>();
             foreach (var item in dto.DocumentQuestions)
             {
                 documentQuestions.Add(item.MapFrom());
-
-                Question question = new Question();
-                question.Id = item.Id;
-                question.Position = item.QuestionNumber;
-                question.QuestionType = "Document";
-                questions.Add(question);
+                positionsInForm.Add(item.QuestionNumber);
             }
 
-            questions.OrderBy(q => q.Position);
+
+            int lastQuestionNumber = positionsInForm.Max();
 
             var result = new FormViewModel
             {
@@ -88,7 +74,7 @@ namespace Survello.Web.Mappers
                 MultipleChoiceQuestions = multipleChoiceQuestions,
                 TextQuestions = textQuestions,
                 DocumentQuestions = documentQuestions,
-                QuestionNumbers = questions
+                LastQuestionNumber = lastQuestionNumber
             };
 
             return result;
