@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
 using Survello.Services.Services.Contracts;
@@ -9,6 +10,7 @@ using Survello.Web.Models;
 
 namespace Survello.Web.Controllers
 {
+    [Authorize]
     public class FormSenderController : Controller
     {
         private readonly IToastNotification toastNotification;
@@ -21,7 +23,7 @@ namespace Survello.Web.Controllers
         }
         // GET: Emails
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult SendMail()
         {
             return View();
         }

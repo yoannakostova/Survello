@@ -36,13 +36,13 @@ namespace Survello.Web
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<User, Role>(options =>
+            services.AddDefaultIdentity<User>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
                 options.User.RequireUniqueEmail = true;
             })
-                .AddEntityFrameworkStores<SurvelloContext>()
-                .AddDefaultTokenProviders();
+                .AddRoles<Role>()
+                .AddEntityFrameworkStores<SurvelloContext>();
 
             services.Configure<IdentityOptions>(option =>
             {
