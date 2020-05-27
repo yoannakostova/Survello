@@ -17,7 +17,7 @@ namespace Survello.Web.Mappers
             {
                 throw new Exception(ExceptionMessages.EntityNull);
             }
-            var fileSize = int.Parse(viewModel.FileSize.Substring(0,viewModel.FileSize.Length - 2));
+            var fileSize = int.Parse(viewModel.FileSize.Substring(0, viewModel.FileSize.Length - 2));
 
             return new DocumentQuestionDTO
             {
@@ -26,7 +26,8 @@ namespace Survello.Web.Mappers
                 FileNumberLimit = viewModel.FileNumberLimit,
                 FileSize = fileSize,
                 IsRequired = viewModel.IsRequired,
-                QuestionNumber = viewModel.QuestionNumber
+                QuestionNumber = viewModel.QuestionNumber,
+                Files = viewModel.Files
             };
         }
         public static ICollection<DocumentQuestionDTO> MapFrom(this ICollection<DocumentQuestionViewModel> viewModels)
@@ -48,7 +49,8 @@ namespace Survello.Web.Mappers
                 FileNumberLimit = dto.FileNumberLimit,
                 FileSize = dto.FileSize.ToString(),
                 IsRequired = dto.IsRequired,
-                QuestionNumber = dto.QuestionNumber
+                QuestionNumber = dto.QuestionNumber,
+                FilePath = dto.FilePath
             };
         }
         public static ICollection<DocumentQuestionViewModel> MapFrom(this ICollection<DocumentQuestionDTO> dtos)

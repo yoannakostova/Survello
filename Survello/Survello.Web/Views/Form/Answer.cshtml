@@ -83,13 +83,17 @@
                                                 }
                                                 else
                                                 {
-                                                    <label class="form-check-label">
-                                                        <input type="radio"  asp-for="@Model.MultipleChoiceQuestions[j].Options[k].Answer" value="@Model.MultipleChoiceQuestions[j].Options[k].Option" />
+
+                                                    @*<label class="form-check-label" asp-for="@Model.MultipleChoiceQuestions[j].Options[k].Answer">
+                    <input type="radio" asp-for="@Model.MultipleChoiceQuestions[j].Options[k].Answer" value="@Model.MultipleChoiceQuestions[j].Options[k].Option" />
+
+                    @Model.MultipleChoiceQuestions[j].Options[k].Option
+                </label>*@
+                                                    <label class="form-check-label" asp-for="@Model.MultipleChoiceQuestions[j].Options[k].Answer">
+                                                        <input type="radio" name="gg" asp-for="@Model.MultipleChoiceQuestions[j].Options[k].Answer" value="@Model.MultipleChoiceQuestions[j].Options[k].Option" />
 
                                                         @Model.MultipleChoiceQuestions[j].Options[k].Option
                                                     </label>
-
-
                                                 }
                                             }
                                         </div>

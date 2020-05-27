@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Survello.Web.Models
 {
-    public class TextQuestionViewModel : Question
+    public class TextQuestionViewModel
     {
         [Required]
         public Guid Id { get; set; }
