@@ -1,13 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Survello.Models.Entites;
-using Survello.Web.Models;
-using Survello.Web.Models.Interface;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Threading.Tasks;
 
 namespace Survello.Web.Models
 {

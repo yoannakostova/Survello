@@ -1,10 +1,5 @@
-﻿using Survello.Web.Models;
-using Survello.Web.Models.Interface;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Survello.Web.Models
 {
