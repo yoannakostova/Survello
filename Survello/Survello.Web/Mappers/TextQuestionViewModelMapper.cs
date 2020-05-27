@@ -23,7 +23,8 @@ namespace Survello.Web.Mappers
                 Description = dto.Description,
                 IsLongAnswer = dto.IsLongAnswer,
                 IsRequired = dto.IsRequired,
-                QuestionNumber = dto.QuestionNumber
+                QuestionNumber = dto.QuestionNumber,
+                Answer = dto.Answer
             };
         }
 
@@ -40,7 +41,8 @@ namespace Survello.Web.Mappers
                 Description = viewModel.Description,
                 IsLongAnswer = viewModel.IsLongAnswer,
                 IsRequired = viewModel.IsRequired,
-                QuestionNumber = viewModel.QuestionNumber
+                QuestionNumber = viewModel.QuestionNumber,
+                Answer = viewModel.Answer
             };
         }
 

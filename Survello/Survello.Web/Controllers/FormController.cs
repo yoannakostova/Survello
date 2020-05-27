@@ -80,21 +80,6 @@ namespace Survello.Web.Controllers
         {
             var model = (await this.formServices.GetFormAsync(id)).MapFrom();
 
-            //foreach (var question in model.DocumentQuestions)
-            //{
-            //    model.QuestionNumbers.Add(question.QuestionNumber, question);
-            //}
-
-            //foreach (var question in model.MultipleChoiceQuestions)
-            //{
-            //    model.QuestionNumbers.Add(question.QuestionNumber, question);
-            //}
-
-            //foreach (var question in model.TextQuestions)
-            //{
-            //    model.QuestionNumbers.Add(question.QuestionNumber, question);
-            //}
-
             return View(model);
         }
         [Authorize]
@@ -116,13 +101,8 @@ namespace Survello.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Answer(FormViewModel form)
         {
-            //Guid id = form.Id;
-            //var new_form = (await this.formServices.GetFormAsync(id)).MapFrom();
-
-            //string FileName = Path.GetFileNameWithoutExtension(form.DocumentQuestions[0].Answer);
-
+            await this.formServices.SaveAnswerForm(form.MapFrom());
             throw new NotImplementedException();
         }
-
     }
 }

@@ -21,7 +21,7 @@ namespace Survello.Web.Models
         public string FileSize { get; set; }
         public bool IsRequired { get; set; }
         public int QuestionNumber { get; set; }
-        public string ImagePath { get; set; }
+        public string FilePath { get; set; }
         public IEnumerable<IFormFile> Files { get; set; }
     }
 }

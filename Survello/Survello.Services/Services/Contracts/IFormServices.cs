@@ -13,7 +13,7 @@ namespace Survello.Services.Services.Contracts
         Task<FormDTO> GetFormAsync(Guid id);
         Task<ICollection<ListFormsDTO>> GetAllFormsAsync();
         Task<ICollection<FormDTO>> GetUserFormsAsync(Guid userId);
-
+        Task<bool> SaveAnswerForm(FormDTO form);
 
     }
 }

@@ -22,6 +22,7 @@ namespace Survello.Web.Utilities
             services.AddScoped<IDateTimeProvider, DateTimeProvider>();
             services.AddScoped<IFormSenderServices, FormSenderServices>();
             services.AddSingleton<IEmailSender, EmailSender>();
+            services.AddScoped<IBlobServices, BlobServices>();
 
             return services;
         }

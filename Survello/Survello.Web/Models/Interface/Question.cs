@@ -11,6 +11,7 @@ namespace Survello.Web.Models.Interface
     {
         public int Position { get; set; }
         public Guid Id { get; set; }
+        //TODO: Maybe make enum?
         public string QuestionType { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace Survello.Services.DTOMappers
                 FileNumberLimit = entity.FileNumberLimit,
                 FileSize = entity.FileSize,
                 IsRequired = entity.IsRequired,
-                QuestionNumber = entity.QuestionNumber
+                QuestionNumber = entity.QuestionNumber,
             };
         }
         public static ICollection<DocumentQuestionDTO> MapFrom(this ICollection<DocumentQuestion> entities)

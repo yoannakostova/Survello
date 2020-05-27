@@ -21,6 +21,7 @@ namespace Survello.Web.Mappers
             {
                 Id = dto.Id,
                 Option = dto.Option,
+                Answer = dto.Answer
             };
         }
 
@@ -35,6 +36,8 @@ namespace Survello.Web.Mappers
             {
                 Id = viewModel.Id,
                 Option = viewModel.Option,
+                Answer = viewModel.Answer
+
             };
         }
 
