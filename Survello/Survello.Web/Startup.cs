@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Survello.Web.Utilities;
 using Survello.Models.Entites;
 using NToastNotify;
+using Survello.Web.Middlewares;
 
 namespace Survello.Web
 {
@@ -35,13 +36,13 @@ namespace Survello.Web
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<User, Role>(options =>
+            services.AddDefaultIdentity<User>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
                 options.User.RequireUniqueEmail = true;
             })
-                .AddEntityFrameworkStores<SurvelloContext>()
-                .AddDefaultTokenProviders();
+                .AddRoles<Role>()
+                .AddEntityFrameworkStores<SurvelloContext>();
 
             services.Configure<IdentityOptions>(option =>
             {
@@ -85,6 +86,8 @@ namespace Survello.Web
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseMiddleware<NotFoundMiddleware>();
             app.UseNToastNotify();
 
             app.UseEndpoints(endpoints =>

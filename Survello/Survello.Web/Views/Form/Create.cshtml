@@ -4,9 +4,9 @@
     ViewData["Title"] = "Create";
 }
 
-    <div>
-        <img class="center" src="~/images/create-form.png" />
-    </div>
+<div>
+    <img class="center" src="~/images/create-form.png" />
+</div>
 <div class="row">
     <div class="col-md-4">
         <input class="button-custom" type="button" id="btnAddTQ" value="Add Text Question" />
@@ -41,203 +41,86 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
-        let counter = 0;
-        $('#btnAddTQ').on('click', () => {
-            counter++
-            let div = document.getElementById('questions')
-            let element =
-                `<html lang="en">
-                <div style="display:inline-block;width:80%; color:darkcyan ">
-                    <div style="text-align:center">
-                        <input type="text" class="form-control" id="descriptionTQ${counter}" placeholder="Enter your question">
-                        <span asp-validation-for="Description" class="text-danger"></span>
-                    </div>
+<script>
+    var globalCounter = 0;
+    
+    let counter = 0;
+    $('#btnAddTQ').on('click', () => {
+        counter++
+        globalCounter++
+        let div = document.getElementById('questions')
+        let element =
+`<div style="display:inline-block;width:80%; color:darkcyan" id="RemoveID${globalCounter}">
+    <div style="text-align:center">
+        <input type="text" class="form-control" id="descriptionTQ${counter}" placeholder="Enter your question">
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" id="isLongAnswerTQ${counter}">
+        <label class="custom-control-label" for="isLongAnswerTQ${counter}">Long answer</label>
+    </div>
+    <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" id="isRequiredTQ${counter}"/>
+        <label class="custom-control-label" for="isRequiredTQ${counter}">Required</label>
+    </div>
+    <div class="col-sm-4" id="globalCounter">
+        <button onclick="RemoveID(this.id)" class="btn btn-danger" id="${globalCounter}">Remove</button>
+    </div>
+</div>
+<input style="display:none" id=getValueTQ${counter} value="${globalCounter}"/>
+<br />
+<br />`
+$(div).append(element)
+    })
+    let msq = 0;
 
-                    <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="isLongAnswerTQ${counter}">
-                        <label class="custom-control-label" for="isLongAnswerTQ${counter}">Long answer</label>
-                    </div>
-                    <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="isRequiredTQ${counter}">
-                        <label class="custom-control-label" for="isRequiredTQ${counter}">Required</label>
-                    </div>
-                </div>
-                <br />
-                <br />
-                <script type="text/javascript" src="./index.js">`
-
-            $(div).append(element)
-        })
-
-        function create() {
-            let title = document.getElementById("formTitle").value;
-
-            let isEverythingOk = true;
-
-            if (!title) {
-                isEverythingOk = false;
-                $('#idSpanTitle').text("Please enter title");
-            }
-            else {
-
-                $('#idSpanTitle').text("");
-            }
-
-            let description = document.getElementById("formDescription").value;
-
-            let TQlist = new Array();
-            let MCQlist = new Array();
-            let DQlist = new Array();
-
-            for (let i = 1; i <= counter; i++) {
-
-                let textQuestionIsRequired = false;
-                let textQuestionIsLongAnswer = false;
-
-                let textQuestionDescription = document.getElementById('descriptionTQ' + i.toString()).value;
-                let isLongAnswer = document.getElementById('isLongAnswerTQ' + i.toString());
-                let tqIsRequired = document.getElementById('isRequiredTQ' + i.toString());
-
-                if (isLongAnswer.checked) {
-                    textQuestionIsLongAnswer = true;
-                }
-                if (tqIsRequired.checked) {
-                    textQuestionIsRequired = true;
-                }
-
-                let TextQuestionViewModel = {}
-                TextQuestionViewModel.Description = textQuestionDescription;
-                TextQuestionViewModel.IsLongAnswer = textQuestionIsLongAnswer;
-                TextQuestionViewModel.IsRequired = textQuestionIsRequired;
-
-                TQlist.push(TextQuestionViewModel);
-            }
-
-            for (let j = 1; j <= msq; j++) {
-
-                let MCQIsRequired1 = false;
-
-                let MCQDescription = document.getElementById('descriptionMCQ' + j.toString()).value;
-                let MCQisRequired = document.getElementById('isRequiredMCQ' + j.toString());
-
-                if (MCQisRequired.checked) {
-                    MCQIsRequired1 = true;
-                }
-
-                let info = $(`#add${j} :input`); //1 input -> length = 2
-                console.log(info);
-                console.log(info.length);
-
-                if (info.length < 2) {
-                    $(`#corret${j}`).text("Please add at least 2 options");
-                    isEverythingOk = false;
-                }
-                else {
-                    $(`#corret${j}`).text("");
-                }
-
-                let OptionDesc = new Array()
-                for (let k = 0; k < info.length; k++) {
-
-                    let optionMCQ = info[k].value;
-                    console.log(optionMCQ);
-                    OptionDesc.push(optionMCQ);
-                }
-
-                let MultipleChouceQuestionViewModel = {}
-                MultipleChouceQuestionViewModel.Description = MCQDescription;
-                MultipleChouceQuestionViewModel.IsRequired = MCQIsRequired1;
-                MultipleChouceQuestionViewModel.OptionsDescriptions = OptionDesc;
-
-                MCQlist.push(MultipleChouceQuestionViewModel);
-            }
-
-            for (let i = 1; i <= dq; i++) {
-
-                let documentQuestionIsRequired = false;
-
-                let documentQuestionDescription = document.getElementById('descriptionDQ' + i.toString()).value;
-                let dqIsRequired = document.getElementById('isRequiredDQ' + i.toString());
-                let fileSize = $('#FileSize' + i.toString()).find(":selected").text();
-                let fileNumberLimit = $('#FileNumberLimit' + i.toString()).find(":selected").text();
-
-                if (dqIsRequired.checked) {
-                    documentQuestionIsRequired = true;
-                }
-
-                let DocumentQuestionViewModel = {}
-                DocumentQuestionViewModel.Description = documentQuestionDescription;
-                DocumentQuestionViewModel.IsRequired = documentQuestionIsRequired;
-                DocumentQuestionViewModel.FileSize = fileSize;
-                DocumentQuestionViewModel.FileNumberLimit = fileNumberLimit;
-
-                DQlist.push(DocumentQuestionViewModel);
-            }
-
-            if (isEverythingOk) {
-
-                $.ajax({
-                    type: 'Post',
-                    url: 'Create',
-                    data: {
-                        'Title': title,
-                        'Description': description,
-                        'TextQuestions': TQlist,
-                        'MultipleChoiceQuestions': MCQlist,
-                        'DocumentQuestions': DQlist
-                    },
-                    success: function () {
-                        window.location.replace("/Form/ListForms")
-                    }
-                })
-            }
-
-        }
-    </script>
-
-    <script>
-        let msq = 0;
-
-        $('#btnAddMCQ').on('click', () => {
-            msq++
-            let div = document.getElementById('questions')
-            let element =
-                `<html lang="en">
-                     <div style="display:inline-block;width:80%; color:darkcyan ">
-            <div style="text-align:center">
-                <input type="text" class="form-control" id="descriptionMCQ${msq}" placeholder="Enter your question" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <br />
-            <div class="custom-control custom-switch">
-                <input asp-for="IsRequired" type="checkbox" class="custom-control-input" id="isRequiredMCQ${msq}">
-                <label class="custom-control-label" for="isRequiredMCQ${msq}">Required</label>
-                <span asp-validation-for="IsRequired" class="text-danger"></span>
-            </div>
-            <br />
-            <div id="add${msq}">
-                <span style="color:red" id="corret${msq}"> </span>
-            </div>
-            <div class="row">
-                <div class="col-md-4" id="counter">
-                    <button onclick="test(this.id)" class="btn btn-default" id="${msq}"> Add Option </button>
-                </div>
-            </div>
+    $('#btnAddMCQ').on('click', () => {
+        globalCounter++
+        msq++
+        let div = document.getElementById('questions')
+        let element =
+            `<div style="display:inline-block;width:80%; color:darkcyan" id="RemoveID${globalCounter}">
+    <div style="text-align:center">
+        <input type="text" class="form-control" id="descriptionMCQ${msq}" placeholder="Enter your question" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <br />
+    <div class="custom-control custom-switch">
+        <input asp-for="IsRequired" type="checkbox" class="custom-control-input" id="isRequiredMCQ${msq}">
+        <label class="custom-control-label" for="isRequiredMCQ${msq}">Required</label>
+        <span asp-validation-for="IsRequired" class="text-danger"></span>
+    </div>
+    <br />
+    <div class="custom-control custom-switch">
+        <input asp-for="IsMultipleAnswer" type="checkbox" class="custom-control-input" id="isMultipleAnswerMCQ${msq}">
+        <label class="custom-control-label" for="isMultipleAnswerMCQ${msq}">Multiple Answer</label>
+        <span asp-validation-for="IsMultipleAnswer" class="text-danger"></span>
+    </div>
+    <div id="add${msq}">
+        <span style="color:red" id="corret${msq}"> </span>
+    </div>
+    <div class="row">
+        <div class="col-md-4" id="counter">
+            <button onclick="test(this.id)" class="btn btn-default" id="${msq}"> Add Option </button>
         </div>
-        <script type="text/javascript" src="./index.js">`
+    </div>
+    <div class="col-sm-4" id="globalCounter">
+        <button onclick="RemoveID(this.id)" class="btn btn-danger" id="${globalCounter}">Remove</button>
+    </div>
+<input style="display:none" id=getValueMCQ${msq} value="${globalCounter}"/>
+</div>`
+        $(div).append(element)
+    })
 
-            $(div).append(element)
-        })
-    </script>
-    <script>
-        let dq = 0;
-        $('#btnAddDQ').on('click', () => {
-            dq++
-            let div = document.getElementById('questions')
-            let element =
 
-                `<div style="display:inline-block;width:80%; color:darkcyan ">
+    let dq = 0;
+    $('#btnAddDQ').on('click', () => {
+        globalCounter++
+        dq++
+
+        let div = document.getElementById('questions')
+        let element =
+            `<div style="display:inline-block;width:80%; color:darkcyan" id="RemoveID${globalCounter}">
     <div style="text-align:center">
         <input type="text" class="form-control" id="descriptionDQ${dq}" placeholder="Enter your question">
     </div>
@@ -259,8 +142,8 @@
                 </select>
             </label>
         </div>
-     </div>
-     <div  class="row">
+    </div>
+    <div class="row">
         <div class="dropdown pull-right" id="FileSize${dq}">
             <label class="control-label">
                 File size
@@ -272,31 +155,193 @@
                 </select>
             </label>
         </div>
-      </div>
-   </div>
-
+    </div>
     <div class="custom-control custom-switch">
         <input type="checkbox" class="custom-control-input" id="isRequiredDQ${dq}">
         <label class="custom-control-label" for="isRequiredDQ${dq}">Required</label>
     </div>
+    <div class="col-sm-4" id="globalCounter">
+       <button onclick="RemoveID(this.id)" class="btn btn-danger" id="${globalCounter}">Remove</button>
+   </div>
+<input style="display:none" id=getValueDQ${dq} value="${globalCounter}"/>
 </div>
 <br />
 <br />`
+        $(div).append(element)
+    });
 
-            $(div).append(element)
-        });
-    </script>
-    <script>
-        let opt = 0;
-        function test(id) {
-            opt++;
-            let searchFor = "add" + id;
-            let div = document.getElementById(searchFor)
-            let element =
-                `<div style="border-color:#b4e2f4" class="col-sm-11">
-                                                  <input type="text" class="form-control" id="option${opt}" placeholder="Enter your text here">
-                                         </div>`
-            $(div).append(element)
+    let opt = 0;
+    function test(id) {
+        opt++;
+        let searchFor = "add" + id;
+        let div = document.getElementById(searchFor)
+        let element =
+            `<div style="border-color:#b4e2f4" class="col-sm-11" id="RemoveID${globalCounter}">
+                     <input type="text" class="form-control" id="option${opt}" placeholder="Enter your text here">
+                 </div>`
+        $(div).append(element)
+    }
+
+    function RemoveID(id) {
+        let toBeRemoved = "RemoveID" + id;
+        let element = document.getElementById(toBeRemoved)
+        element.remove();
+    }
+
+
+        function create() {
+            let title = document.getElementById("formTitle").value;
+
+            let isEverythingOk = true;
+
+            if (!title) {
+                isEverythingOk = false;
+                $('#idSpanTitle').text("Please enter title");
+            }
+            else {
+
+                $('#idSpanTitle').text("");
+            }
+
+            let description = document.getElementById("formDescription").value;
+
+            let TQlist = new Array();
+            let MCQlist = new Array();
+            let DQlist = new Array();
+
+//CREATE TEXT QUESTION
+            for (let i = 1; i <= counter; i++) {
+
+                let textQuestionIsRequired = false;
+                let textQuestionIsLongAnswer = false;
+
+                if (document.getElementById('descriptionTQ' + i.toString()) === null) {
+                    continue;
+                }
+                else {
+                    let textQuestionDescription = document.getElementById('descriptionTQ' + i.toString()).value;
+                    let isLongAnswer = document.getElementById('isLongAnswerTQ' + i.toString());
+                    let tqIsRequired = document.getElementById('isRequiredTQ' + i.toString());
+                    let GCvalue = document.getElementById('getValueTQ' + i.toString()).value;
+
+                    if (isLongAnswer.checked) {
+                        textQuestionIsLongAnswer = true;
+                    }
+                    if (tqIsRequired.checked) {
+                        textQuestionIsRequired = true;
+                    }
+
+                    let CreateTextQuestionViewModel = {}
+                    CreateTextQuestionViewModel.Description = textQuestionDescription;
+                    CreateTextQuestionViewModel.IsLongAnswer = textQuestionIsLongAnswer;
+                    CreateTextQuestionViewModel.IsRequired = textQuestionIsRequired;
+                    CreateTextQuestionViewModel.QuestionNumber = GCvalue;
+
+                    TQlist.push(CreateTextQuestionViewModel);
+                } 
+   
+            }
+
+//CREATE MULTIPLE CHOICE QUESTION
+            for (let j = 1; j <= msq; j++) {
+
+                let MCQIsRequired1 = false;
+                let MCQisMultipleAnswer1 = false;
+
+                if (document.getElementById('descriptionMCQ' + j.toString()) === null) {
+                    continue;
+                }
+                else {
+                    let MCQDescription = document.getElementById('descriptionMCQ' + j.toString()).value;
+                    let MCQisRequired = document.getElementById('isRequiredMCQ' + j.toString());
+                    //let MCQisMultipleAnswer = document.getElementById('isMultipleAnswer' + j.toString());
+                    let GCvalue = document.getElementById('getValueMCQ' + j.toString()).value;
+
+                    if (MCQisRequired.checked) {
+                        MCQIsRequired1 = true;
+                    }
+                    //if (MCQisMultipleAnswer.checked) {
+                    //    MCQisMultipleAnswer1 = true;
+                    //}
+
+                    let info = $(`#add${j} :input`); //1 input -> length = 2
+                    console.log(info);
+                    console.log(info.length);
+
+                    if (info.length < 2) {
+                        $(`#corret${j}`).text("Please add at least 2 options");
+                        isEverythingOk = false;
+                    }
+                    else {
+                        $(`#corret${j}`).text("");
+                    }
+
+                    let OptionDesc = new Array()
+                    for (let k = 0; k < info.length; k++) {
+
+                        let optionMCQ = info[k].value;
+                        console.log(optionMCQ);
+                        OptionDesc.push(optionMCQ);
+                    }
+
+                    let CreateMultipleChoiceQuestionViewModel = {}
+                    CreateMultipleChoiceQuestionViewModel.Description = MCQDescription;
+                    CreateMultipleChoiceQuestionViewModel.IsRequired = MCQIsRequired1;
+                    //CreateMultipleChoiceQuestionViewModel.IsMultipleAnswer = MCQisMultipleAnswer1;
+                    CreateMultipleChoiceQuestionViewModel.OptionsDescriptions = OptionDesc;
+                    CreateMultipleChoiceQuestionViewModel.QuestionNumber = GCvalue;
+
+                    MCQlist.push(CreateMultipleChoiceQuestionViewModel);
+                }
+            }
+
+//CREATE DOCUMENT QUESTION
+            for (let k = 1; k <= dq; k++) {
+
+                let documentQuestionIsRequired = false;
+
+                if (document.getElementById('descriptionDQ' + k.toString()) === null) {
+                    continue;
+                }
+                else {
+                    let documentQuestionDescription = document.getElementById('descriptionDQ' + k.toString()).value;
+                    let dqIsRequired = document.getElementById('isRequiredDQ' + k.toString());
+                    let fileSize = $('#FileSize' + k.toString()).find(":selected").text();
+                    let fileNumberLimit = $('#FileNumberLimit' + k.toString()).find(":selected").text();
+                    let GCvalue = document.getElementById('getValueDQ' + k.toString()).value;
+
+                    if (dqIsRequired.checked) {
+                        documentQuestionIsRequired = true;
+                    }
+
+                    let CreateDocumentQuestionViewModel = {}
+                    CreateDocumentQuestionViewModel.Description = documentQuestionDescription;
+                    CreateDocumentQuestionViewModel.IsRequired = documentQuestionIsRequired;
+                    CreateDocumentQuestionViewModel.FileSize = fileSize;
+                    CreateDocumentQuestionViewModel.FileNumberLimit = fileNumberLimit;
+                    CreateDocumentQuestionViewModel.QuestionNumber = GCvalue;
+
+                    DQlist.push(CreateDocumentQuestionViewModel);
+                }          
+            }
+
+            if (isEverythingOk) {
+                $.ajax({
+                    type: 'Post',
+                    url: 'Create',
+                    data: {
+                        'Title': title,
+                        'Description': description,
+                        'TextQuestions': TQlist,
+                        'MultipleChoiceQuestions': MCQlist,
+                        'DocumentQuestions': DQlist
+                    },
+                    success: function () {
+                        window.location.replace("/Form/ListForms")
+                    }
+                })
+            }
         }
-    </script>
+
+</script>
 }

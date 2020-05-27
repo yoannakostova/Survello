@@ -1,0 +1,40 @@
+﻿@model Survello.Web.Models.FormViewModel
+
+
+@{
+    bool isInEditMode = true;
+    if (!Model.MultipleChoiceQuestions.Any() && !Model.TextQuestions.Any() && !Model.DocumentQuestions.Any())
+    {
+        isInEditMode = false;
+    }
+
+    }
+
+        <div style="border-color:#b4e2f4" class="col-sm-11">
+            <div class="form-group">
+                <input id="formTitle" class="form-control" value="Untitled" />
+                <span id="idSpanTitle" style="color:red"></span>
+            </div>
+            <div class="form-group">
+                <input id="formDescription" class="form-control" placeholder="Description" />
+            </div>
+        </div>
+
+<div class="row">
+    <div class="col-md-4">
+        <input class="button-custom" type="button" id="btnAddTQ" value="Add Text Question" />
+    </div>
+    <div class="col-md-4">
+        <input class="button-custom" type="button" id="btnAddMCQ" value="Add Options Question" />
+    </div>
+    <div class="col-md-4">
+        <input class="button-custom" type="button" id="btnAddDQ" value="Add Document Question" />
+    </div>
+    <div id="questions">
+    </div>
+</div>
+<div class="form-group">
+    <input id="submitFormViewModel" type="button" onclick="create()" class="button-custom" value="Create" />
+</div>
+
+

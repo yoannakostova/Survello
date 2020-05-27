@@ -23,9 +23,7 @@ namespace Survello.Web.Mappers
                 Description = dto.Description,
                 IsLongAnswer = dto.IsLongAnswer,
                 IsRequired = dto.IsRequired,
-                Answers = dto.Answers.MapFrom(),
-                FormId = dto.FormId,
-                FormTitle = dto.FormTitle
+                QuestionNumber = dto.QuestionNumber
             };
         }
 
@@ -42,9 +40,7 @@ namespace Survello.Web.Mappers
                 Description = viewModel.Description,
                 IsLongAnswer = viewModel.IsLongAnswer,
                 IsRequired = viewModel.IsRequired,
-                Answers = viewModel.Answers.MapFrom(),
-                FormId = viewModel.FormId,
-                FormTitle = viewModel.FormTitle
+                QuestionNumber = viewModel.QuestionNumber
             };
         }
 

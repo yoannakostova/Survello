@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Survello.Models.Entites;
@@ -21,25 +24,23 @@ namespace Survello.Web.Controllers
             this.formServices = formServices ?? throw new ArgumentNullException(nameof(formServices));
             this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }
+        [Authorize]
+        [HttpGet]
         public async Task<IActionResult> ListForms()
         {
-            var allForms = await this.formServices.GetAllFormsAsync();
+            //var userId = (await userManager.GetUserAsync(User)).Id;
+            //var allForms = await this.formServices.GetUserFormsAsync(userId);
+            var allForms = (await this.formServices.GetAllFormsAsync()).MapToListFormsViewModel();
 
-            return View(allForms.MapFrom());
+            return View(allForms);
         }
-
-        [HttpGet]
-        public async Task<IActionResult> Details(Guid id)
-        {
-            var form = await this.formServices.GetFormAsync(id);
-            return View("Details", form.MapFrom());
-        }
-
+        [Authorize]
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
+        [Authorize]
         [HttpPost]
         public async Task Create(FormViewModel model)
         {
@@ -49,7 +50,6 @@ namespace Survello.Web.Controllers
             }
             try
             {
-
                 model.UserId = (await userManager.GetUserAsync(User)).Id;
 
                 foreach (var question in model.MultipleChoiceQuestions)
@@ -71,8 +71,57 @@ namespace Survello.Web.Controllers
             }
             catch (Exception)
             {
-                BadRequest();
+                NotFound();
             }
+        }
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            var model = (await this.formServices.GetFormAsync(id)).MapFrom();
+
+            //foreach (var question in model.DocumentQuestions)
+            //{
+            //    model.QuestionNumbers.Add(question.QuestionNumber, question);
+            //}
+
+            //foreach (var question in model.MultipleChoiceQuestions)
+            //{
+            //    model.QuestionNumbers.Add(question.QuestionNumber, question);
+            //}
+
+            //foreach (var question in model.TextQuestions)
+            //{
+            //    model.QuestionNumbers.Add(question.QuestionNumber, question);
+            //}
+
+            return View(model);
+        }
+        [Authorize]
+        [HttpPost]
+        public IActionResult Edit()
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Answer(Guid id)
+        {
+            var form = (await this.formServices.GetFormAsync(id)).MapFrom();
+
+            return View(form);
+        }
+
+        //TODO: HiddenFor leaves IDs visible in the browser! 
+        [HttpPost]
+        public async Task<IActionResult> Answer(FormViewModel form)
+        {
+            //Guid id = form.Id;
+            //var new_form = (await this.formServices.GetFormAsync(id)).MapFrom();
+
+            //string FileName = Path.GetFileNameWithoutExtension(form.DocumentQuestions[0].Answer);
+
+            throw new NotImplementedException();
         }
 
     }

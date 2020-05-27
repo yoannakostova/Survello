@@ -24,7 +24,8 @@ namespace Survello.Services.DTOMappers
                 IsRequired = dto.IsRequired,
                 IsMultipleAnswer = dto.IsMultipleAnswer,
                 Options = dto.Options.MapFrom(),
-                FormId = dto.FormId
+                FormId = dto.FormId,
+                QuestionNumber = dto.QuestionNumber
             };
         }
 
@@ -43,7 +44,7 @@ namespace Survello.Services.DTOMappers
                 IsMultipleAnswer = entity.IsMultipleAnswer,
                 Options = entity.Options.MapFrom(),
                 FormId = entity.FormId,
-                FormName = entity.Form.Title
+                QuestionNumber = entity.QuestionNumber
             };
         }
 

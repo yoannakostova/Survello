@@ -18,6 +18,7 @@ namespace Survello.Models.Entites
         public bool IsRequired { get; set; }
         public DateTime? DeletedOn { get; set; }
         public bool IsDeleted { get;  set; }
+        public int QuestionNumber { get; set; }
         public ICollection<DocumentAnswer> Answers { get; set; }
     }
 }
