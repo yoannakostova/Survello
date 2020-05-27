@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,8 @@ namespace Survello.Web.Controllers
             this.formServices = formServices ?? throw new ArgumentNullException(nameof(formServices));
             this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }
+        [Authorize]
+        [HttpGet]
         public async Task<IActionResult> ListForms()
         {
             //var userId = (await userManager.GetUserAsync(User)).Id;
@@ -31,13 +34,13 @@ namespace Survello.Web.Controllers
 
             return View(allForms);
         }
-
+        [Authorize]
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
-
+        [Authorize]
         [HttpPost]
         public async Task Create(FormViewModel model)
         {
@@ -71,7 +74,7 @@ namespace Survello.Web.Controllers
                 NotFound();
             }
         }
-
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
@@ -94,7 +97,7 @@ namespace Survello.Web.Controllers
 
             return View(model);
         }
-
+        [Authorize]
         [HttpPost]
         public IActionResult Edit()
         {
