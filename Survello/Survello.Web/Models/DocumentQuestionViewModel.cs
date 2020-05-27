@@ -1,15 +1,17 @@
-﻿using Survello.Models.Entites;
+﻿using Microsoft.AspNetCore.Http;
+using Survello.Models.Entites;
 using Survello.Web.Models;
 using Survello.Web.Models.Interface;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 
 namespace Survello.Web.Models
 {
-    public class DocumentQuestionViewModel :Question
+    public class DocumentQuestionViewModel 
     {
         public Guid Id { get; set; }
         [Required]
@@ -19,6 +21,7 @@ namespace Survello.Web.Models
         public string FileSize { get; set; }
         public bool IsRequired { get; set; }
         public int QuestionNumber { get; set; }
-        public string Answer { get; set; }
+        public string ImagePath { get; set; }
+        public IEnumerable<IFormFile> Files { get; set; }
     }
 }

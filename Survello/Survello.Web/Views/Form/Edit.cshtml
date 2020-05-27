@@ -8,34 +8,8 @@
         isInEditMode = false;
     }
 
-    if (isInEditMode)
-    {
-
-        foreach (var key in Model.QuestionNumbers.Keys)
-        {
-            var question = Model.QuestionNumbers[key];
-
-            //var name = question.GetType().ToString();
-            //name = name.Substring(name.Length - 9, 9) + "Template";
-
-            //<partial name="@name" model="question" />
-
-            if (question is TextQuestionViewModel)
-            {
-                <partial name="TextQuestionTemplate" model="question" />
-            }
-            if (question is MultipleChoiceQuestionViewModel)
-            {
-                <partial name="MultipleChoiceQuestionTemplate" model="question" />
-            }
-            if (question is DocumentQuestionViewModel)
-            {
-                <partial name="DocumentQuestionTemplate" model="question" />
-            }
-        }
     }
-    else
-    {
+
         <div style="border-color:#b4e2f4" class="col-sm-11">
             <div class="form-group">
                 <input id="formTitle" class="form-control" value="Untitled" />
@@ -45,8 +19,6 @@
                 <input id="formDescription" class="form-control" placeholder="Description" />
             </div>
         </div>
-    }
-}
 
 <div class="row">
     <div class="col-md-4">
