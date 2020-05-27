@@ -24,8 +24,7 @@ namespace Survello.Web.Mappers
                 IsRequired = viewModel.IsRequired,
                 IsMultipleAnswer = viewModel.IsMultipleAnswer,
                 Options = viewModel.Options.MapFrom(),
-                FormId = viewModel.FormId,
-                FormName = viewModel.FormName
+                QuestionNumber = viewModel.QuestionNumber
             };
         }
 
@@ -36,15 +35,21 @@ namespace Survello.Web.Mappers
                 throw new Exception(ExceptionMessages.EntityNull);
             }
 
+            List<MultipleChoiceOptionViewModel> options = new List<MultipleChoiceOptionViewModel>();
+
+            foreach (var item in dto.Options)
+            {
+                options.Add(item.MapFrom());
+            }
+
             return new MultipleChoiceQuestionViewModel
             {
                 Id = dto.Id,
                 Description = dto.Description,
                 IsRequired = dto.IsRequired,
                 IsMultipleAnswer = dto.IsMultipleAnswer,
-                Options = dto.Options.MapFrom(),
-                FormId = dto.FormId,
-                FormName = dto.FormName
+                Options = options,
+                QuestionNumber = dto.QuestionNumber
             };
         }
 

@@ -26,7 +26,7 @@ namespace Survello.Web.Mappers
                 FileNumberLimit = viewModel.FileNumberLimit,
                 FileSize = fileSize,
                 IsRequired = viewModel.IsRequired,
-                Answers = viewModel.Answers.MapFrom()
+                QuestionNumber = viewModel.QuestionNumber
             };
         }
         public static ICollection<DocumentQuestionDTO> MapFrom(this ICollection<DocumentQuestionViewModel> viewModels)
@@ -46,9 +46,9 @@ namespace Survello.Web.Mappers
                 Id = dto.Id,
                 Description = dto.Description,
                 FileNumberLimit = dto.FileNumberLimit,
-                //FileSize = dto.FileSize,
+                FileSize = dto.FileSize.ToString(),
                 IsRequired = dto.IsRequired,
-                Answers = dto.Answers.MapFrom()
+                QuestionNumber = dto.QuestionNumber
             };
         }
         public static ICollection<DocumentQuestionViewModel> MapFrom(this ICollection<DocumentQuestionDTO> dtos)

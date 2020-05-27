@@ -31,7 +31,7 @@ namespace Survello.Services.Services
             }
 
             var form = tempForm.MapFrom();
-            
+
             await this.dbcontext.Forms.AddAsync(form);
             await this.dbcontext.SaveChangesAsync();
 
@@ -49,9 +49,31 @@ namespace Survello.Services.Services
             form.IsDeleted = true;
             form.DeletedOn = this.dateTimeProvider.GetDateTime();
 
+            //TODO: Delete all questions in form
+
             await this.dbcontext.SaveChangesAsync();
 
             return true;
+        }
+        public async Task<ICollection<FormDTO>> GetUserFormsAsync(Guid userId)
+        {
+            var forms = await this.dbcontext.Forms
+                .Where(f => f.UserId == userId)
+                .Include(f => f.TextQuestions)
+                .Include(f => f.MultipleChoiceQuestions)
+                    .ThenInclude(mq => mq.Options)
+                .Include(f => f.DocumentQuestions)
+                .ToListAsync();
+
+
+            if (forms.Count == 0)
+            {
+                throw new Exception(ExceptionMessages.ListNull);
+            }
+
+            var formsDto = forms.MapFrom();
+
+            return formsDto;
         }
 
         public async Task<FormDTO> GetFormAsync(Guid id)
@@ -59,7 +81,9 @@ namespace Survello.Services.Services
             var form = await this.dbcontext.Forms
                 .Where(f => f.Id == id)
                 .Include(f => f.TextQuestions)
-                    .ThenInclude(f => f.Answers) //TODO: Other type of questions to be included!
+                .Include(f => f.MultipleChoiceQuestions)
+                    .ThenInclude(mq => mq.Options)
+                 .Include(f => f.DocumentQuestions)//TODO: Other type of questions to be included!
                 .FirstOrDefaultAsync()
                 ?? throw new Exception(ExceptionMessages.EntityNotFound);
 
@@ -67,45 +91,27 @@ namespace Survello.Services.Services
 
             return formDto;
         }
-        public async Task<ICollection<FormDTO>> GetAllFormsAsync()
+        public async Task<ICollection<ListFormsDTO>> GetAllFormsAsync()
         {
-            var form = await this.dbcontext.Forms
+            var forms = await this.dbcontext.Forms
                 .Include(f => f.TextQuestions)
-                    .ThenInclude(f => f.Answers)
                 .Include(f => f.MultipleChoiceQuestions)
                     .ThenInclude(f => f.Options)
-                    .ThenInclude(f => f.MultipleChoiceAnswers)
+                .Include(f => f.DocumentQuestions)
                 .ToListAsync();
 
-            //if (form.Count == 0)
-            //{
-            //    throw new Exception(ExceptionMessages.ListNull);
-            //}
+            if (forms.Count == 0)
+            {
+                throw new Exception(ExceptionMessages.ListNull);
+            }
 
-            var formDto = form.MapFrom();
+            var formsDto = forms.MapToListFormsDTO();
 
-            return formDto;
+            return formsDto;
         }
-
-        public async Task<FormDTO> UpdateFormAsync(Guid id, string newTitle, string newDescription)
+        public async Task<FormDTO> GetAnswer(Guid id)
         {
-            var form = await this.dbcontext.Forms
-                     .Where(f => f.Id == id)
-                     .Include(f => f.TextQuestions)
-                        .ThenInclude(f => f.Answers)
-                     .FirstOrDefaultAsync()
-                    ?? throw new Exception(ExceptionMessages.EntityNotFound);
-
-            form.Title = newTitle;
-            form.Description = newDescription;
-
-            this.dbcontext.Update(form);
-            form.LastModifiedOn = this.dateTimeProvider.GetDateTime();
-            await this.dbcontext.SaveChangesAsync();
-
-            var updatedForm = form.MapFrom();
-
-            return updatedForm;
+            throw new NotImplementedException();
         }
     }
 }

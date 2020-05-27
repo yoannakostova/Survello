@@ -6,6 +6,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\DocumentQuestion\**" />
+    <Compile Remove="Views\Shared\TextQuestion\**" />
+    <Content Remove="Views\DocumentQuestion\**" />
+    <Content Remove="Views\Shared\TextQuestion\**" />
+    <EmbeddedResource Remove="Views\DocumentQuestion\**" />
+    <EmbeddedResource Remove="Views\Shared\TextQuestion\**" />
+    <None Remove="Views\DocumentQuestion\**" />
+    <None Remove="Views\Shared\TextQuestion\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.4" />
@@ -23,6 +34,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Survello.Database\Survello.Database.csproj" />
     <ProjectReference Include="..\Survello.Services\Survello.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\DocumentAnswer\" />
   </ItemGroup>
 
 </Project>

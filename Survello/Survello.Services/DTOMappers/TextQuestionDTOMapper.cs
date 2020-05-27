@@ -23,8 +23,8 @@ namespace Survello.Services.DTOMappers
                 Description = dto.Description,
                 IsLongAnswer = dto.IsLongAnswer,
                 IsRequired = dto.IsRequired,
-                FormId = dto.FormId,
-                Answers = dto.Answers.MapFrom()
+                FormId = dto.FormId, 
+                QuestionNumber = dto.QuestionNumber
             };
         }
 
@@ -41,9 +41,8 @@ namespace Survello.Services.DTOMappers
                 Description = entity.Description,
                 IsLongAnswer = entity.IsLongAnswer,
                 IsRequired = entity.IsRequired,
-                Answers = entity.Answers.MapFrom(),
                 FormId = entity.FormId,
-                FormTitle = entity.Form.Title
+                QuestionNumber = entity.QuestionNumber
             };
         }
 

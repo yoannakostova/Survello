@@ -1,19 +1,27 @@
-﻿using Survello.Models.Entites;
+﻿using Microsoft.AspNetCore.Http;
+using Survello.Models.Entites;
+using Survello.Web.Models;
+using Survello.Web.Models.Interface;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 
 namespace Survello.Web.Models
 {
-    public class DocumentQuestionViewModel
+    public class DocumentQuestionViewModel 
     {
         public Guid Id { get; set; }
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} value cannot exceed {1} characters.")]
         public string Description { get; set; }
         public int FileNumberLimit { get; set; }
         public string FileSize { get; set; }
-        public Guid FormId { get; set; }
         public bool IsRequired { get; set; }
-        public ICollection<DocumentAnswerViewModel> Answers { get; set; } = new List<DocumentAnswerViewModel>();
+        public int QuestionNumber { get; set; }
+        public string ImagePath { get; set; }
+        public IEnumerable<IFormFile> Files { get; set; }
     }
 }

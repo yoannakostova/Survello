@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Storage;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Survello.Web.Controllers
 {
+    [Authorize]
     public class BlobController : Controller
     {
         private readonly IConfiguration configuration;
@@ -36,6 +38,7 @@ namespace Survello.Web.Controllers
             string blobStorageConnectionString = configuration.GetValue<string>("BlobConnectionString");
 
             byte[] dataFiles;
+
 
             // Retrieve storage account from connection string.
             CloudStorageAccount cloudStorageAccount = CloudStorageAccount.Parse(blobStorageConnectionString);

@@ -3,24 +3,25 @@ using System;
 using System.Collections.Generic;
 using System.Net.Mail;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Survello.Services.Services
 {
     public class FormSenderServices : IFormSenderServices
     {
-        public bool SendEmail(string to, string subject)
+        public async Task<bool> ShareFormAsync(Guid formId, string to, string subject)
         {
             //string absoluteUrl = HttpContext.Request.GetDisplayUrl();
             MailMessage mailMessage = new MailMessage();
-            string[] Emails = to.Split(',');
+
+            string[] Emails = to.Trim().Split(',');
             foreach (var email in Emails)
             {
                 mailMessage.To.Add(email);
             }
             mailMessage.Subject = subject;
             mailMessage.From = new MailAddress("survellosender@gmail.com");
-            //TODO: Form Id need to be added to url!
-            mailMessage.Body = $"Please <a href=https://localhost:5001/Answers/Index/> Go To Form</a>";
+            mailMessage.Body = "On the following path you can fill this form: " + "https://localhost:5001/AnswerForm/CreateAnswer/" + $"{formId}";
             mailMessage.IsBodyHtml = true;
             SmtpClient smtp = new SmtpClient()
             {
@@ -30,9 +31,10 @@ namespace Survello.Services.Services
                 UseDefaultCredentials = true,
                 Credentials = new System.Net.NetworkCredential("survellosender@gmail.com", "#2Survello")
             };
-            smtp.Send(mailMessage);
+            await smtp.SendMailAsync(mailMessage);
 
             return true;
         }
     }
 }
+

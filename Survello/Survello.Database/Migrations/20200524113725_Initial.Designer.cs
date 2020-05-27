@@ -10,8 +10,8 @@ using Survello.Database;
 namespace Survello.Database.Migrations
 {
     [DbContext(typeof(SurvelloContext))]
-    [Migration("20200521160013_UpdateEntities")]
-    partial class UpdateEntities
+    [Migration("20200524113725_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -188,6 +188,9 @@ namespace Survello.Database.Migrations
                     b.Property<bool>("IsRequired")
                         .HasColumnType("bit");
 
+                    b.Property<int>("QuestionNumber")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("FormId");
@@ -240,7 +243,7 @@ namespace Survello.Database.Migrations
                         new
                         {
                             Id = new Guid("1009cb07-226e-430d-9173-87ee97472f6a"),
-                            CreatedOn = new DateTime(2020, 5, 21, 16, 0, 13, 62, DateTimeKind.Utc).AddTicks(3925),
+                            CreatedOn = new DateTime(2020, 5, 24, 11, 37, 24, 407, DateTimeKind.Utc).AddTicks(9202),
                             Description = "Test description 1.",
                             IsDeleted = false,
                             NumberOfFilledForms = 0,
@@ -250,7 +253,7 @@ namespace Survello.Database.Migrations
                         new
                         {
                             Id = new Guid("2009cb07-226e-430d-9173-87ee97472f6a"),
-                            CreatedOn = new DateTime(2020, 5, 21, 16, 0, 13, 62, DateTimeKind.Utc).AddTicks(6540),
+                            CreatedOn = new DateTime(2020, 5, 24, 11, 37, 24, 408, DateTimeKind.Utc).AddTicks(2379),
                             Description = "Test description 2.",
                             IsDeleted = false,
                             NumberOfFilledForms = 0,
@@ -260,7 +263,7 @@ namespace Survello.Database.Migrations
                         new
                         {
                             Id = new Guid("3009cb07-226e-430d-9173-87ee97472f6a"),
-                            CreatedOn = new DateTime(2020, 5, 21, 16, 0, 13, 62, DateTimeKind.Utc).AddTicks(6598),
+                            CreatedOn = new DateTime(2020, 5, 24, 11, 37, 24, 408, DateTimeKind.Utc).AddTicks(2440),
                             Description = "Test description 3.",
                             IsDeleted = false,
                             NumberOfFilledForms = 0,
@@ -270,7 +273,7 @@ namespace Survello.Database.Migrations
                         new
                         {
                             Id = new Guid("4009cb07-226e-430d-9173-87ee97472f6a"),
-                            CreatedOn = new DateTime(2020, 5, 21, 16, 0, 13, 62, DateTimeKind.Utc).AddTicks(6606),
+                            CreatedOn = new DateTime(2020, 5, 24, 11, 37, 24, 408, DateTimeKind.Utc).AddTicks(2449),
                             Description = "Test description 4",
                             IsDeleted = false,
                             NumberOfFilledForms = 0,
@@ -479,6 +482,9 @@ namespace Survello.Database.Migrations
                     b.Property<bool>("IsRequired")
                         .HasColumnType("bit");
 
+                    b.Property<int>("QuestionNumber")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("FormId");
@@ -493,7 +499,8 @@ namespace Survello.Database.Migrations
                             FormId = new Guid("1009cb07-226e-430d-9173-87ee97472f6a"),
                             IsDeleted = false,
                             IsMultipleAnswer = false,
-                            IsRequired = true
+                            IsRequired = true,
+                            QuestionNumber = 0
                         },
                         new
                         {
@@ -502,7 +509,8 @@ namespace Survello.Database.Migrations
                             FormId = new Guid("2009cb07-226e-430d-9173-87ee97472f6a"),
                             IsDeleted = false,
                             IsMultipleAnswer = false,
-                            IsRequired = true
+                            IsRequired = true,
+                            QuestionNumber = 0
                         },
                         new
                         {
@@ -511,7 +519,8 @@ namespace Survello.Database.Migrations
                             FormId = new Guid("3009cb07-226e-430d-9173-87ee97472f6a"),
                             IsDeleted = false,
                             IsMultipleAnswer = false,
-                            IsRequired = true
+                            IsRequired = true,
+                            QuestionNumber = 0
                         },
                         new
                         {
@@ -520,7 +529,8 @@ namespace Survello.Database.Migrations
                             FormId = new Guid("4009cb07-226e-430d-9173-87ee97472f6a"),
                             IsDeleted = false,
                             IsMultipleAnswer = false,
-                            IsRequired = true
+                            IsRequired = true,
+                            QuestionNumber = 0
                         });
                 });
 
@@ -555,7 +565,7 @@ namespace Survello.Database.Migrations
                         new
                         {
                             Id = new Guid("0989cb07-226e-430d-9173-87ee97472f6a"),
-                            ConcurrencyStamp = "7fc15ec6-d5b6-48f5-9670-ff8aaddcb267",
+                            ConcurrencyStamp = "65a68a12-c66d-47a7-a77f-d40213bfea13",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         });
@@ -646,6 +656,9 @@ namespace Survello.Database.Migrations
                     b.Property<bool>("IsRequired")
                         .HasColumnType("bit");
 
+                    b.Property<int>("QuestionNumber")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("FormId");
@@ -660,7 +673,8 @@ namespace Survello.Database.Migrations
                             FormId = new Guid("1009cb07-226e-430d-9173-87ee97472f6a"),
                             IsDeleted = false,
                             IsLongAnswer = false,
-                            IsRequired = true
+                            IsRequired = true,
+                            QuestionNumber = 0
                         },
                         new
                         {
@@ -669,7 +683,8 @@ namespace Survello.Database.Migrations
                             FormId = new Guid("2009cb07-226e-430d-9173-87ee97472f6a"),
                             IsDeleted = false,
                             IsLongAnswer = false,
-                            IsRequired = true
+                            IsRequired = true,
+                            QuestionNumber = 0
                         },
                         new
                         {
@@ -678,7 +693,8 @@ namespace Survello.Database.Migrations
                             FormId = new Guid("3009cb07-226e-430d-9173-87ee97472f6a"),
                             IsDeleted = false,
                             IsLongAnswer = false,
-                            IsRequired = true
+                            IsRequired = true,
+                            QuestionNumber = 0
                         },
                         new
                         {
@@ -687,7 +703,8 @@ namespace Survello.Database.Migrations
                             FormId = new Guid("4009cb07-226e-430d-9173-87ee97472f6a"),
                             IsDeleted = false,
                             IsLongAnswer = false,
-                            IsRequired = true
+                            IsRequired = true,
+                            QuestionNumber = 0
                         });
                 });
 
@@ -773,15 +790,15 @@ namespace Survello.Database.Migrations
                         {
                             Id = new Guid("52d02f62-14ac-4152-872c-08d7eb74f484"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1b868fa6-d0f2-46aa-9455-be5efaa79182",
-                            CreatedOn = new DateTime(2020, 5, 21, 16, 0, 13, 66, DateTimeKind.Utc).AddTicks(9825),
+                            ConcurrencyStamp = "57057c91-2e9c-40be-abec-20eba3394d3a",
+                            CreatedOn = new DateTime(2020, 5, 24, 11, 37, 24, 413, DateTimeKind.Utc).AddTicks(1843),
                             Email = "nasko@survello.com",
                             EmailConfirmed = false,
                             IsDeleted = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "NASKO",
                             NormalizedUserName = "NASKO",
-                            PasswordHash = "AQAAAAEAACcQAAAAELoqeCgVdWULpzi13tlu4n5t6FQVrUKZpCOHwVQO7lALk3Mo/SEWOUonUHY7EWKs/Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEhDST3DhWiZRkmCZGxmfBvTEsMTivp/MfrXURqFpXL4UNJ7i4me2GFNvXWWYyGblQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "321E275DD1E24957A7781D42BB68293B",
                             TwoFactorEnabled = false,
@@ -791,15 +808,15 @@ namespace Survello.Database.Migrations
                         {
                             Id = new Guid("22a2d89d-ee6e-4c94-e490-08d7eb6bae70"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "671e8d9c-078c-43d6-bb5c-5c521ddbeeb5",
-                            CreatedOn = new DateTime(2020, 5, 21, 16, 0, 13, 113, DateTimeKind.Utc).AddTicks(9866),
+                            ConcurrencyStamp = "357eeda4-3d47-4ad2-91ba-19871c161955",
+                            CreatedOn = new DateTime(2020, 5, 24, 11, 37, 24, 431, DateTimeKind.Utc).AddTicks(6538),
                             Email = "yoanna@survello.com",
                             EmailConfirmed = false,
                             IsDeleted = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "YOANNA",
                             NormalizedUserName = "YOANNA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDIqV+HtI8XTHbuvpZ28jOgM0d+tBPj4qhwTNcv+iVyQKuU7DDmczXQSZY2ZB/ZPaA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGGK5BTXoJ4wHvqxLDVtb7mmsWItpBp7KIBL9uEcQSqwchnb9/3C6HM6qMDYJr7YdA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "431E275DD1E24957A7781D42BB68293B",
                             TwoFactorEnabled = false,

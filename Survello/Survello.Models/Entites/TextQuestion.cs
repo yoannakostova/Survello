@@ -17,6 +17,7 @@ namespace Survello.Models.Entites
         public DateTime? DeletedOn { get; set; }
         public Guid FormId { get; set; }
         public Form Form { get; set; }
+        public int QuestionNumber { get; set; }
         //TODO: Where to initialize the collection
         public ICollection<TextAnswer> Answers { get; set; } = new List<TextAnswer>();
     }
