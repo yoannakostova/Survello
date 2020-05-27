@@ -37,6 +37,7 @@ namespace Survello.Web.Controllers
 
             byte[] dataFiles;
 
+
             // Retrieve storage account from connection string.
             CloudStorageAccount cloudStorageAccount = CloudStorageAccount.Parse(blobStorageConnectionString);
 

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Survello.Models.Entites;
@@ -111,12 +113,13 @@ namespace Survello.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Answer(FormViewModel form)
         {
-            Guid id = form.Id;
-            var new_form =(await this.formServices.GetFormAsync(id)).MapFrom();
-            
+            //Guid id = form.Id;
+            //var new_form = (await this.formServices.GetFormAsync(id)).MapFrom();
 
+            //string FileName = Path.GetFileNameWithoutExtension(form.DocumentQuestions[0].Answer);
 
             throw new NotImplementedException();
         }
+
     }
 }

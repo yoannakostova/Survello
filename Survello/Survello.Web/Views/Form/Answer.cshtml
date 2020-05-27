@@ -8,101 +8,146 @@
 
 <h4>FormViewModel</h4>
 <hr />
-@using (Html.BeginForm())
-{
-    <div class="row">
-        <div class="col-md-4">
-            <form asp-action="Answer">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Title" class="control-label"></label>
-                    <input asp-for="Title" class="form-control" />
-                    <span asp-validation-for="Title" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Description" class="control-label"></label>
-                    <input asp-for="Description" class="form-control" />
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
+
+<div class="row">
+    <div class="col-md-4">
 
 
-                @for (int i = 0; i < @Model.TextQuestions.Count; i++)
-                {
-                    <div class="form-group">
-                        @Html.DisplayFor(modelItem => Model.TextQuestions[i].Description, new { @class = "control-label col-md-4" })
-                        <div class="col-md-6">
+        <form method="post" enctype="multipart/form-data" asp-controller="Form" asp-action="Answer">
 
-                            @Html.HiddenFor(modelItem => (Model.TextQuestions[i].Id))
-                            <div class="form-group">
-                                <div>
-                                    @Html.EditorFor(modelItem => (Model.TextQuestions[i]).Answer)
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br />
-                }
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
 
-                @for (int i = 0; i < @Model.MultipleChoiceQuestions.Count; i++)
-                {
-                    @Html.HiddenFor(modelItem => (Model.MultipleChoiceQuestions[i].Id))
-                    <div class="form-group">
-                        @Html.DisplayFor(modelItem => Model.MultipleChoiceQuestions[i].Description, new { @class = "control-label col-md-4" })
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <div class="col-md-10">
-
-                                    @for (int j = 0; j < Model.MultipleChoiceQuestions[i].Options.Count; j++)
-                                    {
-                                        @Html.HiddenFor(item => (Model.MultipleChoiceQuestions[i].Options[j].Id))
-
-                                        <label class="form-check-label">
-                                            <input class="form-check-input" type="checkbox" id="@Model.MultipleChoiceQuestions[i].Options[j].Option" asp-for="@Model.MultipleChoiceQuestions[i].Options[j].Answer" value="@Model.MultipleChoiceQuestions[i].Options[j].Option" />
-
-                                            @Model.MultipleChoiceQuestions[i].Options[j].Option
-                                        </label>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br />
-                }
-
-
-                <div class="form-group">
-                    <input type="submit" value="Save" id="6" class="btn btn-primary" />
-                </div>
-            </form>
-
-            @for (int i = 0; i < Model.DocumentQuestions.Count; i++)
+            @for (int i = 0; i < Model.QuestionNumbers.Count; i++)
             {
-                @Html.HiddenFor(item => (Model.DocumentQuestions[i].Id))
-                <div class="row">
-                    <div class="control">
-                        <form method="post" enctype="multipart/form-data" asp-controller="Blob" asp-action="Create">
-                            <div id="Uploadbox" class="form-group">
-                                <label> Select File </label>
-                                <input class="form-control" name="files" multiple="multiple" type="file" />
-                                <br />
-                                @Html.HiddenFor(modelItem => (Model.DocumentQuestions[i].Id))
-                                <input class="btn btn-success" id="5" type="submit" value="Submit" />
+                //Text question
+
+                if (Model.QuestionNumbers[i].QuestionType == "Text")
+                {
+                    for (int j = 0; j < Model.TextQuestions.Count; j++)
+                    {
+                        if (Model.TextQuestions[j].Id == Model.QuestionNumbers[i].Id)
+                        {
+                            <div class="form-group">
+                                @Html.DisplayFor(modelItem => Model.TextQuestions[i].Description, new { @class = "control-label col-md-4" })
+                                <div class="col-md-6">
+
+                                    @Html.HiddenFor(modelItem => (Model.TextQuestions[i].Id))
+                                    <div class="form-group">
+                                        <div>
+                                            @Html.EditorFor(modelItem => (Model.TextQuestions[i]).Answer)
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </form>
-                    </div>
-                </div>
+                            <br />
+                        }
+                    }
+                }
+
+                //Multiple choice question
+
+                if (Model.QuestionNumbers[i].QuestionType == "Multiple")
+                {
+                    for (int j = 0; j < Model.MultipleChoiceQuestions.Count; j++)
+                    {
+                        if (Model.MultipleChoiceQuestions[j].Id == Model.QuestionNumbers[i].Id)
+                        {
+                            @Html.HiddenFor(modelItem => (Model.MultipleChoiceQuestions[j].Id))
+                            <div class="form-group">
+                                @Html.DisplayFor(modelItem => Model.MultipleChoiceQuestions[j].Description, new { @class = "control-label col-md-4" })
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+
+                                            @for (int k = 0; k < Model.MultipleChoiceQuestions[j].Options.Count; k++)
+                                            {
+                                                @Html.HiddenFor(item => (Model.MultipleChoiceQuestions[j].Options[k].Id))
+
+                                                if (Model.MultipleChoiceQuestions[j].IsMultipleAnswer == true)
+                                                {
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" asp-for="@Model.MultipleChoiceQuestions[j].Options[k].Answer" value="@Model.MultipleChoiceQuestions[j].Options[k].Option" />
+
+                                                        @Model.MultipleChoiceQuestions[j].Options[k].Option
+                                                    </label>
+                                                }
+                                                else
+                                                {
+                                                    <label class="form-check-label">
+                                                        <input type="radio"  asp-for="@Model.MultipleChoiceQuestions[j].Options[k].Answer" value="@Model.MultipleChoiceQuestions[j].Options[k].Option" />
+
+                                                        @Model.MultipleChoiceQuestions[j].Options[k].Option
+                                                    </label>
+
+
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                        }
+                    }
+                }
+
+                //Document question
+
+                if (Model.QuestionNumbers[i].QuestionType == "Document")
+                {
+                    for (int j = 0; j < Model.DocumentQuestions.Count; j++)
+                    {
+                        if (Model.DocumentQuestions[j].Id == Model.QuestionNumbers[i].Id)
+                        {
+                            @Html.HiddenFor(modelItem => (Model.DocumentQuestions[j].Id))
+                            <div id="custom-file-label" style="font-size: smaller"></div>
+                            <div class="form-group">
+                                @Html.DisplayFor(modelItem => Model.DocumentQuestions[j].Description)
+                                <label asp-for="@Model.DocumentQuestions[j].Files" class="btn btn-primary btn-sm"></label>
+                                <input asp-for="@Model.DocumentQuestions[j].Files" type="file" multiple="multiple" />
+
+                            </div>
+
+                        }
+                    }
+                }
             }
+            <div class="form-group">
+                <input type="submit" value="Save" id="6" class="btn btn-primary" />
+            </div>
 
-        </div>
+
+        </form>
     </div>
+</div>
 
-}
+
+
+
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
 
 <script>
-    $('#addFile').on('click', () => {
-        let div = document.getElementById('files')
-
+    function radio(n) {
+        $('#radio' + n).click();
+        $('.radio').removeClass('selectedRadio');
+        $(this).addClass('selectedRadio');
+        $('#radionumber').val($(this).attr('id').substring(5));
+    }
+    //$('input[type="file"]').change(function (e) {
+    //    let fileName = e.target.files[0].name;
+    //    $('#custom-file-label').append(fileName);
+    //    console.log(fileName)
+    //});
 </script>

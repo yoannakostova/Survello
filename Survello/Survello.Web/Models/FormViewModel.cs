@@ -1,4 +1,5 @@
-﻿using Survello.Web.Models;
+﻿using Microsoft.AspNetCore.Http;
+using Survello.Web.Models;
 using Survello.Web.Models.Interface;
 using System;
 using System.Collections.Generic;
@@ -18,12 +19,10 @@ namespace Survello.Web.Models
         public string Title { get; set; }
         [StringLength(300, ErrorMessage = "The {0} value cannot exceed {1} characters.")]
         public string Description { get; set; }
-
-        [Required]
         public Guid UserId { get; set; }
-        public SortedDictionary<int, Question> QuestionNumbers { get; set; } = new SortedDictionary<int, Question>();
+        public List<Question> QuestionNumbers { get; set; } = new List<Question>();
         public List<MultipleChoiceQuestionViewModel> MultipleChoiceQuestions { get; set; } = new List<MultipleChoiceQuestionViewModel>();
         public List<TextQuestionViewModel> TextQuestions { get; set; } = new List<TextQuestionViewModel>();
-        public List<DocumentQuestionViewModel> DocumentQuestions { get; set; } = new List<DocumentQuestionViewModel>();
+        public List<DocumentQuestionViewModel> DocumentQuestions { get; set; } = new List<DocumentQuestionViewModel>();        
     }
 }
