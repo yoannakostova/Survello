@@ -37,7 +37,6 @@ namespace Survello.Web.Mappers
                 Id = viewModel.Id,
                 Option = viewModel.Option,
                 Answer = viewModel.Answer
-
             };
         }
 

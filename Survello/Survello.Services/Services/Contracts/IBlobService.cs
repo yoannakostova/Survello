@@ -8,6 +8,6 @@ namespace Survello.Services.Services.Contracts
 {
     public interface IBlobServices
     {
-        Task<string> Create(IEnumerable<IFormFile> files, Guid corelationToken, Guid questionId);
+        Task<string> UploadAsync(IFormFile files, Guid corelationToken, Guid questionId);
     }
 }

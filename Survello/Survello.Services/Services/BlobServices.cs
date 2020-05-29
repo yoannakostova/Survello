@@ -20,7 +20,7 @@ namespace Survello.Services.Services
             this.configuration = configuration;
         }
 
-        public async Task<string> Create(IEnumerable<IFormFile> files, Guid corelationToken, Guid questionId)
+        public async Task<string> UploadAsync(IFormFile files, Guid corelationToken, Guid questionId)
         {
             string blobStorageConnectionString = configuration.GetValue<string>("BlobConnectionString");
 
@@ -42,30 +42,22 @@ namespace Survello.Services.Services
                 PublicAccess = BlobContainerPublicAccessType.Blob
             };
 
-            foreach (var item in files)
-            {
-                //the property is readonly. Check how to append
-                string systemFileName = item.FileName;
-            }
+            string systemFileName = $"{questionId}.{corelationToken}.{files.FileName}"; //questionId?
 
             await cloudBlobContainer.SetPermissionsAsync(permissions);
             await using (var target = new MemoryStream())
             {
-                foreach (var file in files)
-                {
-                    file.CopyTo(target);
-                }
-               
+                files.CopyTo(target);
                 dataFiles = target.ToArray();
             }
 
             // This also does not make a service call; it only creates a local object.
-            //CloudBlockBlob cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(systemFileName);
-            //await cloudBlockBlob.UploadFromByteArrayAsync(dataFiles, 0, dataFiles.Length);
+            CloudBlockBlob cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(systemFileName);
+            await cloudBlockBlob.UploadFromByteArrayAsync(dataFiles, 0, dataFiles.Length);
 
+            var filePath = cloudBlockBlob.Uri.AbsoluteUri;
 
-            //retusn name of the files
-            return "";
+            return filePath;
         }
     }
 }

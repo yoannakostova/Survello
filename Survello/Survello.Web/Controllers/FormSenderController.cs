@@ -32,14 +32,13 @@ namespace Survello.Web.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> SendMail(Guid id, string allRecipients, string subj)
         {
-            if (id == Guid.Empty || allRecipients == null)
+            if (id == Guid.Empty)
             {
                 //TODO: Middleware to be added and may be some toast notification.
                 return NotFound();
             }
             try
-            {
-                this.toastNotification.AddSuccessToastMessage("Email was sent successfully"!);
+            { 
                 var isEmailSent = await this.formSenderServices.ShareFormAsync(id, allRecipients, subj);
 
                 this.toastNotification.AddSuccessToastMessage("Email was sent successfully"!);

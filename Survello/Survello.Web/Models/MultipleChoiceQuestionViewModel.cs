@@ -6,7 +6,6 @@ namespace Survello.Web.Models
 {
     public class MultipleChoiceQuestionViewModel
     {
-        [Required]
         public Guid Id { get; set; }
         [Required]
         [StringLength(100, ErrorMessage = "The {0} value cannot exceed {1} characters.")]
