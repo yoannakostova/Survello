@@ -1,4 +1,5 @@
-﻿using Survello.Services.Services.Contracts;
+﻿using Survello.Services.ConstantMessages;
+using Survello.Services.Services.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Net.Mail;
@@ -11,29 +12,35 @@ namespace Survello.Services.Services
     {
         public async Task<bool> ShareFormAsync(Guid formId, string to, string subject)
         {
-            //string absoluteUrl = HttpContext.Request.GetDisplayUrl();
-            MailMessage mailMessage = new MailMessage();
-
-            string[] Emails = to.Trim().Split(',');
-            foreach (var email in Emails)
+            try
             {
-                mailMessage.To.Add(email);
+                MailMessage mailMessage = new MailMessage();
+
+                string[] Emails = to.Trim().Split(',');
+                foreach (var email in Emails)
+                {
+                    mailMessage.To.Add(email);
+                }
+                mailMessage.Subject = subject;
+                mailMessage.From = new MailAddress("survellosender@gmail.com");
+                mailMessage.Body = "On the following path you can fill this form: " + "https://localhost:5001/AnswerForm/CreateAnswer/" + $"{formId}";
+                mailMessage.IsBodyHtml = true;
+                SmtpClient smtp = new SmtpClient()
+                {
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    UseDefaultCredentials = true,
+                    Credentials = new System.Net.NetworkCredential("survellosender@gmail.com", "#2Survello")
+                };
+                await smtp.SendMailAsync(mailMessage);
+
+                return true;
             }
-            mailMessage.Subject = subject;
-            mailMessage.From = new MailAddress("survellosender@gmail.com");
-            mailMessage.Body = "On the following path you can fill this form: " + "https://localhost:5001/AnswerForm/CreateAnswer/" + $"{formId}";
-            mailMessage.IsBodyHtml = true;
-            SmtpClient smtp = new SmtpClient()
+            catch (Exception)
             {
-                Host = "smtp.gmail.com",
-                Port = 587,
-                EnableSsl = true,
-                UseDefaultCredentials = true,
-                Credentials = new System.Net.NetworkCredential("survellosender@gmail.com", "#2Survello")
-            };
-            await smtp.SendMailAsync(mailMessage);
-
-            return true;
+                throw new Exception(ExceptionMessages.MailSenderError);
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Survello.Database;
+using Survello.Models.Entites;
 using Survello.Services.ConstantMessages;
 using Survello.Services.DTOEntities;
 using Survello.Services.DTOMappers;
@@ -116,55 +117,56 @@ namespace Survello.Services.Services
             throw new NotImplementedException();
         }
 
-        public async Task<bool> SaveAnswerForm(FormDTO form)
+        public async Task<bool> SaveAnswerForm(FormDTO formDto)
         {
             Guid corelationToken = Guid.NewGuid();
 
-            foreach (var item in form.TextQuestions)
+            foreach (var item in formDto.TextQuestions)
             {
                 if (item.Answer != null)
                 {
-                    var answer = new TextAnswerDTO();
+                    var answer = new TextAnswer();
                     answer.Answer = item.Answer;
                     answer.CorelationToken = corelationToken;
                     answer.TextQuestionId = item.Id;
 
-                    item.Answers.Add(answer);
+                    await this.dbcontext.TextAnswers.AddAsync(answer);
                 }
             }
 
-            foreach (var question in form.MultipleChoiceQuestions)
+            foreach (var question in formDto.MultipleChoiceQuestions)
             {
                 foreach (var option in question.Options)
                 {
-                    if (option.Answer != null)
+                    if (option.Answer != null && option.Answer != "false")
                     {
-                        var answer = new MultipleChoiceAnswerDTO();
-                        answer.Answer = option.Answer;
-                        answer.CorelationToken = corelationToken;
+                        var answer = new MultipleChoiceAnswer();
                         answer.MultipleChoiceOptionId = option.Id;
+                        answer.CorelationToken = corelationToken;
 
-                        option.Answers.Add(answer);
+                        await this.dbcontext.MultipleChoiceAnswers.AddAsync(answer);
                     }
                 }
             }
 
-            foreach (var question in form.DocumentQuestions)
+            foreach (var question in formDto.DocumentQuestions)
             {
                 if (question.Files != null)
                 {
-                    await this.blobServices.Create(question.Files, corelationToken, question.Id);
-                    var answer = new DocumentAnswerDTO();
+                    var filePath = await this.blobServices.UploadAsync(question.Files, corelationToken, question.Id);
+                    var answer = new DocumentAnswer();
 
                     answer.CorelationToken = corelationToken;
                     answer.DocumentQuestionId = question.Id;
+                    answer.FileName = filePath;
 
-                    question.Answers.Add(answer);
+                    await this.dbcontext.DocumentAnswers.AddAsync(answer);
                 }
             }
+            var form = this.dbcontext.Forms
+                    .FirstOrDefault(f => f.Id == formDto.Id) ?? throw new Exception(ExceptionMessages.EntityNotFound);
 
-            var formEntity = form.MapFrom();
-
+            form.NumberOfFilledForms++;           
             await this.dbcontext.SaveChangesAsync();
             
             return true;

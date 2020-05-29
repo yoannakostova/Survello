@@ -87,7 +87,7 @@ namespace Survello.Web
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseMiddleware<NotFoundMiddleware>();
+            //app.UseMiddleware<NotFoundMiddleware>();
             app.UseNToastNotify();
 
             app.UseEndpoints(endpoints =>

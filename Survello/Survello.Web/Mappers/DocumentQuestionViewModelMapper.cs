@@ -17,7 +17,12 @@ namespace Survello.Web.Mappers
             {
                 throw new Exception(ExceptionMessages.EntityNull);
             }
-            var fileSize = int.Parse(viewModel.FileSize.Substring(0, viewModel.FileSize.Length - 2));
+
+            var fileSize = 0;
+            if (viewModel.FileSize != null)
+            {
+                fileSize = int.Parse(viewModel.FileSize.Substring(0, viewModel.FileSize.Length - 2));
+            }
 
             return new DocumentQuestionDTO
             {

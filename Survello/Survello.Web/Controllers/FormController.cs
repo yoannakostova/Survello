@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using NToastNotify;
 using Survello.Models.Entites;
 using Survello.Services.Services.Contracts;
 using Survello.Web.Mappers;
@@ -18,11 +20,13 @@ namespace Survello.Web.Controllers
     {
         private readonly IFormServices formServices;
         private readonly UserManager<User> userManager;
+        private readonly IToastNotification toastNotification;
 
-        public FormController(IFormServices formServices, UserManager<User> userManager)
+        public FormController(IFormServices formServices, UserManager<User> userManager, IToastNotification toastNotification)
         {
             this.formServices = formServices ?? throw new ArgumentNullException(nameof(formServices));
             this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+            this.toastNotification = toastNotification ?? throw new ArgumentNullException(nameof(toastNotification));
         }
         [Authorize]
         [HttpGet]
@@ -79,7 +83,6 @@ namespace Survello.Web.Controllers
         public async Task<IActionResult> Edit(Guid id)
         {
             var model = (await this.formServices.GetFormAsync(id)).MapFrom();
-            
 
             return View(model);
         }
@@ -94,17 +97,44 @@ namespace Survello.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Answer(Guid id)
         {
-            var form = (await this.formServices.GetFormAsync(id)).MapFrom();
+            if (id == Guid.Empty)
+            {
+                return NotFound();
+            }
+            try
+            {
+                var form = (await this.formServices.GetFormAsync(id)).MapFrom();
 
-            return View(form);
+                return View(form);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         //TODO: HiddenFor leaves IDs visible in the browser! 
         [HttpPost]
         public async Task<IActionResult> Answer(FormViewModel form)
         {
-            await this.formServices.SaveAnswerForm(form.MapFrom());
-            throw new NotImplementedException();
+            if (!ModelState.IsValid)
+            {
+                return NotFound();
+            }
+            try
+            {
+                var isAnswerSaved = await this.formServices.SaveAnswerForm(form.MapFrom());
+
+                this.toastNotification.AddSuccessToastMessage("Form was successfully answered");
+
+                return RedirectToAction("ListForms"); 
+            }
+            catch (Exception e)
+            {
+                throw;  
+            }
+
         }
     }
 }
