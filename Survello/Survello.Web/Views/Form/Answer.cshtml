@@ -13,15 +13,19 @@
     <div class="col-md-12">
 
 
-        <form method="post" enctype="multipart/form-data" asp-controller="Form" asp-action="Answer">
+        <form method="post" enctype="multipart/form-data" onsubmit="return validateForm()" asp-controller="Form" asp-action="Answer">
 
             <div class="form-group">
-                <input type="text" readonly class="form-control" value="@Html.HiddenFor(modelItem => (Model.Title))" />"
+                @Html.HiddenFor(modelItem => (Model.Title))
+                <input type="text" readonly class="form-control" value="@Model.Title" />
             </div>
             <div class="form-group">
                 <input type="text" readonly class="form-control" value="@Model.Description">
             </div>
 
+            @{
+                var fileCounter = 0;
+            }
             @{
 
                 int textCounter = 0;
@@ -33,46 +37,41 @@
             {
                 //Text question
 
-
                 if (textCounter < Model.TextQuestions.Count && Model.TextQuestions[textCounter].QuestionNumber == i)
                 {
                     <div class="form-group">
-                        @Html.DisplayFor(modelItem => Model.TextQuestions[textCounter].Description, new { @class = "control-label col-md-4" })
-                        <div class="col-md-6">
-
-                            @Html.HiddenFor(modelItem => (Model.TextQuestions[textCounter].Id))
-                            @Html.HiddenFor(modelItem => (Model.TextQuestions[textCounter].Description))
-                            @if (Model.TextQuestions[textCounter].IsLongAnswer == true && Model.TextQuestions[textCounter].IsRequired == true)
-                            {
-                                <div class="form-group">
-                                    <textarea required class="form-control" rows="5" @Html.EditorFor(modelItem => (Model.TextQuestions[textCounter]).Answer)></textarea>
-                                </div>
-                            }
-                            else if (Model.TextQuestions[textCounter].IsLongAnswer == true && Model.TextQuestions[textCounter].IsRequired == false)
-                            {
-                                {
-                                    <div class="form-group">
-                                        <textarea class="form-control" rows="5" @Html.EditorFor(modelItem => (Model.TextQuestions[textCounter]).Answer)></textarea>
-                                    </div>
-                                }
-                            }
-                            else if (Model.TextQuestions[textCounter].IsLongAnswer == false && Model.TextQuestions[textCounter].IsRequired == true)
-                            {
-                                <div class="form-group">
-                                    <div>
-                                        <input required type="text" @Html.EditorFor(modelItem => (Model.TextQuestions[textCounter]).Answer)>
-                                    </div>
-                                </div>
-                            }
-                            else if (Model.TextQuestions[textCounter].IsLongAnswer == false && Model.TextQuestions[textCounter].IsRequired == false)
-                            {
-                                <div class="form-group">
-                                    <div>
-                                        <input type="text" @Html.EditorFor(modelItem => (Model.TextQuestions[textCounter]).Answer)>
-                                    </div>
-                                </div>
-                            }
+                        <div class="form-group">
+                            <input type="text" readonly class="form-control" value="@Html.DisplayFor(modelItem => Model.TextQuestions[textCounter].Description, new { @class = "control-label col-md-12" })">
                         </div>
+
+                        @Html.HiddenFor(modelItem => (Model.TextQuestions[textCounter].Id))
+                        @Html.HiddenFor(modelItem => (Model.TextQuestions[textCounter].Description))
+                        @if (Model.TextQuestions[textCounter].IsLongAnswer == true && Model.TextQuestions[textCounter].IsRequired == true)
+                        {
+                            <div class="form-group">
+                                <textarea class="form-control" rows="3" @Html.EditorFor(modelItem => (Model.TextQuestions[textCounter]).Answer)></textarea>
+                            </div>
+                        }
+                        else if (Model.TextQuestions[textCounter].IsLongAnswer == true && Model.TextQuestions[textCounter].IsRequired == false)
+                        {
+                            {
+                                <div class="form-group">
+                                    <textarea class="form-control" rows="3" @Html.EditorFor(modelItem => (Model.TextQuestions[textCounter]).Answer)></textarea>
+                                </div>
+                            }
+                        }
+                        else if (Model.TextQuestions[textCounter].IsLongAnswer == false && Model.TextQuestions[textCounter].IsRequired == true)
+                        {
+                            <div class="form-group">
+                                <input class="form-group" type="text" required @Html.EditorFor(modelItem => (Model.TextQuestions[textCounter]).Answer)>
+                            </div>
+                        }
+                        else if (Model.TextQuestions[textCounter].IsLongAnswer == false && Model.TextQuestions[textCounter].IsRequired == false)
+                        {
+                            <div class="form-group">
+                                <input class="form-group" type="text" @Html.EditorFor(modelItem => (Model.TextQuestions[textCounter]).Answer)>
+                            </div>
+                        }
                     </div>
                     <br />
 
@@ -105,6 +104,7 @@
                                         }
                                         else if ((Model.MultipleChoiceQuestions[multipleChoiceCounter].IsMultipleAnswer == false && Model.MultipleChoiceQuestions[multipleChoiceCounter].IsRequired == true))
                                         {
+
                                             <div class="form-check-inline">
                                                 <label class="form-check-label" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Answer">
                                                     <input required type="radio" name="radio+@i" id="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Id" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Answer" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Option" />
@@ -144,15 +144,19 @@
                 }
                 if (documentCounter < Model.DocumentQuestions.Count && Model.DocumentQuestions[documentCounter].QuestionNumber == i)
                 {
+
                     @Html.HiddenFor(modelItem => (Model.DocumentQuestions[documentCounter].Id))
                     @Html.HiddenFor(modelItem => (Model.DocumentQuestions[documentCounter].Description))
+                    @Html.HiddenFor(modelItem => (Model.DocumentQuestions[documentCounter].FileNumberLimit))
+                    @Html.HiddenFor(modelItem => (Model.DocumentQuestions[documentCounter].FileSize))
                     if (Model.DocumentQuestions[documentCounter].IsRequired == true)
                     {
                         <div id="custom-file-label" style="font-size: smaller">
                             <div class="form-group">
                                 @Html.DisplayFor(modelItem => Model.DocumentQuestions[documentCounter].Description)
                                 <label asp-for="@Model.DocumentQuestions[documentCounter].Files" class="btn btn-primary btn-sm"></label>
-                                <input asp-for="@Model.DocumentQuestions[documentCounter].Files" type="file" id="file+@i" multiple="multiple" required />
+                                <input asp-for="@Model.DocumentQuestions[documentCounter].Files" type="file" id="@fileCounter" multiple="multiple" required />
+
                             </div>
                         </div>
                     }
@@ -162,10 +166,11 @@
                             <div class="form-group">
                                 @Html.DisplayFor(modelItem => Model.DocumentQuestions[documentCounter].Description)
                                 <label asp-for="@Model.DocumentQuestions[documentCounter].Files" class="btn btn-primary btn-sm"></label>
-                                <input asp-for="@Model.DocumentQuestions[documentCounter].Files" type="file" id="file+@i" multiple="multiple" />
+                                <input asp-for="@Model.DocumentQuestions[documentCounter].Files" type="file" id="@fileCounter" multiple="multiple" />
                             </div>
                         </div>
                     }
+                    fileCounter++;
                 }
                 documentCounter++;
             }
@@ -181,60 +186,30 @@
     <a asp-action="Index">Back to List</a>
 </div>
 <script>
-    //    var uploadField = document.getElementById('td[id^="file"]');
-
-    //uploadField.onchange = function () {
-    //    if (this.files[0].size > 10485760) {
-    //        alert("File is too big!");
-    //        this.value = "";
-    //    };
-    //};
-    //$(function () {
-    //    $("input[type='file']").click(function () {
-    //        var $fileUpload = $("input[type='file']");
-    //        debugger
-    //        if (parseInt($fileUpload.get(0).files.length) > 2) {
-    //            alert("You can only upload a maximum of 2 files");
-    //        }
-    //    });
-    //});​
-    @*var n =”<%=@Model.DocumentQuestions%>”*@
-    //jQuery.validator.addMethod("filesize_max", function (value, element, param) {
-    //    var isOptional = this.optional(element),
-    //        file;
-
-    //    if (isOptional) {
-    //        return isOptional;
-    //    }
-
-    //    if ($(element).attr("type") === "file") {
-
-    //        if (element.files && element.files.length) {
-
-    //            file = element.files[0];
-    //            return (file.size && file.size <= param);
-    //        }
-    //    }
-    //    return false;
-    //}, "File size is too large.");
-    //Funcion for multiple answers
-    //$(document).ready(function () {
-    //    $("input[type='submit']").click(function () {
-    //        var radioValue = $("input[name='multi']:checked").val();
-    //        if (radioValue) {
-    //            alert("Your are a - " + radioValue);
-    //        }
-    //    });
-    //});
-    //function radio(n) {
-    //    $('#radio' + n).click();
-    //    $('.radio').removeClass('selectedRadio');
-    //    $(this).addClass('selectedRadio');
-    //    $('#radionumber').val($(this).attr('id').substring(5));
-    //}
-    //$('input[type="file"]').change(function (e) {
-    //    let fileName = e.target.files[0].name;
-    //    $('#custom-file-label').append(fileName);
-    //    console.log(fileName)
-    //});
+    function validateForm() {
+        var count = @Model.DocumentQuestions.Count();
+        var allLimits = [];
+        var allFileSize = [];
+      @foreach (var item in Model.DocumentQuestions)
+      {
+          @:allLimits.push(@item.FileNumberLimit);
+          @:allFileSize.push(@item.FileSize*1024*1024);
+      }
+        for (var i = 0; i < count; i++) {
+          var files = $('#'+i)[0].files;
+            if (files.length > allLimits[i]) {
+                alert("You can select max " + limit + " files."); //limit should be changed
+                return false;
+            }
+          }
+          for (var j = 0; j < files.length; j++) {
+              if (files[j].size > allFileSize[i]) {
+                  alert("File is too big!");
+                  return false;
+              }
+          }
+          return true;
+        };
+    };
+ 
 </script>

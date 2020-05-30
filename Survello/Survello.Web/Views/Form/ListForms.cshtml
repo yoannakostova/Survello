@@ -56,7 +56,7 @@
                     <a asp-controller="Form" asp-action="Answer" asp-route-id="@item.Id" type="button" class="btn btn-primary">Answer Form</a>
 
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="@item.Id" onclick="showModal(this.id)" data-container="@Guid.NewGuid()">Share Form</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="@item.Id" onclick="showModal(this.id)" data-modal="@Guid.NewGuid()">Share Form</button>
 
                     <!-- Modal -->
                     <div class="modal @item.Id fade" id="@item.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

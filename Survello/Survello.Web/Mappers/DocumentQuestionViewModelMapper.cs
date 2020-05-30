@@ -19,10 +19,15 @@ namespace Survello.Web.Mappers
             }
 
             var fileSize = 0;
-            if (viewModel.FileSize != null)
+            if (viewModel.FileSize is string && (viewModel.FileSize.Contains("MB")))
             {
                 fileSize = int.Parse(viewModel.FileSize.Substring(0, viewModel.FileSize.Length - 2));
             }
+            else
+            {
+                fileSize = int.Parse(viewModel.FileSize);
+            }
+       
 
             return new DocumentQuestionDTO
             {

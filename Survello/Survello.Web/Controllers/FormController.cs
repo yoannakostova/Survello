@@ -127,14 +127,12 @@ namespace Survello.Web.Controllers
                 var isAnswerSaved = await this.formServices.SaveAnswerForm(form.MapFrom());
 
                 this.toastNotification.AddSuccessToastMessage("Form was successfully answered");
-
-                return RedirectToAction("ListForms"); 
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw;  
+                this.toastNotification.AddErrorToastMessage("Something went wrong... Please try again!");
             }
-
+                return RedirectToAction("ListForms"); 
         }
     }
 }
