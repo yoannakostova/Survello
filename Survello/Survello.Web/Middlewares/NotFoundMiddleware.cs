@@ -21,7 +21,7 @@ namespace Survello.Web.Middlewares
 
             if (httpContext.Response.StatusCode == 404)
             {
-                httpContext.Response.Redirect("/Home/NotFound");
+                httpContext.Response.Redirect("/NotFound");
             }
         }
     }
