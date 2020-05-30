@@ -54,7 +54,7 @@ namespace Survello.Web
                 option.Password.RequiredUniqueChars = 0;
             });
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
             services.AddMvc().AddNToastNotifyToastr(new ToastrOptions()
             {
@@ -81,13 +81,14 @@ namespace Survello.Web
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseCookiePolicy();
 
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
 
-            //app.UseMiddleware<NotFoundMiddleware>();
+            app.UseMiddleware<NotFoundMiddleware>();
             app.UseNToastNotify();
 
             app.UseEndpoints(endpoints =>

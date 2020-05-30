@@ -166,7 +166,8 @@ namespace Survello.Services.Services
             var form = this.dbcontext.Forms
                     .FirstOrDefault(f => f.Id == formDto.Id) ?? throw new Exception(ExceptionMessages.EntityNotFound);
 
-            form.NumberOfFilledForms++;           
+            form.NumberOfFilledForms++;
+           
             await this.dbcontext.SaveChangesAsync();
             
             return true;
