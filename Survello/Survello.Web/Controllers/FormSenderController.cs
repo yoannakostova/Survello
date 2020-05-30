@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +17,13 @@ namespace Survello.Web.Controllers
     {
         private readonly IToastNotification toastNotification;
         private readonly IFormSenderServices formSenderServices;
+        private const string MatchEmailPattern =
+           @"^(([\w-]+\.)+[\w-]+|([a-zA-Z]{1}|[\w-]{2,}))@"
+    + @"((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?
+				[0-9]{1,2}|25[0-5]|2[0-4][0-9])\."
+    + @"([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?
+				[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
+    + @"([a-zA-Z0-9]+[\w-]+\.)+[a-zA-Z]{1}[a-zA-Z0-9-]{1,23})$";
 
         public FormSenderController(IToastNotification toastNotification, IFormSenderServices formSenderServices)
         {
@@ -30,16 +39,35 @@ namespace Survello.Web.Controllers
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> SendMail(Guid id, string allRecipients, string subj)
+        public async Task<IActionResult> SendMail(Guid id, string allRecipients)
         {
             if (id == Guid.Empty)
             {
-                //TODO: Middleware to be added and may be some toast notification.
                 return NotFound();
             }
+            if (allRecipients == null)
+            {
+                this.toastNotification.AddAlertToastMessage("You do not provide an email for sharing the form!");
+                return View();
+            }
+            string[] Emails = allRecipients.Split(new char[] { ',', ' ' },
+                                           StringSplitOptions.RemoveEmptyEntries);
+            MailMessage mailMessage = new MailMessage();
+            foreach (var email in Emails)
+            {
+                if (Regex.IsMatch(email, MatchEmailPattern))
+                {
+                    mailMessage.To.Add(email);
+                }
+                else
+                {
+                    this.toastNotification.AddAlertToastMessage("Wrong email format! Please try again with the correct one.");
+                    return View();
+                }
+            }
             try
-            { 
-                var isEmailSent = await this.formSenderServices.ShareFormAsync(id, allRecipients, subj);
+            {
+                var isEmailSent = await this.formSenderServices.ShareFormAsync(id, mailMessage);
 
                 this.toastNotification.AddSuccessToastMessage("Email was sent successfully"!);
             }
