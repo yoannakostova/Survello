@@ -27,6 +27,11 @@ namespace Survello.Web.Controllers
         {
             return View();
         }
+        [Route("notfound")]
+        public IActionResult MissingPage()
+        {
+            return View("NotFound");
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

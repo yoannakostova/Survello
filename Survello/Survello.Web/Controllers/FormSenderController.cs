@@ -47,7 +47,7 @@ namespace Survello.Web.Controllers
             {
                 this.toastNotification.AddErrorToastMessage("Something went wrong... Please try again!");
             }
-            return RedirectToAction("ListForms", "Form");
+            return View();
         }
     }
 }
