@@ -142,6 +142,52 @@ namespace Survello.Web.Controllers
             }
             try
             {
+                foreach (var tq in form.TextQuestions)
+                {
+                    if (tq.IsRequired == true && tq.Description == string.Empty)
+                    {
+                        this.toastNotification.AddErrorToastMessage($"You missed to anwer to the following question {tq.Description}.");
+                        return RedirectToAction("Answer", "Form", new { id = form.Id });
+                    }
+                }
+                //TODO: Validation for multiple question
+                foreach (var dq in form.DocumentQuestions)
+                {
+                    if (dq.IsRequired == true)
+                    {
+                        if (dq.Files.Count == 0)
+                        {
+                            this.toastNotification.AddErrorToastMessage($"You missed to upload a file for the following question {dq.Description}.");
+                            return RedirectToAction("Answer", "Form", new { id = form.Id });
+                        }
+                    }                   
+                    if (dq.Files == null && dq.IsRequired == false)
+                    {
+                        continue;
+                    }
+                    var fileSize = long.Parse(dq.FileSize) * 1024 * 1024;
+                    foreach (var file in dq.Files)
+                    {
+                        if (file != null)
+                        {
+                            if (fileSize < file.Length)
+                            {
+                                this.toastNotification.AddErrorToastMessage("File size is too big.");
+                                return RedirectToAction("Answer", "Form", new { id = form.Id });
+                            }
+                            if (dq.FileNumberLimit < dq.Files.Count)
+                            {
+                                this.toastNotification.AddErrorToastMessage("File number is bigger than the alllowed.");
+                                return RedirectToAction("Answer", "Form", new { id = form.Id });
+                            }
+                        }
+                        else
+                        {
+                            this.toastNotification.AddErrorToastMessage($"You missed to upload a file for the following question {dq.Description}.");
+                            return RedirectToAction("Answer", "Form", new { id = form.Id });
+                        }
+                    }
+                }
                 var isAnswerSaved = await this.formServices.SaveAnswerForm(form.MapFrom());
 
                 this.toastNotification.AddSuccessToastMessage("Form was successfully answered");
@@ -149,8 +195,9 @@ namespace Survello.Web.Controllers
             catch (Exception)
             {
                 this.toastNotification.AddErrorToastMessage("Something went wrong... Please try again!");
+                return RedirectToAction("Answer", "Form", new { id = form.Id });
             }
-                return RedirectToAction("ListForms"); 
+            return RedirectToAction("ListForms"); //TODO: Submitted form page
         }
     }
 }

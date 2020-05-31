@@ -13,7 +13,7 @@
     <div class="col-md-12">
 
 
-        <form method="post" enctype="multipart/form-data" onsubmit="return validateForm()" asp-controller="Form" asp-action="Answer">
+        <form method="post" enctype="multipart/form-data" onsubmit="return validateFileUploading()" asp-controller="Form" asp-action="Answer">
 
             <div class="form-group">
                 @Html.HiddenFor(modelItem => (Model.Title))
@@ -46,10 +46,11 @@
 
                         @Html.HiddenFor(modelItem => (Model.TextQuestions[textCounter].Id))
                         @Html.HiddenFor(modelItem => (Model.TextQuestions[textCounter].Description))
+                        @Html.HiddenFor(modelItem => (Model.TextQuestions[textCounter].IsRequired))
                         @if (Model.TextQuestions[textCounter].IsLongAnswer == true && Model.TextQuestions[textCounter].IsRequired == true)
                         {
                             <div class="form-group">
-                                <textarea class="form-control" rows="3" @Html.EditorFor(modelItem => (Model.TextQuestions[textCounter]).Answer)></textarea>
+                                <textarea class="form-control" required rows="3" @Html.EditorFor(modelItem => (Model.TextQuestions[textCounter]).Answer)></textarea>
                             </div>
                         }
                         else if (Model.TextQuestions[textCounter].IsLongAnswer == true && Model.TextQuestions[textCounter].IsRequired == false)
@@ -81,6 +82,7 @@
                 {
                     @Html.HiddenFor(modelItem => (Model.MultipleChoiceQuestions[multipleChoiceCounter].Id))
                     @Html.HiddenFor(modelItem => (Model.MultipleChoiceQuestions[multipleChoiceCounter].Description))
+                    @Html.HiddenFor(modelItem => (Model.MultipleChoiceQuestions[multipleChoiceCounter].IsRequired))
                     <div class="form-group">
                         @Html.DisplayFor(modelItem => Model.MultipleChoiceQuestions[multipleChoiceCounter].Description, new { @class = "control-label col-md-4" })
                         <div class="col-md-6">
@@ -96,15 +98,14 @@
                                         {
                                             <div class="form-check-inline">
                                                 <label class="form-check-label" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Answer">
-                                                    <input required type="checkbox" id="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Id" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Answer" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Option" />
+                                                <input required type="checkbox"  id="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Id" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Answer" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Option" />
 
                                                     @Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Option
                                                 </label>
                                             </div>
                                         }
-                                        else if ((Model.MultipleChoiceQuestions[multipleChoiceCounter].IsMultipleAnswer == false && Model.MultipleChoiceQuestions[multipleChoiceCounter].IsRequired == true))
+                                        else if (Model.MultipleChoiceQuestions[multipleChoiceCounter].IsMultipleAnswer == false && Model.MultipleChoiceQuestions[multipleChoiceCounter].IsRequired == true)
                                         {
-
                                             <div class="form-check-inline">
                                                 <label class="form-check-label" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Answer">
                                                     <input required type="radio" name="radio+@i" id="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Id" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Answer" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Option" />
@@ -149,6 +150,7 @@
                     @Html.HiddenFor(modelItem => (Model.DocumentQuestions[documentCounter].Description))
                     @Html.HiddenFor(modelItem => (Model.DocumentQuestions[documentCounter].FileNumberLimit))
                     @Html.HiddenFor(modelItem => (Model.DocumentQuestions[documentCounter].FileSize))
+                    @Html.HiddenFor(modelItem => (Model.DocumentQuestions[documentCounter].IsRequired))
                     if (Model.DocumentQuestions[documentCounter].IsRequired == true)
                     {
                         <div id="custom-file-label" style="font-size: smaller">
@@ -176,7 +178,7 @@
             }
 
             <div class="form-group">
-                <input type="submit" value="Save" id="6" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -186,7 +188,7 @@
     <a asp-action="Index">Back to List</a>
 </div>
 <script>
-    function validateForm() {
+        function validateFileUploading() {
         var count = @Model.DocumentQuestions.Count();
         var allLimits = [];
         var allFileSize = [];
@@ -198,18 +200,16 @@
         for (var i = 0; i < count; i++) {
           var files = $('#'+i)[0].files;
             if (files.length > allLimits[i]) {
-                alert("You can select max " + limit + " files."); //limit should be changed
+                alert("You can select max " + allLimits[i] + " files.");
                 return false;
             }
-          }
           for (var j = 0; j < files.length; j++) {
               if (files[j].size > allFileSize[i]) {
                   alert("File is too big!");
                   return false;
               }
           }
+          }
           return true;
-        };
     };
- 
 </script>

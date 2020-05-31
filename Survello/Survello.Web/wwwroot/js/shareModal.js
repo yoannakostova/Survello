@@ -21,5 +21,4 @@ function saveModal(id) {
         //'RequestVerificationToken': '@AntiForgery.GetAndStoreTokens(HttpContext).RequestToken'
         //headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
     })
-
 };

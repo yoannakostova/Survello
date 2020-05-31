@@ -2,6 +2,7 @@
 using Microsoft.Azure.Storage;
 using Microsoft.Azure.Storage.Blob;
 using Microsoft.Extensions.Configuration;
+using Survello.Services.ConstantMessages;
 using Survello.Services.Services.Contracts;
 using System;
 using System.Collections.Generic;
@@ -22,40 +23,50 @@ namespace Survello.Services.Services
 
         public async Task<string> UploadAsync(IFormFile files, Guid corelationToken, Guid questionId)
         {
-            string blobStorageConnectionString = configuration.GetValue<string>("BlobConnectionString");
-
-            byte[] dataFiles;
-
-            // Retrieve storage account from connection string.
-            CloudStorageAccount cloudStorageAccount = CloudStorageAccount.Parse(blobStorageConnectionString);
-
-            // Create the blob client.
-            CloudBlobClient cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
-
-            // Retrieve a reference to a container.
-            CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference("documents");
-
-            BlobContainerPermissions permissions = new BlobContainerPermissions
+            try
             {
-                PublicAccess = BlobContainerPublicAccessType.Blob
-            };
+                string blobStorageConnectionString = configuration.GetValue<string>("BlobConnectionString");
 
-            string systemFileName = $"{questionId}.{corelationToken}.{files.FileName}"; //questionId?
+                byte[] dataFiles;
 
-            await cloudBlobContainer.SetPermissionsAsync(permissions);
-            await using (var target = new MemoryStream())
-            {
-                files.CopyTo(target);
-                dataFiles = target.ToArray();
+                // Retrieve storage account from connection string.
+                CloudStorageAccount cloudStorageAccount = CloudStorageAccount.Parse(blobStorageConnectionString);
+
+                // Create the blob client.
+                CloudBlobClient cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
+
+
+                // Retrieve a reference to a container.
+                CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference("documents");
+
+                if (cloudBlobContainer.Exists())
+                {
+                    BlobContainerPermissions permissions = new BlobContainerPermissions
+                    {
+                        PublicAccess = BlobContainerPublicAccessType.Blob
+                    };
+
+                    string systemFileName = $"{questionId}_{corelationToken}_{files.FileName}"; //questionId?
+
+                    await cloudBlobContainer.SetPermissionsAsync(permissions);
+                    await using (var target = new MemoryStream())
+                    {
+                        files.CopyTo(target);
+                        dataFiles = target.ToArray();
+                    }
+
+                    // This also does not make a service call; it only creates a local object.
+                    CloudBlockBlob cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(systemFileName);
+                    await cloudBlockBlob.UploadFromByteArrayAsync(dataFiles, 0, dataFiles.Length);
+
+                    return cloudBlockBlob.Uri.AbsoluteUri.ToString();
+                }
             }
-
-            // This also does not make a service call; it only creates a local object.
-            CloudBlockBlob cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(systemFileName);
-            await cloudBlockBlob.UploadFromByteArrayAsync(dataFiles, 0, dataFiles.Length);
-
-            var filePath = cloudBlockBlob.Uri.AbsoluteUri;
-
-            return filePath;
+            catch (Exception)
+            {
+                throw new Exception(ExceptionMessages.BlobError);
+            }
+            return null;
         }
     }
 }
