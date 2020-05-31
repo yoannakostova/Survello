@@ -78,6 +78,7 @@ namespace Survello.Web.Controllers
                 NotFound();
             }
         }
+
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
@@ -89,9 +90,24 @@ namespace Survello.Web.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult Edit()
+        public async Task<IActionResult> Edit(FormViewModel model)
         {
-            throw new NotImplementedException();
+            if (!ModelState.IsValid)
+            {
+                return NotFound();
+            }
+            try
+            {
+                await this.formServices.CreateFormAsync(model.MapFrom());
+                this.toastNotification.AddSuccessToastMessage("Form was successfully created");
+
+            }
+            catch (Exception)
+            {
+                this.toastNotification.AddErrorToastMessage("Something went wrong... Please try again!");
+            }
+
+            return RedirectToAction("ListForms");
         }
 
         [HttpGet]
@@ -104,14 +120,16 @@ namespace Survello.Web.Controllers
             try
             {
                 var form = (await this.formServices.GetFormAsync(id)).MapFrom();
+                this.toastNotification.AddSuccessToastMessage("Form was successfully created");
 
                 return View(form);
             }
             catch (Exception)
             {
-
+                this.toastNotification.AddErrorToastMessage("Something went wrong... Please try again!");
                 throw;
             }
+
         }
 
         //TODO: HiddenFor leaves IDs visible in the browser! 

@@ -26,13 +26,11 @@ namespace Survello.Services.Services
 
             byte[] dataFiles;
 
-
             // Retrieve storage account from connection string.
             CloudStorageAccount cloudStorageAccount = CloudStorageAccount.Parse(blobStorageConnectionString);
 
             // Create the blob client.
             CloudBlobClient cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
-
 
             // Retrieve a reference to a container.
             CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference("documents");
