@@ -1,40 +1,231 @@
 ﻿@model Survello.Web.Models.FormViewModel
 
+@{
+    ViewData["Title"] = "Edit";
+}
 
 @{
-    bool isInEditMode = true;
-    if (!Model.MultipleChoiceQuestions.Any() && !Model.TextQuestions.Any() && !Model.DocumentQuestions.Any())
-    {
-        isInEditMode = false;
-    }
+    int globalRemoveID = 0;
+    int globalQuestionID = 0;
 
-    }
+    int globalOptionsID = 0;
 
-        <div style="border-color:#b4e2f4" class="col-sm-11">
-            <div class="form-group">
-                <input id="formTitle" class="form-control" value="Untitled" />
-                <span id="idSpanTitle" style="color:red"></span>
-            </div>
-            <div class="form-group">
-                <input id="formDescription" class="form-control" placeholder="Description" />
-            </div>
+    int textCounterRendered = 0;
+    int MCQCounterRendered = 0;
+    int documentCounterRendered = 0;
+}
+
+<div style="color:darkcyan">
+    <div>
+        <div class="col-sm-6">
+            <input id="formTitle" class="form-control" value="@Model.Title" />
+            <span id="idSpanTitle_@globalRemoveID" style="color:red"></span>
         </div>
+        <br />
+        <div class="col-sm-6">
+            <input id="formDescription" class="form-control" value="@Model.Description" placeholder="Description" />
+        </div>
+    </div>
+    <br />
+
+    @for (int i = 1; i <= Model.LastQuestionNumber; i++)
+    {
+        if (textCounterRendered < Model.TextQuestions.Count && Model.TextQuestions[textCounterRendered].QuestionNumber == i)
+        {
+            globalRemoveID++;
+            globalQuestionID++;
+
+            <div class="card" id="RemoveID_@globalRemoveID">
+                <div class="card-header" style="background-color:darkcyan">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <input class="form-control" id="descriptionTQ_@globalQuestionID" value="@Model.TextQuestions[textCounterRendered].Description" placeholder="Enter your question here" />
+                            <span id="idSpanTitle_@globalQuestionID" style="color:red"></span>
+                        </div>
+                        <div class="fa fa-times" id="globalCounter">
+                            <button type="button" class="btn btn-danger btn-circle" onclick="RemoveID(this.id)" id="@globalRemoveID">X</button>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="custom-control custom-switch col col-lg-2">
+                    <input asp-for="@Model.TextQuestions[textCounterRendered].IsLongAnswer" type="checkbox" class="custom-control-input" id="isLongAnswerTQ_@globalQuestionID">
+                    <label class="custom-control-label" for="isLongAnswerTQ_@globalQuestionID">Long answer</label>
+                </div>
+                <div class="custom-control custom-switch col col-lg-2">
+                    <input asp-for="@Model.TextQuestions[textCounterRendered].IsRequired" type="checkbox" class="custom-control-input" id="isRequiredTQ_@globalQuestionID" />
+                    <label class="custom-control-label" for="isRequiredTQ_@globalQuestionID">Required</label>
+                </div>
+                <br />
+            </div>
+            <input style="display:none" id="getValueTQ_@globalQuestionID" value="@globalRemoveID" />
+            <br />
+            <br />
+
+            textCounterRendered++;
+        }
+
+        if (MCQCounterRendered < Model.MultipleChoiceQuestions.Count && Model.MultipleChoiceQuestions[MCQCounterRendered].QuestionNumber == i)
+        {
+            globalRemoveID++;
+            globalQuestionID++;
+
+            <div class="card" id="RemoveID_@globalRemoveID">
+                <div class="card-header" style="background-color:darkcyan">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="descriptionMCQ_@globalQuestionID" value="@Model.MultipleChoiceQuestions[MCQCounterRendered].Description" />
+                            <span id="idSpanTitle_@globalQuestionID" style="color:red"></span>
+                        </div>
+                        <div class="fa fa-times" id="globalCounter">
+                            <button type="button" class="btn btn-danger btn-circle" onclick="RemoveID(this.id)" id="@globalRemoveID">X</button>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="custom-control custom-switch">
+                    <input asp-for="@Model.MultipleChoiceQuestions[MCQCounterRendered].IsRequired" type="checkbox" class="custom-control-input" id="isRequiredMCQ_@globalQuestionID" />
+                    <label class="custom-control-label" for="isRequiredMCQ_@globalQuestionID">Required</label>
+                </div>
+                <div class="custom-control custom-switch">
+                    <input asp-for="@Model.MultipleChoiceQuestions[MCQCounterRendered].IsMultipleAnswer" type="checkbox" class="custom-control-input" id="isMultipleAnswerMCQ_@globalQuestionID">
+                    <label class="custom-control-label" for="isMultipleAnswerMCQ_@globalQuestionID">Multiple Answer</label>
+                </div>
+                <br />
+                <div class="container">
+                    <div id="add_@globalQuestionID">
+                        <span style="color:red" id="corret_@globalQuestionID"> </span>
+
+                        @for (int k = 0; k < Model.MultipleChoiceQuestions[MCQCounterRendered].Options.Count; k++)
+                        {
+                            globalRemoveID++;
+                            <div class="row" id="RemoveID_@globalRemoveID">
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" id="option_@globalOptionsID" value="@Model.MultipleChoiceQuestions[MCQCounterRendered].Options[k].Option">
+                                    <span id="idSpanTitleOption_@globalOptionsID" style="color:red"></span>
+                                </div>
+                                <div class="fa fa-times" id="globalCounter">
+                                    <button type="button" class="btn btn-danger btn-circle" onclick="RemoveID(this.id)" id="@globalRemoveID">X</button>
+                                </div>
+                            </div>
+                            <br />
+                            globalOptionsID++;
+                        }
+                    </div>
+                    <div id="counter">
+                        <button onclick="addOption(this.id)" type="button" class="btn btn-outline-secondary" id=@globalQuestionID data-arg1="@globalRemoveID" data-arg2="@globalOptionsID">Add option</button>
+                    </div>
+                    <input style="display:none" id="getValueMCQ_@globalQuestionID" value="@globalRemoveID" />
+                </div>
+                <br />
+            </div>
+            <br />
+            <br />
+            MCQCounterRendered++;
+        }
+
+        if (documentCounterRendered < Model.DocumentQuestions.Count && Model.DocumentQuestions[documentCounterRendered].QuestionNumber == i)
+        {
+            globalRemoveID++;
+            globalQuestionID++;
+
+            <div class="card" id="RemoveID_@globalRemoveID">
+                <div class="card-header" style="background-color:darkcyan">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="descriptionDQ_@globalQuestionID" value="@Model.DocumentQuestions[documentCounterRendered].Description" />
+                            <span id="idSpanTitle_@globalRemoveID" style="color:red"></span>
+                        </div>
+                        <div class="fa fa-times" id="globalCounter">
+                            <button type="button" class="btn btn-danger btn-circle" onclick="RemoveID(this.id)" id="@globalRemoveID">X</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="dropdown pull-left; col-md-4" id="FileNumberLimit_@globalQuestionID">
+                            <label class="control-label">
+                                Files limit
+                                <select id="select1" class="form-control" value="5">
+                                    <option selected="selected">
+                                        @Model.DocumentQuestions[documentCounterRendered].FileNumberLimit
+                                    </option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </label>
+                        </div>
+                        <div class="dropdown pull-right; col-md-4" id="FileSize_@globalQuestionID">
+                            <label class="control-label">
+                                File size
+                                <select id="select1" class="form-control">
+                                    <option value="@Model.DocumentQuestions[documentCounterRendered].FileSize" selected="selected">@Model.DocumentQuestions[documentCounterRendered].FileSize</option>
+                                    <option value="1">1MB</option>
+                                    <option value="10">10MB</option>
+                                    <option value="100">100MB</option>
+                                    <option value="1000">1GB</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="isRequiredDQ_@globalQuestionID">
+                    <label class="custom-control-label" for="isRequiredDQ_@globalQuestionID">Required</label>
+                </div>
+                <br />
+                <input style="display:none" id="getValueDQ_@globalQuestionID" value="@globalRemoveID" />
+            </div>
+            <br />
+            <br />
+            documentCounterRendered++;
+        }
+    }
+</div>
+
+<div id="questions">
+</div>
 
 <div class="row">
     <div class="col-md-4">
-        <input class="button-custom" type="button" id="btnAddTQ" value="Add Text Question" />
+        <input class="button-custom" type="button" id="btnAddTQ" value="Add Text Question" data-arg1="@globalRemoveID" />
     </div>
     <div class="col-md-4">
-        <input class="button-custom" type="button" id="btnAddMCQ" value="Add Options Question" />
+        <input class="button-custom" type="button" id="btnAddMCQ" value="Add Options Question" data-arg1="@globalRemoveID" data-arg2="@globalOptionsID" />
     </div>
     <div class="col-md-4">
-        <input class="button-custom" type="button" id="btnAddDQ" value="Add Document Question" />
-    </div>
-    <div id="questions">
+        <input class="button-custom" type="button" id="btnAddDQ" value="Add Document Question" data-arg1="@globalRemoveID" />
     </div>
 </div>
+
 <div class="form-group">
     <input id="submitFormViewModel" type="button" onclick="create()" class="button-custom" value="Create" />
 </div>
 
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        var globalQuestionID = @Model.LastQuestionNumber;
+        var counter = 0;
+        let opt = 1;
+    </script>
+    <script src="~/js/create-text-question.js"></script>
+    <script src="~/js/create-multiple-choice-question-option.js"></script>
+    <script src="~/js/create-document-question.js"></script>
+    <script src="~/js/remove-question-option.js"></script>
+    <script src="~/js/validate-input-question-form.js"></script>
+    <script src="~/js/create-form.js"></script>
+}
