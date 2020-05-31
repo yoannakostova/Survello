@@ -16,6 +16,5 @@ namespace Survello.Web.Models
         public int NumberOfFilledForms { get; set; }
         public Guid UserId { get; set; }
         public string Recipients { get; set; }
-        public string Subject { get; set; }
     }
 }

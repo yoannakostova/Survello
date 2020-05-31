@@ -138,13 +138,24 @@ namespace Survello.Services.Services
             {
                 foreach (var option in question.Options)
                 {
-                    if (option.Answer != null && option.Answer != "false")
+                    if (option.Answer != null)
                     {
-                        var answer = new MultipleChoiceAnswer();
-                        answer.MultipleChoiceOptionId = option.Id;
-                        answer.CorelationToken = corelationToken;
+                        if (option.Answer != "false")
+                        { 
+                            var answer = new MultipleChoiceAnswer();
+                            answer.MultipleChoiceOptionId = option.Id;
+                            answer.CorelationToken = corelationToken;
 
-                        await this.dbcontext.MultipleChoiceAnswers.AddAsync(answer);
+                            await this.dbcontext.MultipleChoiceAnswers.AddAsync(answer);
+                        }
+                        else if(option.Option == "false" && option.Answer == "false")
+                        {
+                            var answer = new MultipleChoiceAnswer();
+                            answer.MultipleChoiceOptionId = option.Id;
+                            answer.CorelationToken = corelationToken;
+
+                            await this.dbcontext.MultipleChoiceAnswers.AddAsync(answer);
+                        }
                     }
                 }
             }
@@ -153,23 +164,27 @@ namespace Survello.Services.Services
             {
                 if (question.Files != null)
                 {
-                    var filePath = await this.blobServices.UploadAsync(question.Files, corelationToken, question.Id);
-                    var answer = new DocumentAnswer();
+                    foreach (var file in question.Files)
+                    {
+                        var filePath = await this.blobServices.UploadAsync(file, corelationToken, question.Id)
+                        ?? throw new Exception(ExceptionMessages.BlobError);
 
-                    answer.CorelationToken = corelationToken;
-                    answer.DocumentQuestionId = question.Id;
-                    answer.FileName = filePath;
+                        var answer = new DocumentAnswer();
+                        answer.CorelationToken = corelationToken;
+                        answer.DocumentQuestionId = question.Id;
+                        answer.FileName = filePath;
 
-                    await this.dbcontext.DocumentAnswers.AddAsync(answer);
+                        await this.dbcontext.DocumentAnswers.AddAsync(answer);
+                    }
                 }
             }
             var form = this.dbcontext.Forms
                     .FirstOrDefault(f => f.Id == formDto.Id) ?? throw new Exception(ExceptionMessages.EntityNotFound);
 
             form.NumberOfFilledForms++;
-           
+
             await this.dbcontext.SaveChangesAsync();
-            
+
             return true;
         }
     }
