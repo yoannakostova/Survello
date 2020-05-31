@@ -76,11 +76,6 @@
                                             <input asp-for="@item.Recipients" id="@item.Id+rec" class="form-control" required>
                                             <span asp-validation-for="@item.Recipients" class="text-danger"></span>
                                         </div>
-                                        <div class="form-group">
-                                            <label asp-for="@item.Subject" class="col-form-label">Subject:</label>
-                                            <input asp-for="@item.Subject" id="@item.Id+subject" class="form-control">
-                                            <span asp-validation-for="@item.Subject" class="text-danger"></span>
-                                        </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                             <button type="button" value="@item.Id" onclick="saveModal(this.value)" class="btn btn-primary">Share</button>
