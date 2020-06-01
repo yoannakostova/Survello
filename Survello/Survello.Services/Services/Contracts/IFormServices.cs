@@ -1,6 +1,7 @@
 ﻿using Survello.Services.DTOEntities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +15,7 @@ namespace Survello.Services.Services.Contracts
         Task<ICollection<ListFormsDTO>> GetAllFormsAsync();
         Task<ICollection<FormDTO>> GetUserFormsAsync(Guid userId);
         Task<bool> SaveAnswerForm(FormDTO form);
+        IQueryable<ListFormsDTO> Sort(string sortOrder, Guid userId);
 
     }
 }

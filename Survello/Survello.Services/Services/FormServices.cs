@@ -187,5 +187,40 @@ namespace Survello.Services.Services
 
             return true;
         }
+        public IQueryable<ListFormsDTO> Sort(string sortOrder, Guid userId)
+        {
+            var forms = this.dbcontext.Forms.Where(f => f.UserId == userId);
+
+            switch (sortOrder)
+            {
+                case "title_desc":
+                    forms = forms.OrderByDescending(f => f.Title);
+                    break;
+                case "LastModifiedOn":
+                    forms = forms.OrderBy(f => f.LastModifiedOn);
+                    break;
+                case "lastmodifiedon_desc":
+                    forms = forms.OrderByDescending(f => f.LastModifiedOn);
+                    break;
+                case "CreatedOn":
+                    forms = forms.OrderBy(f => f.CreatedOn);
+                    break;
+                case "createdon_desc":
+                    forms = forms.OrderByDescending(f => f.CreatedOn);
+                    break;
+                case "NumberOfFilledForms":
+                    forms = forms.OrderBy(f => f.NumberOfFilledForms);
+                    break;
+                case "numberoffilledforms_desc":
+                    forms = forms.OrderByDescending(f => f.NumberOfFilledForms);
+                    break;
+            }
+            return forms.Include(f => f.TextQuestions)
+                        .Include(f => f.MultipleChoiceQuestions)
+                            .ThenInclude(mq => mq.Options)
+                        .Include(f => f.DocumentQuestions)
+                        .Select(f => f.MapToListFormsDTO());
+        }
+
     }
 }
