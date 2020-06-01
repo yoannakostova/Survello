@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NToastNotify;
 using Survello.Models.Entites;
@@ -30,11 +31,17 @@ namespace Survello.Web.Controllers
         }
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> ListForms()
+        public async Task<IActionResult> ListForms(string sortOrder)
         {
-            //var userId = (await userManager.GetUserAsync(User)).Id;
-            //var allForms = await this.formServices.GetUserFormsAsync(userId);
-            var allForms = (await this.formServices.GetAllFormsAsync()).MapToListFormsViewModel();
+            ViewData["TitleSortParm"] = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
+            ViewData["LastModifiedOnSortParm"] = sortOrder == "LastModifiedOn" ? "lastmodifiedon_desc" : "LastModifiedOn";
+            ViewData["CreatedOnSortParm"] = sortOrder == "CreatedOn" ? "createdon_desc" : "CreatedOn";
+            ViewData["NumberOfFilledFormsSortParm"] = sortOrder == "NumberOfFilledForms" ? "numberoffilledforms_desc" : "NumberOfFilledForms";
+            var userId = (await userManager.GetUserAsync(User)).Id;
+
+            var allForms = this.formServices.Sort(sortOrder, userId).Select(f => f.MapToListFormsViewModel()).ToList();
+
+            //var allForms = (await this.formServices.GetAllFormsAsync()).MapToListFormsViewModel();
 
             return View(allForms);
         }
