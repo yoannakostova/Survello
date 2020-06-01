@@ -17,7 +17,7 @@ function ValidateInput(title, id, type) {
     }
     else {
 
-        $('#idSpanTitle_' + id.toString()).text("");
+        $(idPrefix + id.toString()).text("");
         return true;
     }
 }

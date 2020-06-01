@@ -1,10 +1,6 @@
 ﻿@model Survello.Web.Models.FormViewModel
 
 @{
-    ViewData["Title"] = "Edit";
-}
-
-@{
     int globalRemoveID = 0;
     int globalQuestionID = 0;
 
@@ -15,9 +11,13 @@
     int documentCounterRendered = 0;
 }
 
+@Html.HiddenFor(modelItem => (Model.Id))
+
 <div style="color:darkcyan">
     <div>
         <div class="col-sm-6">
+            <input hidden id="guid" class="form-control" value="@Model.Id" />
+
             <input id="formTitle" class="form-control" value="@Model.Title" />
             <span id="idSpanTitle_@globalRemoveID" style="color:red"></span>
         </div>
@@ -221,6 +221,7 @@
         var globalQuestionID = @Model.LastQuestionNumber;
         var counter = 0;
         let opt = 1;
+        let typeOfAction = "Edit"
     </script>
     <script src="~/js/create-text-question.js"></script>
     <script src="~/js/create-multiple-choice-question-option.js"></script>

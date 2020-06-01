@@ -4,6 +4,11 @@
 
     let title = document.getElementById("formTitle").value;
 
+    let idd;
+    if (typeOfAction === "Edit") {
+        idd = document.getElementById("guid").value;
+    }
+
     let isEverythingOk = true;
 
     isEverythingOk = ValidateInput(title, 0, "question");
@@ -16,7 +21,7 @@
 
     for (let i = 1; i <= globalQuestionID; i++) {
 
-//CREATE TEXT QUESTION
+        //CREATE TEXT QUESTION
         let textQuestionIsRequired = false;
         let textQuestionIsLongAnswer = false;
 
@@ -45,7 +50,7 @@
             TQlist.push(CreateTextQuestionViewModel);
         }
 
-//CREATE MULTIPLE CHOICE QUESTION
+        //CREATE MULTIPLE CHOICE QUESTION
         let MCQIsRequired1 = false;
         let MCQisMultipleAnswer1 = false;
 
@@ -136,25 +141,52 @@
             DQlist.push(CreateDocumentQuestionViewModel);
         }
     }
+    if (typeOfAction === "Create") {
 
-    if (isEverythingOkGlobal && isEverythingOk) {
-        $.ajax({
-            type: 'Post',
-            url: 'Edit',
-            data: {
-                'Title': title,
-                'Description': description,
-                'TextQuestions': TQlist,
-                'MultipleChoiceQuestions': MCQlist,
-                'DocumentQuestions': DQlist
-            },
-            success: function () {
-                window.location.replace("/Form/ListForms")
-            }
-        })
+        if (isEverythingOkGlobal && isEverythingOk) {
+            $.ajax({
+                type: 'Post',
+                url: 'Create',
+                data: {
+                    'Title': title,
+                    'Description': description,
+                    'TextQuestions': TQlist,
+                    'MultipleChoiceQuestions': MCQlist,
+                    'DocumentQuestions': DQlist
+                },
+                success: function () {
+                    window.location.replace("/Form/ListForms")
+                }
+            })
+        }
+        else {
+            alert("There are required fields remaining unfilled.")
+            window.scrollTo(0, 0);
+        }
     }
     else {
-        alert("There are required fields remaining unfilled.")
-        window.scrollTo(0, 0);
+
+        if (isEverythingOkGlobal && isEverythingOk) {
+            $.ajax({
+                type: 'Post',
+                url: 'Edit',
+                data: {
+                    'Id': idd,
+                    'Title': title,
+                    'Description': description,
+                    'TextQuestions': TQlist,
+                    'MultipleChoiceQuestions': MCQlist,
+                    'DocumentQuestions': DQlist
+                },
+                success: function () {
+                    window.location.replace("/Form/ListForms")
+                }
+            })
+        }
+        else {
+            alert("There are required fields remaining unfilled.")
+            window.scrollTo(0, 0);
+        }
     }
+
 }
