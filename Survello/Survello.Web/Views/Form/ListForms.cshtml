@@ -27,7 +27,7 @@
                 <a asp-action="ListForms" asp-route-sortOrder="@ViewData["CreatedOnSortParm"]"> <span class="glyphicon glyphicon-sort"> Created On</span>  </a>
             </th>
             <th>
-                <a asp-action="ListForms" asp-route-sortOrder="@ViewData["LastModifiedOnSortParm"]"> <span class="glyphicon glyphicon-sort"> Number of filled forms</span>  </a>
+                <a asp-action="ListForms" asp-route-sortOrder="@ViewData["NumberOfFilledFormsSortParm"]"> <span class="glyphicon glyphicon-sort"> Number of filled forms</span>  </a>
             </th>
             <th>
 
@@ -38,67 +38,93 @@
         @foreach (var item in Model)
         {
             counter++;
-        <tr>
-            <th scope="row">@counter.ToString()</th>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @if (item.LastModifiedOn == null)
-                {
-                    @Html.DisplayName("Not modified yet");
-                }
-                else
-                {
-                    @Html.DisplayFor(modelItem => item.LastModifiedOn)
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedOn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumberOfFilledForms)
-            </td>
-            <td>
-                <a asp-controller="Form" asp-action="Edit" asp-route-id="@item.Id" type="button" class="btn btn-primary">Edit</a>
-                <a asp-controller="Form" asp-action="Answer" asp-route-id="@item.Id" type="button" class="btn btn-primary">Answer</a>
+            <tr>
+                <th scope="row">@counter.ToString()</th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @if (item.LastModifiedOn == null)
+                    {
+                        @Html.DisplayName("Not modified yet");
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.LastModifiedOn)
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedOn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberOfFilledForms)
+                </td>
+                <td>
+                    <a asp-controller="Form" asp-action="Edit" asp-route-id="@item.Id" type="button" class="btn btn-primary">Edit</a>
+                    <a asp-controller="Form" asp-action="Answer" asp-route-id="@item.Id" type="button" class="btn btn-primary">Answer</a>
 
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="@item.Id" onclick="showModal(this.id)" data-modal="@Guid.NewGuid()">Share</button>
+                    <!-- Button trigger share modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="@item.Id" onclick="showModal(this.id)">Share</button>
 
-                <!-- Modal -->
-                <div class="modal @item.Id fade" id="@item.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Share your Form:</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form>
-                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                    <div class="form-group">
-                                        <label asp-for="@item.Recipients" class="col-form-label">Recipient:</label>
-                                        <input asp-for="@item.Recipients" id="@item.Id+rec" class="form-control" required>
-                                        <span asp-validation-for="@item.Recipients" class="text-danger"></span>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="button" value="@item.Id" onclick="saveModal(this.value)" class="btn btn-primary">Share</button>
-                                    </div>
-                                </form>
+                    <!-- Share Modal -->
+                    <div class="modal @item.Id fade" id="@item.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Share your Form:</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                        <div class="form-group">
+                                            <label asp-for="@item.Recipients" class="col-form-label">Recipient:</label>
+                                            <input asp-for="@item.Recipients" id="@item.Id+rec" class="form-control" required>
+                                            <span asp-validation-for="@item.Recipients" class="text-danger"></span>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="button" value="@item.Id" onclick="saveModal(this.value)" class="btn btn-primary">Share</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </td>
-        </tr>
+
+                    <!-- Button trigger delete modal -->
+                    <button type="button" class="btn btn-danger btn-circle" data-name="@item.Title" data-id="@item.Id" id="deleteButton" data-toggle="modal" data-target="#exampleModal3">X</button>
+
+                    <!-- Delete Modal -->
+                    <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModal3Label" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModal3Label">Are you sure that you want to delete this form: @item.Title</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form asp-controller="Form" asp-action="Delete">
+                                        <input value="@item.Id" name="Id" type="hidden" id="hiddenId" />
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
 
+
 @section scripts {
     <script src="~/js/shareModal.js"></script>
+    <script src="~/js/deleteModal.js"></script>
 }

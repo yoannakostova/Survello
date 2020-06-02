@@ -41,8 +41,6 @@ namespace Survello.Web.Controllers
 
             var allForms = this.formServices.Sort(sortOrder, userId).Select(f => f.MapToListFormsViewModel()).ToList();
 
-            //var allForms = (await this.formServices.GetAllFormsAsync()).MapToListFormsViewModel();
-
             return View(allForms);
         }
         [Authorize]
@@ -167,7 +165,7 @@ namespace Survello.Web.Controllers
                             this.toastNotification.AddErrorToastMessage($"You missed to upload a file for the following question {dq.Description}.");
                             return RedirectToAction("Answer", "Form", new { id = form.Id });
                         }
-                    }                   
+                    }
                     if (dq.Files == null && dq.IsRequired == false)
                     {
                         continue;
@@ -205,6 +203,24 @@ namespace Survello.Web.Controllers
                 return RedirectToAction("Answer", "Form", new { id = form.Id });
             }
             return RedirectToAction("ListForms"); //TODO: Submitted form page
+        }
+        [HttpPost]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            if (id == Guid.Empty)
+            {
+                return NotFound();
+            }
+            try
+            {
+                  await this.formServices.DeleteFormAsync(id);
+                  this.toastNotification.AddInfoToastMessage("Form was succesfully deleted!");
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+            return RedirectToAction(nameof(ListForms));
         }
     }
 }
