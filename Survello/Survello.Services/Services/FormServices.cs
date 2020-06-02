@@ -42,17 +42,14 @@ namespace Survello.Services.Services
 
             return formDto;
         }
-
         public async Task<bool> DeleteFormAsync(Guid id)
         {
             var form = await this.dbcontext.Forms
-                .FirstOrDefaultAsync(f => f.Id == id)
-                ?? throw new Exception(ExceptionMessages.EntityNotFound);
+                    .FirstOrDefaultAsync(f => f.Id == id)
+                    ?? throw new Exception(ExceptionMessages.EntityNotFound);
 
             form.IsDeleted = true;
             form.DeletedOn = this.dateTimeProvider.GetDateTime();
-
-            //TODO: Delete all questions in form
 
             await this.dbcontext.SaveChangesAsync();
 
@@ -141,14 +138,14 @@ namespace Survello.Services.Services
                     if (option.Answer != null)
                     {
                         if (option.Answer != "false")
-                        { 
+                        {
                             var answer = new MultipleChoiceAnswer();
                             answer.MultipleChoiceOptionId = option.Id;
                             answer.CorelationToken = corelationToken;
 
                             await this.dbcontext.MultipleChoiceAnswers.AddAsync(answer);
                         }
-                        else if(option.Option == "false" && option.Answer == "false")
+                        else if (option.Option == "false" && option.Answer == "false")
                         {
                             var answer = new MultipleChoiceAnswer();
                             answer.MultipleChoiceOptionId = option.Id;
@@ -178,8 +175,8 @@ namespace Survello.Services.Services
                     }
                 }
             }
-            var form = this.dbcontext.Forms
-                    .FirstOrDefault(f => f.Id == formDto.Id) ?? throw new Exception(ExceptionMessages.EntityNotFound);
+            var form = await this.dbcontext.Forms
+                    .FirstOrDefaultAsync(f => f.Id == formDto.Id) ?? throw new Exception(ExceptionMessages.EntityNotFound);
 
             form.NumberOfFilledForms++;
 
