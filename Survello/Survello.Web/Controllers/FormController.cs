@@ -109,7 +109,6 @@ namespace Survello.Web.Controllers
             {
                 await this.formServices.CreateFormAsync(model.MapFrom());
                 this.toastNotification.AddSuccessToastMessage("Form was successfully created");
-
             }
             catch (Exception)
             {
