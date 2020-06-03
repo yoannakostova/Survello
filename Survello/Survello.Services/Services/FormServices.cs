@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Survello.Database;
 using Survello.Models.Entites;
 using Survello.Services.ConstantMessages;
+using Survello.Services.CustomExceptions;
 using Survello.Services.DTOEntities;
 using Survello.Services.DTOMappers;
 using Survello.Services.Provider.Contract;
@@ -30,7 +31,11 @@ namespace Survello.Services.Services
         {
             if (tempForm == null)
             {
-                throw new Exception(ExceptionMessages.EntityNull);
+                throw new BusinessLogicException(ExceptionMessages.EntityNull);
+            }
+            if (tempForm.Title == null)
+            {
+                throw new BusinessLogicException(ExceptionMessages.TitleNull);
             }
 
             var form = tempForm.MapFrom();
@@ -47,7 +52,7 @@ namespace Survello.Services.Services
         {
             var form = await this.dbcontext.Forms
                     .FirstOrDefaultAsync(f => f.Id == id)
-                    ?? throw new Exception(ExceptionMessages.EntityNotFound);
+                    ?? throw new BusinessLogicException(ExceptionMessages.EntityNotFound);
 
             form.IsDeleted = true;
             form.DeletedOn = this.dateTimeProvider.GetDateTime();
@@ -64,9 +69,14 @@ namespace Survello.Services.Services
                 .Include(f => f.TextQuestions)
                 .Include(f => f.MultipleChoiceQuestions)
                     .ThenInclude(mq => mq.Options)
-                 .Include(f => f.DocumentQuestions)//TODO: Other type of questions to be included!
-                .FirstOrDefaultAsync()
-                ?? throw new Exception(ExceptionMessages.EntityNotFound);
+                .Include(f => f.DocumentQuestions)
+                .ToListAsync();
+
+
+            if (forms.Count == 0)
+            {
+                throw new BusinessLogicException(ExceptionMessages.ListNull);
+            }
 
             var formDto = form.MapFrom();
 
@@ -88,7 +98,7 @@ namespace Survello.Services.Services
                 .Include(f => f.DocumentQuestions)
                 .ThenInclude(dq => dq.Answers.Where(a => a.CorelationToken == idToken))
                 .FirstOrDefaultAsync()
-                ?? throw new Exception(ExceptionMessages.EntityNotFound);
+                ?? throw new BusinessLogicException(ExceptionMessages.EntityNotFound);
 
             var formDto = form.MapFrom();
 
@@ -107,7 +117,7 @@ namespace Survello.Services.Services
 
             if (forms.Count == 0)
             {
-                throw new Exception(ExceptionMessages.ListNull);
+                throw new BusinessLogicException(ExceptionMessages.ListNull);
             }
 
             var formsDto = forms.MapFrom();
@@ -259,8 +269,8 @@ namespace Survello.Services.Services
                 {
                     foreach (var file in question.Files)
                     {
-                        var filePath = await this.blobServices.UploadAsync(file, token, question.Id)
-                        ?? throw new Exception(ExceptionMessages.BlobError);
+                        var filePath = await this.blobServices.UploadAsync(file, corelationToken, question.Id)
+                        ?? throw new BusinessLogicException(ExceptionMessages.BlobError);
 
                         var answer = new DocumentAnswer();
                         answer.CorelationToken = token;
@@ -271,6 +281,14 @@ namespace Survello.Services.Services
                     }
                 }
             }
+            var form = await this.dbcontext.Forms
+                    .FirstOrDefaultAsync(f => f.Id == formDto.Id) ?? throw new BusinessLogicException(ExceptionMessages.EntityNotFound);
+
+            form.NumberOfFilledForms++;
+
+            await this.dbcontext.SaveChangesAsync();
+
+            return true;
         }
 
         public IQueryable<ListFormsDTO> Sort(string sortOrder, Guid userId)
@@ -302,7 +320,7 @@ namespace Survello.Services.Services
                     break;
             }
 
-            return forms.Include(f => f.TextQuestions)
+           return forms.Include(f => f.TextQuestions)
                         .Include(f => f.MultipleChoiceQuestions)
                             .ThenInclude(mq => mq.Options)
                         .Include(f => f.DocumentQuestions)
