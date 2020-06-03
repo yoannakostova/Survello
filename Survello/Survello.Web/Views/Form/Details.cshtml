@@ -1,0 +1,36 @@
+﻿@model Survello.Web.Models.FormViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1 style="color:darkcyan">Details of @Model.Title</h1>
+
+<div>
+    <div>
+        See detailed information about every filled form. Choose from the dropdown:
+        <a asp-action="Index">Back to List</a>
+    </div>
+    <hr />
+    <dl class="row">
+        <dt style="color:darkcyan" class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </dl>
+</div>
+@{
+    int counter = 1;
+}
+@foreach (var item in Model.CorelationTokens)
+{
+    var formID = Model.Id;
+    var dict = new Dictionary<string, string>();
+    dict.Add("idForm", formID.ToString());
+    dict.Add("idToken", item.ToString());
+    //asp-route-id="@item"
+    <a asp-controller="Form" asp-action="GetAnswer" asp-all-route-data="@dict">Answer @counter</a>
+}
+

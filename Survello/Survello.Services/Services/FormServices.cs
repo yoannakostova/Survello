@@ -42,6 +42,7 @@ namespace Survello.Services.Services
 
             return formDto;
         }
+
         public async Task<bool> DeleteFormAsync(Guid id)
         {
             var form = await this.dbcontext.Forms
@@ -54,26 +55,6 @@ namespace Survello.Services.Services
             await this.dbcontext.SaveChangesAsync();
 
             return true;
-        }
-        public async Task<ICollection<FormDTO>> GetUserFormsAsync(Guid userId)
-        {
-            var forms = await this.dbcontext.Forms
-                .Where(f => f.UserId == userId)
-                .Include(f => f.TextQuestions)
-                .Include(f => f.MultipleChoiceQuestions)
-                    .ThenInclude(mq => mq.Options)
-                .Include(f => f.DocumentQuestions)
-                .ToListAsync();
-
-
-            if (forms.Count == 0)
-            {
-                throw new Exception(ExceptionMessages.ListNull);
-            }
-
-            var formsDto = forms.MapFrom();
-
-            return formsDto;
         }
 
         public async Task<FormDTO> GetFormAsync(Guid id)
@@ -91,12 +72,36 @@ namespace Survello.Services.Services
 
             return formDto;
         }
-        public async Task<ICollection<ListFormsDTO>> GetAllFormsAsync()
+
+        public async Task<FormDTO> GetFormWithAnswersAsync(Dictionary<string, string> paramss)
+        {
+            var idForm = Guid.Parse(paramss["idForm"]);
+            var idToken = Guid.Parse(paramss["idToken"]);
+
+            var form = await this.dbcontext.Forms
+                .Where(f => f.Id == idForm)
+                .Include(f => f.TextQuestions)
+                    .ThenInclude(q => q.Answers)
+                .Include(f => f.MultipleChoiceQuestions)
+                    .ThenInclude(mq => mq.Options)
+                    .ThenInclude(mq => mq.MultipleChoiceAnswers.Where(a =>a.CorelationToken == idToken))
+                .Include(f => f.DocumentQuestions)
+                .ThenInclude(dq => dq.Answers.Where(a => a.CorelationToken == idToken))
+                .FirstOrDefaultAsync()
+                ?? throw new Exception(ExceptionMessages.EntityNotFound);
+
+            var formDto = form.MapFrom();
+
+            return formDto;
+        }
+
+        public async Task<ICollection<FormDTO>> GetUserFormsAsync(Guid userId)
         {
             var forms = await this.dbcontext.Forms
+                .Where(f => f.UserId == userId)
                 .Include(f => f.TextQuestions)
                 .Include(f => f.MultipleChoiceQuestions)
-                    .ThenInclude(f => f.Options)
+                    .ThenInclude(mq => mq.Options)
                 .Include(f => f.DocumentQuestions)
                 .ToListAsync();
 
@@ -105,76 +110,92 @@ namespace Survello.Services.Services
                 throw new Exception(ExceptionMessages.ListNull);
             }
 
-            var formsDto = forms.MapToListFormsDTO();
+            var formsDto = forms.MapFrom();
 
             return formsDto;
         }
-        public async Task<FormDTO> GetAnswer(Guid id)
+
+        public async Task<FormDTO> GetAnswerAsync(Guid id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<FormDTO> GetAllAnswers(Guid id)
+        {
+            var form = await this.dbcontext.Forms
+                .Where(f => f.Id == id)
+                .Include(f => f.TextQuestions)
+                .ThenInclude(q => q.Answers)
+                .Include(f => f.MultipleChoiceQuestions)
+                .ThenInclude(q => q.Options)
+                .ThenInclude(o => o.MultipleChoiceAnswers)
+                .Include(f => f.DocumentQuestions)
+                .ThenInclude(q => q.Answers)
+                .FirstOrDefaultAsync();
+
+            var allCorelations = new List<Guid>();
+
+
+            if (form.TextQuestions.Count > 0)
+            {
+                foreach (var item in form.TextQuestions)
+                {
+                    if (item.Answers != null)
+                    {
+                        allCorelations.AddRange(item.Answers
+                       .Select(t => t.CorelationToken)
+                       .Distinct());
+                    }
+                }
+            }
+
+            if (form.DocumentQuestions.Count > 0)
+            {
+                foreach (var item in form.DocumentQuestions)
+                {
+                    if (item.Answers != null)
+                    {
+                        allCorelations.AddRange(item.Answers
+                        .Select(t => t.CorelationToken)
+                        .Distinct());
+                    }
+                }
+            }
+
+            if (form.MultipleChoiceQuestions.Count > 0)
+            {
+                foreach (var item in form.MultipleChoiceQuestions)
+                {
+                    foreach (var option in item.Options)
+                    {
+                        if (option.MultipleChoiceAnswers != null)
+                        {
+                            allCorelations.AddRange(option.MultipleChoiceAnswers
+                           .Select(t => t.CorelationToken)
+                           .Distinct());
+                        }
+                    }
+                }
+            }
+
+            allCorelations.Distinct();
+
+            var formdto = form.MapFrom();
+            formdto.CorelationTokens = allCorelations;
+
+            return formdto;
         }
 
         public async Task<bool> SaveAnswerForm(FormDTO formDto)
         {
             Guid corelationToken = Guid.NewGuid();
 
-            foreach (var item in formDto.TextQuestions)
-            {
-                if (item.Answer != null)
-                {
-                    var answer = new TextAnswer();
-                    answer.Answer = item.Answer;
-                    answer.CorelationToken = corelationToken;
-                    answer.TextQuestionId = item.Id;
+            await this.SaveTextAnswers(formDto.TextQuestions, corelationToken);
 
-                    await this.dbcontext.TextAnswers.AddAsync(answer);
-                }
-            }
+            await this.SaveMultipleChoiceAnswers(formDto.MultipleChoiceQuestions, corelationToken);
 
-            foreach (var question in formDto.MultipleChoiceQuestions)
-            {
-                foreach (var option in question.Options)
-                {
-                    if (option.Answer != null)
-                    {
-                        if (option.Answer != "false")
-                        {
-                            var answer = new MultipleChoiceAnswer();
-                            answer.MultipleChoiceOptionId = option.Id;
-                            answer.CorelationToken = corelationToken;
+            await this.SaveDocumentAnswers(formDto.DocumentQuestions, corelationToken);
 
-                            await this.dbcontext.MultipleChoiceAnswers.AddAsync(answer);
-                        }
-                        else if (option.Option == "false" && option.Answer == "false")
-                        {
-                            var answer = new MultipleChoiceAnswer();
-                            answer.MultipleChoiceOptionId = option.Id;
-                            answer.CorelationToken = corelationToken;
-
-                            await this.dbcontext.MultipleChoiceAnswers.AddAsync(answer);
-                        }
-                    }
-                }
-            }
-
-            foreach (var question in formDto.DocumentQuestions)
-            {
-                if (question.Files != null)
-                {
-                    foreach (var file in question.Files)
-                    {
-                        var filePath = await this.blobServices.UploadAsync(file, corelationToken, question.Id)
-                        ?? throw new Exception(ExceptionMessages.BlobError);
-
-                        var answer = new DocumentAnswer();
-                        answer.CorelationToken = corelationToken;
-                        answer.DocumentQuestionId = question.Id;
-                        answer.FileName = filePath;
-
-                        await this.dbcontext.DocumentAnswers.AddAsync(answer);
-                    }
-                }
-            }
             var form = await this.dbcontext.Forms
                     .FirstOrDefaultAsync(f => f.Id == formDto.Id) ?? throw new Exception(ExceptionMessages.EntityNotFound);
 
@@ -184,6 +205,74 @@ namespace Survello.Services.Services
 
             return true;
         }
+
+        private async Task SaveTextAnswers(ICollection<TextQuestionDTO> textQuestions, Guid token)
+        {
+            foreach (var item in textQuestions)
+            {
+                if (item.Answer != null)
+                {
+                    var answer = new TextAnswer();
+                    answer.Answer = item.Answer;
+                    answer.CorelationToken = token;
+                    answer.TextQuestionId = item.Id;
+
+                    await this.dbcontext.TextAnswers.AddAsync(answer);
+                }
+            }
+        }
+
+        private async Task SaveMultipleChoiceAnswers(ICollection<MultipleChoiceQuestionDTO> multipleQuestions, Guid token)
+        {
+            foreach (var question in multipleQuestions)
+            {
+                foreach (var option in question.Options)
+                {
+                    if (option.Answer != null)
+                    {
+                        if (option.Answer != "false")
+                        {
+                            var answer = new MultipleChoiceAnswer();
+                            answer.MultipleChoiceOptionId = option.Id;
+                            answer.CorelationToken = token;
+
+                            await this.dbcontext.MultipleChoiceAnswers.AddAsync(answer);
+                        }
+                        else if (option.Option == "false" && option.Answer == "false")
+                        {
+                            var answer = new MultipleChoiceAnswer();
+                            answer.MultipleChoiceOptionId = option.Id;
+                            answer.CorelationToken = token;
+
+                            await this.dbcontext.MultipleChoiceAnswers.AddAsync(answer);
+                        }
+                    }
+                }
+            }
+        }
+
+        private async Task SaveDocumentAnswers(ICollection<DocumentQuestionDTO> documentQuestions, Guid token)
+        {
+            foreach (var question in documentQuestions)
+            {
+                if (question.Files != null)
+                {
+                    foreach (var file in question.Files)
+                    {
+                        var filePath = await this.blobServices.UploadAsync(file, token, question.Id)
+                        ?? throw new Exception(ExceptionMessages.BlobError);
+
+                        var answer = new DocumentAnswer();
+                        answer.CorelationToken = token;
+                        answer.DocumentQuestionId = question.Id;
+                        answer.FileName = filePath;
+
+                        await this.dbcontext.DocumentAnswers.AddAsync(answer);
+                    }
+                }
+            }
+        }
+
         public IQueryable<ListFormsDTO> Sort(string sortOrder, Guid userId)
         {
             var forms = this.dbcontext.Forms.Where(f => f.UserId == userId);
@@ -212,12 +301,12 @@ namespace Survello.Services.Services
                     forms = forms.OrderByDescending(f => f.NumberOfFilledForms);
                     break;
             }
+
             return forms.Include(f => f.TextQuestions)
                         .Include(f => f.MultipleChoiceQuestions)
                             .ThenInclude(mq => mq.Options)
                         .Include(f => f.DocumentQuestions)
                         .Select(f => f.MapToListFormsDTO());
         }
-
     }
 }

@@ -50,7 +50,7 @@ namespace Survello.Services.DTOMappers
                 NumberOfFilledForms = entity.NumberOfFilledForms,
                 MultipleChoiceQuestions = entity.MultipleChoiceQuestions.MapFrom(),
                 TextQuestions = entity.TextQuestions.MapFrom(),
-                DocumentQuestions = entity.DocumentQuestions.MapFrom()
+                DocumentQuestions = entity.DocumentQuestions.MapFrom(),
             };
         }
 
