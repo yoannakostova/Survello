@@ -4,30 +4,39 @@
     ViewData["Title"] = "ListForms";
 }
 
-<h1>ListForms</h1>
+<h1 style="color:darkcyan">List of all your forms</h1>
+<br />
 @{
     var counter = 0;
 }
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
+    <td>
+        <a style="background-color:#ff9900" type="button" class="btn btn-group-lg" asp-action="Create">Create New</a>
+
+        @*<button style="background-color:#ff9900" type="button" class="btn btn-group-lg" asp-action="Create">Analyses</button>
+
+        <button style="background-color:#ff9900" type="button" class="btn btn-group-lg" asp-action="Create">Export</button>*@
+        <br />
+    </td>
+
+<br />
 <table class="table table-bordered table-striped table-hover">
     <thead>
         <tr>
             <th>
-                Rows
+
             </th>
             <th>
-                <a asp-action="ListForms" asp-route-sortOrder="@ViewData["TitleSortParm"]"> <span class="glyphicon glyphicon-sort"> Title</span>  </a>
+                <a style="color:darkcyan" asp-action="ListForms" asp-route-sortOrder="@ViewData["TitleSortParm"]"> <span class="glyphicon glyphicon-sort"> Title</span>  </a>
             </th>
             <th>
-                <a asp-action="ListForms" asp-route-sortOrder="@ViewData["LastModifiedOnSortParm"]"> <span class="glyphicon glyphicon-sort"> Last Modified On</span>  </a>
+                <a style="color:darkcyan" asp-action="ListForms" asp-route-sortOrder="@ViewData["LastModifiedOnSortParm"]"> <span class="glyphicon glyphicon-sort"> Last Modified</span>  </a>
             </th>
             <th>
-                <a asp-action="ListForms" asp-route-sortOrder="@ViewData["CreatedOnSortParm"]"> <span class="glyphicon glyphicon-sort"> Created On</span>  </a>
+                <a style="color:darkcyan" asp-action="ListForms" asp-route-sortOrder="@ViewData["CreatedOnSortParm"]"> <span class="glyphicon glyphicon-sort">Created on</span>  </a>
             </th>
             <th>
-                <a asp-action="ListForms" asp-route-sortOrder="@ViewData["NumberOfFilledFormsSortParm"]"> <span class="glyphicon glyphicon-sort"> Number of filled forms</span>  </a>
+                <a style="color:darkcyan" asp-action="ListForms" asp-route-sortOrder="@ViewData["NumberOfFilledFormsSortParm"]"> <span class="glyphicon glyphicon-sort">Filled</span>  </a>
             </th>
             <th>
 
@@ -57,14 +66,22 @@
                     @Html.DisplayFor(modelItem => item.CreatedOn)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.NumberOfFilledForms)
+                    @if (item.NumberOfFilledForms == 1)
+                    {
+                        @Html.DisplayFor(modelItem => item.NumberOfFilledForms) 
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.NumberOfFilledForms) 
+                    }
                 </td>
                 <td>
-                    <a asp-controller="Form" asp-action="Edit" asp-route-id="@item.Id" type="button" class="btn btn-primary">Edit</a>
-                    <a asp-controller="Form" asp-action="Answer" asp-route-id="@item.Id" type="button" class="btn btn-primary">Answer</a>
+                    <a style="background-color:darkcyan" asp-controller="Form" asp-action="Details" asp-route-id="@item.Id" type="button" class="btn btn-primary">Details</a>
+                    <a style="background-color:darkcyan" asp-controller="Form" asp-action="Edit" asp-route-id="@item.Id" type="button" class="btn btn-primary">Edit</a>
+                    <a style="background-color:darkcyan" asp-controller="Form" asp-action="Answer" asp-route-id="@item.Id" type="button" class="btn btn-primary">Answer</a>
 
                     <!-- Button trigger share modal -->
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="@item.Id" onclick="showModal(this.id)">Share</button>
+                    <button style="background-color:darkcyan" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="@item.Id" onclick="showModal(this.id)">Share</button>
 
                     <!-- Share Modal -->
                     <div class="modal @item.Id fade" id="@item.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

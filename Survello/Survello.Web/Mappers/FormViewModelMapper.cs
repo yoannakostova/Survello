@@ -61,8 +61,16 @@ namespace Survello.Web.Mappers
                 positionsInForm.Add(item.QuestionNumber);
             }
 
+            int lastQuestionNumber = 0;
 
-            int lastQuestionNumber = positionsInForm.Max();
+            if (positionsInForm.Count() > 0)
+            {
+                lastQuestionNumber = positionsInForm.Max();
+            }
+            else
+            {
+                lastQuestionNumber = 0;
+            }
 
             var result = new FormViewModel
             {
@@ -74,7 +82,8 @@ namespace Survello.Web.Mappers
                 MultipleChoiceQuestions = multipleChoiceQuestions,
                 TextQuestions = textQuestions,
                 DocumentQuestions = documentQuestions,
-                LastQuestionNumber = lastQuestionNumber
+                LastQuestionNumber = lastQuestionNumber,
+                 CorelationTokens = dto.CorelationTokens
             };
 
             return result;

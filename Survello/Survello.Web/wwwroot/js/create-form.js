@@ -165,7 +165,6 @@
         }
     }
     else {
-
         if (isEverythingOkGlobal && isEverythingOk) {
             $.ajax({
                 type: 'Post',
@@ -188,5 +187,4 @@
             window.scrollTo(0, 0);
         }
     }
-
 }

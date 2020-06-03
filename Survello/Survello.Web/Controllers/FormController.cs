@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,6 +30,7 @@ namespace Survello.Web.Controllers
             this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             this.toastNotification = toastNotification ?? throw new ArgumentNullException(nameof(toastNotification));
         }
+
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> ListForms(string sortOrder)
@@ -43,12 +45,14 @@ namespace Survello.Web.Controllers
 
             return View(allForms);
         }
+
         [Authorize]
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
+
         [Authorize]
         [HttpPost]
         public async Task Create(FormViewModel model)
@@ -125,19 +129,15 @@ namespace Survello.Web.Controllers
             try
             {
                 var form = (await this.formServices.GetFormAsync(id)).MapFrom();
-                this.toastNotification.AddSuccessToastMessage("Form was successfully created");
 
                 return View(form);
             }
             catch (Exception)
             {
-                this.toastNotification.AddErrorToastMessage("Something went wrong... Please try again!");
-                throw;
+                return NotFound();
             }
-
         }
 
-        //TODO: HiddenFor leaves IDs visible in the browser! 
         [HttpPost]
         public async Task<IActionResult> Answer(FormViewModel form)
         {
@@ -151,10 +151,11 @@ namespace Survello.Web.Controllers
                 {
                     if (tq.IsRequired == true && tq.Description == string.Empty)
                     {
-                        this.toastNotification.AddErrorToastMessage($"You missed to anwer to the following question {tq.Description}.");
+                        this.toastNotification.AddErrorToastMessage($"You missed to answer to the following question {tq.Description}.");
                         return RedirectToAction("Answer", "Form", new { id = form.Id });
                     }
                 }
+
                 //TODO: Validation for multiple question
                 foreach (var dq in form.DocumentQuestions)
                 {
@@ -166,11 +167,15 @@ namespace Survello.Web.Controllers
                             return RedirectToAction("Answer", "Form", new { id = form.Id });
                         }
                     }
+
                     if (dq.Files == null && dq.IsRequired == false)
                     {
                         continue;
                     }
+
+
                     var fileSize = long.Parse(dq.FileSize) * 1024 * 1024;
+
                     foreach (var file in dq.Files)
                     {
                         if (file != null)
@@ -204,6 +209,7 @@ namespace Survello.Web.Controllers
             }
             return RedirectToAction("ListForms"); //TODO: Submitted form page
         }
+
         [HttpPost]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -213,14 +219,30 @@ namespace Survello.Web.Controllers
             }
             try
             {
-                  await this.formServices.DeleteFormAsync(id);
-                  this.toastNotification.AddInfoToastMessage("Form was succesfully deleted!");
+                await this.formServices.DeleteFormAsync(id);
+                this.toastNotification.AddInfoToastMessage("Form was succesfully deleted!");
             }
             catch (Exception)
             {
                 return NotFound();
             }
             return RedirectToAction(nameof(ListForms));
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Details(Guid Id)
+        {
+            var form = (await this.formServices.GetAllAnswers(Id)).MapFrom();
+
+            return View(form);
+        }
+
+        public async Task<IActionResult> GetAnswer(Dictionary<string,string> paramss)
+        {
+            //var form = (await this.formServices.GetFormWithAnswersAsync(paramss)).MapFrom();
+
+            return View();
         }
     }
 }

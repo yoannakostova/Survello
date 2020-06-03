@@ -13,6 +13,7 @@ namespace Survello.Web.Models
         public bool IsRequired { get; set; }
         public bool IsMultipleAnswer { get; set; }
         public int QuestionNumber { get; set; }
+        public string RadioButtonAnswer { get; set; }
         public List<string> OptionsDescriptions { get; set; } = new List<string>();
         public List<MultipleChoiceOptionViewModel> Options { get; set; } = new List<MultipleChoiceOptionViewModel>();
     }
