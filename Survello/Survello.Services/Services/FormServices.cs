@@ -70,10 +70,10 @@ namespace Survello.Services.Services
                 .Include(f => f.MultipleChoiceQuestions)
                     .ThenInclude(mq => mq.Options)
                 .Include(f => f.DocumentQuestions)
-                .ToListAsync();
+                .FirstOrDefaultAsync();
 
 
-            if (forms.Count == 0)
+            if (form == null)
             {
                 throw new BusinessLogicException(ExceptionMessages.ListNull);
             }
@@ -269,7 +269,7 @@ namespace Survello.Services.Services
                 {
                     foreach (var file in question.Files)
                     {
-                        var filePath = await this.blobServices.UploadAsync(file, corelationToken, question.Id)
+                        var filePath = await this.blobServices.UploadAsync(file, token, question.Id)
                         ?? throw new BusinessLogicException(ExceptionMessages.BlobError);
 
                         var answer = new DocumentAnswer();
@@ -281,14 +281,6 @@ namespace Survello.Services.Services
                     }
                 }
             }
-            var form = await this.dbcontext.Forms
-                    .FirstOrDefaultAsync(f => f.Id == formDto.Id) ?? throw new BusinessLogicException(ExceptionMessages.EntityNotFound);
-
-            form.NumberOfFilledForms++;
-
-            await this.dbcontext.SaveChangesAsync();
-
-            return true;
         }
 
         public IQueryable<ListFormsDTO> Sort(string sortOrder, Guid userId)
