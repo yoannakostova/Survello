@@ -21,7 +21,8 @@ namespace Survello.Web.Mappers
             {
                 Id = dto.Id,
                 Option = dto.Option,
-                Answer = dto.Answer
+                Answer = dto.Answer,
+                Answers = dto.Answers.MapFrom()
             };
         }
 
@@ -32,11 +33,15 @@ namespace Survello.Web.Mappers
                 throw new Exception(ExceptionMessages.EntityNull);
             }
 
+            var multipleChoiceOption = new MultipleChoiceOptionDTO();
+
+
             return new MultipleChoiceOptionDTO
             {
                 Id = viewModel.Id,
                 Option = viewModel.Option,
-                Answer = viewModel.Answer
+                Answer = viewModel.Answer,
+
             };
         }
 

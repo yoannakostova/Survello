@@ -10,7 +10,6 @@ namespace Survello.Models.Entites
         [Key]
         public Guid Id { get; set; }
         public string FileName { get; set; }
-        public bool IsDeleted { get; set; }
         public Guid DocumentQuestionId { get; set; }
         public DocumentQuestion DocumentQuestion { get; set; }
         public Guid CorelationToken { get; set; }

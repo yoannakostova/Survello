@@ -139,73 +139,73 @@ namespace Survello.Seeder
                 {
                     Id = Guid.Parse("1219cb07-226e-430d-9173-87ee97472f6a"),
                     Option = "Neither agree nor disagree",
-                    MultipleChouceQuestionId = Guid.Parse("2109cb07-226e-430d-9173-87ee97472f6a"),
+                    MultipleChoiceQuestionId = Guid.Parse("2109cb07-226e-430d-9173-87ee97472f6a"),
                 },
                  new MultipleChoiceOption
                  {
                      Id = Guid.Parse("1229cb07-226e-430d-9173-87ee97472f6a"),
                      Option = "Satisfied",
-                     MultipleChouceQuestionId = Guid.Parse("2109cb07-226e-430d-9173-87ee97472f6a"),
+                     MultipleChoiceQuestionId = Guid.Parse("2109cb07-226e-430d-9173-87ee97472f6a"),
                  },
                  new MultipleChoiceOption
                  {
                      Id = Guid.Parse("1239cb07-226e-430d-9173-87ee97472f6a"),
                      Option = "Dissatisfied",
-                     MultipleChouceQuestionId = Guid.Parse("2109cb07-226e-430d-9173-87ee97472f6a"),
+                     MultipleChoiceQuestionId = Guid.Parse("2109cb07-226e-430d-9173-87ee97472f6a"),
                  },
                  new MultipleChoiceOption
                  {
                      Id = Guid.Parse("2220cb07-226e-430d-9173-87ee97472f6a"),
                      Option = "Weekly",
-                     MultipleChouceQuestionId = Guid.Parse("2209cb07-226e-430d-9173-87ee97472f6a"),
+                     MultipleChoiceQuestionId = Guid.Parse("2209cb07-226e-430d-9173-87ee97472f6a"),
                  },
                  new MultipleChoiceOption
                  {
                      Id = Guid.Parse("2221cb07-226e-430d-9173-87ee97472f6a"),
                      Option = "Monthly",
-                     MultipleChouceQuestionId = Guid.Parse("2209cb07-226e-430d-9173-87ee97472f6a"),
+                     MultipleChoiceQuestionId = Guid.Parse("2209cb07-226e-430d-9173-87ee97472f6a"),
                  },
                   new MultipleChoiceOption
                   {
                       Id = Guid.Parse("2222cb07-226e-430d-9173-87ee97472f6a"),
                       Option = "Quarterly",
-                      MultipleChouceQuestionId = Guid.Parse("2209cb07-226e-430d-9173-87ee97472f6a"),
+                      MultipleChoiceQuestionId = Guid.Parse("2209cb07-226e-430d-9173-87ee97472f6a"),
                   },
                   new MultipleChoiceOption
                   {
                       Id = Guid.Parse("2222cb07-226e-430d-9173-87ee97472111"),
                       Option = "Dog",
-                      MultipleChouceQuestionId = Guid.Parse("22000b07-226e-430d-9173-87ee97472f6a"),
+                      MultipleChoiceQuestionId = Guid.Parse("22000b07-226e-430d-9173-87ee97472f6a"),
                   },
                   new MultipleChoiceOption
                   {
                       Id = Guid.Parse("2222cb07-226e-430d-9173-87ee97471210"),
                       Option = "Elephant",
-                      MultipleChouceQuestionId = Guid.Parse("22000b07-226e-430d-9173-87ee97472f6a"),
+                      MultipleChoiceQuestionId = Guid.Parse("22000b07-226e-430d-9173-87ee97472f6a"),
                   },
                   new MultipleChoiceOption
                   {
                       Id = Guid.Parse("2222cb07-226e-430d-9173-87ee97472122"),
                       Option = "Cat",
-                      MultipleChouceQuestionId = Guid.Parse("22000b07-226e-430d-9173-87ee97472f6a"),
+                      MultipleChoiceQuestionId = Guid.Parse("22000b07-226e-430d-9173-87ee97472f6a"),
                   },
                   new MultipleChoiceOption
                   {
                       Id = Guid.Parse("3322cb07-226e-430d-9173-87ee97472122"),
                       Option = "Traversing",
-                      MultipleChouceQuestionId = Guid.Parse("22600b07-226e-430d-9173-87ee97472f6a"),
+                      MultipleChoiceQuestionId = Guid.Parse("22600b07-226e-430d-9173-87ee97472f6a"),
                   },
                   new MultipleChoiceOption
                   {
                       Id = Guid.Parse("3422cb07-226e-430d-9173-87ee97472122"),
                       Option = "Searching",
-                      MultipleChouceQuestionId = Guid.Parse("22600b07-226e-430d-9173-87ee97472f6a"),
+                      MultipleChoiceQuestionId = Guid.Parse("22600b07-226e-430d-9173-87ee97472f6a"),
                   },
                   new MultipleChoiceOption
                   {
                       Id = Guid.Parse("3332cb07-226e-430d-9173-87ee97472122"),
                       Option = "Deleting",
-                      MultipleChouceQuestionId = Guid.Parse("22600b07-226e-430d-9173-87ee97472f6a"),
+                      MultipleChoiceQuestionId = Guid.Parse("22600b07-226e-430d-9173-87ee97472f6a"),
                   });
 
             //MultipleChoiceAnswers

@@ -40,17 +40,13 @@ namespace Survello.Web.Mappers
                 Files = viewModel.Files
             };
         }
-        public static ICollection<DocumentQuestionDTO> MapFrom(this ICollection<DocumentQuestionViewModel> viewModels)
-        {
-            return viewModels.Select(MapFrom).ToList();
-        }
+
         public static DocumentQuestionViewModel MapFrom(this DocumentQuestionDTO dto)
         {
             if (dto == null)
             {
                 throw new Exception(ExceptionMessages.EntityNull);
             }
-
 
             return new DocumentQuestionViewModel
             {
@@ -60,9 +56,16 @@ namespace Survello.Web.Mappers
                 FileSize = dto.FileSize.ToString(),
                 IsRequired = dto.IsRequired,
                 QuestionNumber = dto.QuestionNumber,
-                FilePath = dto.FilePath
+                FilePath = dto.FilePath,
+
             };
         }
+
+        public static ICollection<DocumentQuestionDTO> MapFrom(this ICollection<DocumentQuestionViewModel> viewModels)
+        {
+            return viewModels.Select(MapFrom).ToList();
+        }
+
         public static ICollection<DocumentQuestionViewModel> MapFrom(this ICollection<DocumentQuestionDTO> dtos)
         {
             return dtos.Select(MapFrom).ToList();

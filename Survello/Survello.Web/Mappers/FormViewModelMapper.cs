@@ -83,7 +83,7 @@ namespace Survello.Web.Mappers
                 TextQuestions = textQuestions,
                 DocumentQuestions = documentQuestions,
                 LastQuestionNumber = lastQuestionNumber,
-                 CorelationTokens = dto.CorelationTokens
+                CorelationTokens = dto.CorelationTokens,                
             };
 
             return result;

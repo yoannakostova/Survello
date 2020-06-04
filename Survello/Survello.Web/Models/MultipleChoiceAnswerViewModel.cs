@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Survello.Services.DTOEntities
+namespace Survello.Web.Models
 {
-    public class MultipleChoiceAnswerDTO
+    public class MultipleChoiceAnswerViewModel
     {
         public Guid CorelationToken { get; set; }
         public string Answer { get; set; }

@@ -10,7 +10,7 @@ using Survello.Database;
 namespace Survello.Database.Migrations
 {
     [DbContext(typeof(SurvelloContext))]
-    [Migration("20200524113725_Initial")]
+    [Migration("20200604154559_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -70,10 +70,12 @@ namespace Survello.Database.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -121,10 +123,12 @@ namespace Survello.Database.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -149,9 +153,6 @@ namespace Survello.Database.Migrations
                     b.Property<string>("FileName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -243,7 +244,7 @@ namespace Survello.Database.Migrations
                         new
                         {
                             Id = new Guid("1009cb07-226e-430d-9173-87ee97472f6a"),
-                            CreatedOn = new DateTime(2020, 5, 24, 11, 37, 24, 407, DateTimeKind.Utc).AddTicks(9202),
+                            CreatedOn = new DateTime(2020, 6, 4, 15, 45, 57, 69, DateTimeKind.Utc).AddTicks(2695),
                             Description = "Test description 1.",
                             IsDeleted = false,
                             NumberOfFilledForms = 0,
@@ -253,7 +254,7 @@ namespace Survello.Database.Migrations
                         new
                         {
                             Id = new Guid("2009cb07-226e-430d-9173-87ee97472f6a"),
-                            CreatedOn = new DateTime(2020, 5, 24, 11, 37, 24, 408, DateTimeKind.Utc).AddTicks(2379),
+                            CreatedOn = new DateTime(2020, 6, 4, 15, 45, 57, 70, DateTimeKind.Utc).AddTicks(5192),
                             Description = "Test description 2.",
                             IsDeleted = false,
                             NumberOfFilledForms = 0,
@@ -263,7 +264,7 @@ namespace Survello.Database.Migrations
                         new
                         {
                             Id = new Guid("3009cb07-226e-430d-9173-87ee97472f6a"),
-                            CreatedOn = new DateTime(2020, 5, 24, 11, 37, 24, 408, DateTimeKind.Utc).AddTicks(2440),
+                            CreatedOn = new DateTime(2020, 6, 4, 15, 45, 57, 70, DateTimeKind.Utc).AddTicks(5378),
                             Description = "Test description 3.",
                             IsDeleted = false,
                             NumberOfFilledForms = 0,
@@ -273,7 +274,7 @@ namespace Survello.Database.Migrations
                         new
                         {
                             Id = new Guid("4009cb07-226e-430d-9173-87ee97472f6a"),
-                            CreatedOn = new DateTime(2020, 5, 24, 11, 37, 24, 408, DateTimeKind.Utc).AddTicks(2449),
+                            CreatedOn = new DateTime(2020, 6, 4, 15, 45, 57, 70, DateTimeKind.Utc).AddTicks(5400),
                             Description = "Test description 4",
                             IsDeleted = false,
                             NumberOfFilledForms = 0,
@@ -288,11 +289,11 @@ namespace Survello.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Answer")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("CorelationToken")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<Guid>("MultipleChoiceOptionId")
                         .HasColumnType("uniqueidentifier");
@@ -308,42 +309,36 @@ namespace Survello.Database.Migrations
                         {
                             Id = new Guid("1231cb07-226e-430d-9173-87ee97472f6a"),
                             CorelationToken = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
                             MultipleChoiceOptionId = new Guid("1219cb07-226e-430d-9173-87ee97472f6a")
                         },
                         new
                         {
                             Id = new Guid("1233cb07-226e-430d-9173-87ee97472f6a"),
                             CorelationToken = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
                             MultipleChoiceOptionId = new Guid("2222cb07-226e-430d-9173-87ee97472f6a")
                         },
                         new
                         {
                             Id = new Guid("1234cb07-226e-430d-9173-87ee97472f6a"),
                             CorelationToken = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
                             MultipleChoiceOptionId = new Guid("2222cb07-226e-430d-9173-87ee97472122")
                         },
                         new
                         {
                             Id = new Guid("15734b07-226e-430d-9173-87e97472f6a1"),
                             CorelationToken = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
                             MultipleChoiceOptionId = new Guid("3322cb07-226e-430d-9173-87ee97472122")
                         },
                         new
                         {
                             Id = new Guid("15094b07-226e-430d-9173-87ee927472f6"),
                             CorelationToken = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
                             MultipleChoiceOptionId = new Guid("3422cb07-226e-430d-9173-87ee97472122")
                         },
                         new
                         {
                             Id = new Guid("19934cb7-226e-430d-9173-87ee974272fa"),
                             CorelationToken = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
                             MultipleChoiceOptionId = new Guid("3332cb07-226e-430d-9173-87ee97472122")
                         });
                 });
@@ -354,10 +349,7 @@ namespace Survello.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("MultipleChouceQuestionId")
+                    b.Property<Guid>("MultipleChoiceQuestionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Option")
@@ -366,7 +358,7 @@ namespace Survello.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MultipleChouceQuestionId");
+                    b.HasIndex("MultipleChoiceQuestionId");
 
                     b.ToTable("MultipleChoiceOptions");
 
@@ -374,85 +366,73 @@ namespace Survello.Database.Migrations
                         new
                         {
                             Id = new Guid("1219cb07-226e-430d-9173-87ee97472f6a"),
-                            IsDeleted = false,
-                            MultipleChouceQuestionId = new Guid("2109cb07-226e-430d-9173-87ee97472f6a"),
+                            MultipleChoiceQuestionId = new Guid("2109cb07-226e-430d-9173-87ee97472f6a"),
                             Option = "Neither agree nor disagree"
                         },
                         new
                         {
                             Id = new Guid("1229cb07-226e-430d-9173-87ee97472f6a"),
-                            IsDeleted = false,
-                            MultipleChouceQuestionId = new Guid("2109cb07-226e-430d-9173-87ee97472f6a"),
+                            MultipleChoiceQuestionId = new Guid("2109cb07-226e-430d-9173-87ee97472f6a"),
                             Option = "Satisfied"
                         },
                         new
                         {
                             Id = new Guid("1239cb07-226e-430d-9173-87ee97472f6a"),
-                            IsDeleted = false,
-                            MultipleChouceQuestionId = new Guid("2109cb07-226e-430d-9173-87ee97472f6a"),
+                            MultipleChoiceQuestionId = new Guid("2109cb07-226e-430d-9173-87ee97472f6a"),
                             Option = "Dissatisfied"
                         },
                         new
                         {
                             Id = new Guid("2220cb07-226e-430d-9173-87ee97472f6a"),
-                            IsDeleted = false,
-                            MultipleChouceQuestionId = new Guid("2209cb07-226e-430d-9173-87ee97472f6a"),
+                            MultipleChoiceQuestionId = new Guid("2209cb07-226e-430d-9173-87ee97472f6a"),
                             Option = "Weekly"
                         },
                         new
                         {
                             Id = new Guid("2221cb07-226e-430d-9173-87ee97472f6a"),
-                            IsDeleted = false,
-                            MultipleChouceQuestionId = new Guid("2209cb07-226e-430d-9173-87ee97472f6a"),
+                            MultipleChoiceQuestionId = new Guid("2209cb07-226e-430d-9173-87ee97472f6a"),
                             Option = "Monthly"
                         },
                         new
                         {
                             Id = new Guid("2222cb07-226e-430d-9173-87ee97472f6a"),
-                            IsDeleted = false,
-                            MultipleChouceQuestionId = new Guid("2209cb07-226e-430d-9173-87ee97472f6a"),
+                            MultipleChoiceQuestionId = new Guid("2209cb07-226e-430d-9173-87ee97472f6a"),
                             Option = "Quarterly"
                         },
                         new
                         {
                             Id = new Guid("2222cb07-226e-430d-9173-87ee97472111"),
-                            IsDeleted = false,
-                            MultipleChouceQuestionId = new Guid("22000b07-226e-430d-9173-87ee97472f6a"),
+                            MultipleChoiceQuestionId = new Guid("22000b07-226e-430d-9173-87ee97472f6a"),
                             Option = "Dog"
                         },
                         new
                         {
                             Id = new Guid("2222cb07-226e-430d-9173-87ee97471210"),
-                            IsDeleted = false,
-                            MultipleChouceQuestionId = new Guid("22000b07-226e-430d-9173-87ee97472f6a"),
+                            MultipleChoiceQuestionId = new Guid("22000b07-226e-430d-9173-87ee97472f6a"),
                             Option = "Elephant"
                         },
                         new
                         {
                             Id = new Guid("2222cb07-226e-430d-9173-87ee97472122"),
-                            IsDeleted = false,
-                            MultipleChouceQuestionId = new Guid("22000b07-226e-430d-9173-87ee97472f6a"),
+                            MultipleChoiceQuestionId = new Guid("22000b07-226e-430d-9173-87ee97472f6a"),
                             Option = "Cat"
                         },
                         new
                         {
                             Id = new Guid("3322cb07-226e-430d-9173-87ee97472122"),
-                            IsDeleted = false,
-                            MultipleChouceQuestionId = new Guid("22600b07-226e-430d-9173-87ee97472f6a"),
+                            MultipleChoiceQuestionId = new Guid("22600b07-226e-430d-9173-87ee97472f6a"),
                             Option = "Traversing"
                         },
                         new
                         {
                             Id = new Guid("3422cb07-226e-430d-9173-87ee97472122"),
-                            IsDeleted = false,
-                            MultipleChouceQuestionId = new Guid("22600b07-226e-430d-9173-87ee97472f6a"),
+                            MultipleChoiceQuestionId = new Guid("22600b07-226e-430d-9173-87ee97472f6a"),
                             Option = "Searching"
                         },
                         new
                         {
                             Id = new Guid("3332cb07-226e-430d-9173-87ee97472122"),
-                            IsDeleted = false,
-                            MultipleChouceQuestionId = new Guid("22600b07-226e-430d-9173-87ee97472f6a"),
+                            MultipleChoiceQuestionId = new Guid("22600b07-226e-430d-9173-87ee97472f6a"),
                             Option = "Deleting"
                         });
                 });
@@ -565,7 +545,7 @@ namespace Survello.Database.Migrations
                         new
                         {
                             Id = new Guid("0989cb07-226e-430d-9173-87ee97472f6a"),
-                            ConcurrencyStamp = "65a68a12-c66d-47a7-a77f-d40213bfea13",
+                            ConcurrencyStamp = "5d57cf0a-4fca-4e77-82aa-7a7675536ab4",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         });
@@ -584,9 +564,6 @@ namespace Survello.Database.Migrations
                     b.Property<Guid>("CorelationToken")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
                     b.Property<Guid>("TextQuestionId")
                         .HasColumnType("uniqueidentifier");
 
@@ -602,7 +579,6 @@ namespace Survello.Database.Migrations
                             Id = new Guid("1119cb07-226e-430d-9173-87ee97472f6a"),
                             Answer = "I am 18 years old",
                             CorelationToken = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
                             TextQuestionId = new Guid("1109cb07-226e-430d-9173-87ee97472f6a")
                         },
                         new
@@ -610,7 +586,6 @@ namespace Survello.Database.Migrations
                             Id = new Guid("1111cb07-226e-430d-9173-87ee97472f6a"),
                             Answer = "I am from Bourgas",
                             CorelationToken = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
                             TextQuestionId = new Guid("1209cb07-226e-430d-9173-87ee97472f6a")
                         },
                         new
@@ -618,7 +593,6 @@ namespace Survello.Database.Migrations
                             Id = new Guid("11111b07-226e-430d-9173-87ee97472f6a"),
                             Answer = "Models of real world objects, have state and behaviour.",
                             CorelationToken = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
                             TextQuestionId = new Guid("1309cb07-226e-430d-9173-87ee97472f6a")
                         },
                         new
@@ -626,7 +600,6 @@ namespace Survello.Database.Migrations
                             Id = new Guid("11171b07-226e-430d-9173-87ee97472f6a"),
                             Answer = "An algorithm is a set of predifined steps used to solve a problem.",
                             CorelationToken = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
                             TextQuestionId = new Guid("1409cb07-226e-430d-9173-87ee97472f6a")
                         });
                 });
@@ -790,15 +763,15 @@ namespace Survello.Database.Migrations
                         {
                             Id = new Guid("52d02f62-14ac-4152-872c-08d7eb74f484"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "57057c91-2e9c-40be-abec-20eba3394d3a",
-                            CreatedOn = new DateTime(2020, 5, 24, 11, 37, 24, 413, DateTimeKind.Utc).AddTicks(1843),
+                            ConcurrencyStamp = "0429c3f6-89a9-4cb9-b00d-3d3a2c16b065",
+                            CreatedOn = new DateTime(2020, 6, 4, 15, 45, 57, 85, DateTimeKind.Utc).AddTicks(1697),
                             Email = "nasko@survello.com",
                             EmailConfirmed = false,
                             IsDeleted = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "NASKO",
                             NormalizedUserName = "NASKO",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEhDST3DhWiZRkmCZGxmfBvTEsMTivp/MfrXURqFpXL4UNJ7i4me2GFNvXWWYyGblQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEN6oHkxBtZK4x0q1V6rrjueCW293edcv6PhQCL/MUTYkkjldNdZVdkmmpdZ9dSmWWg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "321E275DD1E24957A7781D42BB68293B",
                             TwoFactorEnabled = false,
@@ -808,15 +781,15 @@ namespace Survello.Database.Migrations
                         {
                             Id = new Guid("22a2d89d-ee6e-4c94-e490-08d7eb6bae70"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "357eeda4-3d47-4ad2-91ba-19871c161955",
-                            CreatedOn = new DateTime(2020, 5, 24, 11, 37, 24, 431, DateTimeKind.Utc).AddTicks(6538),
+                            ConcurrencyStamp = "b5844788-e3fb-428e-a42a-e8c1d0b9f43a",
+                            CreatedOn = new DateTime(2020, 6, 4, 15, 45, 57, 132, DateTimeKind.Utc).AddTicks(2041),
                             Email = "yoanna@survello.com",
                             EmailConfirmed = false,
                             IsDeleted = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "YOANNA",
                             NormalizedUserName = "YOANNA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGGK5BTXoJ4wHvqxLDVtb7mmsWItpBp7KIBL9uEcQSqwchnb9/3C6HM6qMDYJr7YdA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECwTnvDIRImn9lhFVFD/fctuXPVX5pztwdTa8w05KQxGmCz9v/pDshErzccD+QjaDg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "431E275DD1E24957A7781D42BB68293B",
                             TwoFactorEnabled = false,
@@ -905,7 +878,7 @@ namespace Survello.Database.Migrations
             modelBuilder.Entity("Survello.Models.Entites.MultipleChoiceAnswer", b =>
                 {
                     b.HasOne("Survello.Models.Entites.MultipleChoiceOption", "MultipleChoiceOption")
-                        .WithMany("MultipleChoiceAnswers")
+                        .WithMany("Answers")
                         .HasForeignKey("MultipleChoiceOptionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -915,7 +888,7 @@ namespace Survello.Database.Migrations
                 {
                     b.HasOne("Survello.Models.Entites.MultipleChoiceQuestion", "MultipleChoiceQuestion")
                         .WithMany("Options")
-                        .HasForeignKey("MultipleChouceQuestionId")
+                        .HasForeignKey("MultipleChoiceQuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

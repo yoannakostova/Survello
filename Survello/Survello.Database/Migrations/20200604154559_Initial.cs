@@ -96,8 +96,8 @@ namespace Survello.Database.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(nullable: false),
-                    ProviderKey = table.Column<string>(nullable: false),
+                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
+                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<Guid>(nullable: false)
                 },
@@ -141,8 +141,8 @@ namespace Survello.Database.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<Guid>(nullable: false),
-                    LoginProvider = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
+                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
+                    Name = table.Column<string>(maxLength: 128, nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -261,7 +261,6 @@ namespace Survello.Database.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     FileName = table.Column<string>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: false),
                     DocumentQuestionId = table.Column<Guid>(nullable: false),
                     CorelationToken = table.Column<Guid>(nullable: false)
                 },
@@ -282,15 +281,14 @@ namespace Survello.Database.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Option = table.Column<string>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    MultipleChouceQuestionId = table.Column<Guid>(nullable: false)
+                    MultipleChoiceQuestionId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MultipleChoiceOptions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MultipleChoiceOptions_MultipleChoiceQuestions_MultipleChouceQuestionId",
-                        column: x => x.MultipleChouceQuestionId,
+                        name: "FK_MultipleChoiceOptions_MultipleChoiceQuestions_MultipleChoiceQuestionId",
+                        column: x => x.MultipleChoiceQuestionId,
                         principalTable: "MultipleChoiceQuestions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -303,7 +301,6 @@ namespace Survello.Database.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     CorelationToken = table.Column<Guid>(nullable: false),
                     Answer = table.Column<string>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: false),
                     TextQuestionId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
@@ -323,7 +320,7 @@ namespace Survello.Database.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     CorelationToken = table.Column<Guid>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: false),
+                    Answer = table.Column<string>(nullable: true),
                     MultipleChoiceOptionId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
@@ -340,17 +337,17 @@ namespace Survello.Database.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { new Guid("0989cb07-226e-430d-9173-87ee97472f6a"), "65a68a12-c66d-47a7-a77f-d40213bfea13", "Member", "MEMBER" });
+                values: new object[] { new Guid("0989cb07-226e-430d-9173-87ee97472f6a"), "5d57cf0a-4fca-4e77-82aa-7a7675536ab4", "Member", "MEMBER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedOn", "DeletedOn", "Email", "EmailConfirmed", "IsDeleted", "LastModifiedOn", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("52d02f62-14ac-4152-872c-08d7eb74f484"), 0, "57057c91-2e9c-40be-abec-20eba3394d3a", new DateTime(2020, 5, 24, 11, 37, 24, 413, DateTimeKind.Utc).AddTicks(1843), null, "nasko@survello.com", false, false, null, false, null, "NASKO", "NASKO", "AQAAAAEAACcQAAAAEEhDST3DhWiZRkmCZGxmfBvTEsMTivp/MfrXURqFpXL4UNJ7i4me2GFNvXWWYyGblQ==", null, false, "321E275DD1E24957A7781D42BB68293B", false, "nasko" });
+                values: new object[] { new Guid("52d02f62-14ac-4152-872c-08d7eb74f484"), 0, "0429c3f6-89a9-4cb9-b00d-3d3a2c16b065", new DateTime(2020, 6, 4, 15, 45, 57, 85, DateTimeKind.Utc).AddTicks(1697), null, "nasko@survello.com", false, false, null, false, null, "NASKO", "NASKO", "AQAAAAEAACcQAAAAEN6oHkxBtZK4x0q1V6rrjueCW293edcv6PhQCL/MUTYkkjldNdZVdkmmpdZ9dSmWWg==", null, false, "321E275DD1E24957A7781D42BB68293B", false, "nasko" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedOn", "DeletedOn", "Email", "EmailConfirmed", "IsDeleted", "LastModifiedOn", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("22a2d89d-ee6e-4c94-e490-08d7eb6bae70"), 0, "357eeda4-3d47-4ad2-91ba-19871c161955", new DateTime(2020, 5, 24, 11, 37, 24, 431, DateTimeKind.Utc).AddTicks(6538), null, "yoanna@survello.com", false, false, null, false, null, "YOANNA", "YOANNA", "AQAAAAEAACcQAAAAEGGK5BTXoJ4wHvqxLDVtb7mmsWItpBp7KIBL9uEcQSqwchnb9/3C6HM6qMDYJr7YdA==", null, false, "431E275DD1E24957A7781D42BB68293B", false, "yoanna" });
+                values: new object[] { new Guid("22a2d89d-ee6e-4c94-e490-08d7eb6bae70"), 0, "b5844788-e3fb-428e-a42a-e8c1d0b9f43a", new DateTime(2020, 6, 4, 15, 45, 57, 132, DateTimeKind.Utc).AddTicks(2041), null, "yoanna@survello.com", false, false, null, false, null, "YOANNA", "YOANNA", "AQAAAAEAACcQAAAAECwTnvDIRImn9lhFVFD/fctuXPVX5pztwdTa8w05KQxGmCz9v/pDshErzccD+QjaDg==", null, false, "431E275DD1E24957A7781D42BB68293B", false, "yoanna" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
@@ -366,10 +363,10 @@ namespace Survello.Database.Migrations
                 columns: new[] { "Id", "CreatedOn", "DateOfExpiration", "DeletedOn", "Description", "IsDeleted", "LastModifiedOn", "NumberOfFilledForms", "Title", "UserId" },
                 values: new object[,]
                 {
-                    { new Guid("1009cb07-226e-430d-9173-87ee97472f6a"), new DateTime(2020, 5, 24, 11, 37, 24, 407, DateTimeKind.Utc).AddTicks(9202), null, null, "Test description 1.", false, null, 0, "Test form 1", new Guid("52d02f62-14ac-4152-872c-08d7eb74f484") },
-                    { new Guid("3009cb07-226e-430d-9173-87ee97472f6a"), new DateTime(2020, 5, 24, 11, 37, 24, 408, DateTimeKind.Utc).AddTicks(2440), null, null, "Test description 3.", false, null, 0, "Test form 3", new Guid("52d02f62-14ac-4152-872c-08d7eb74f484") },
-                    { new Guid("2009cb07-226e-430d-9173-87ee97472f6a"), new DateTime(2020, 5, 24, 11, 37, 24, 408, DateTimeKind.Utc).AddTicks(2379), null, null, "Test description 2.", false, null, 0, "Test form 2", new Guid("22a2d89d-ee6e-4c94-e490-08d7eb6bae70") },
-                    { new Guid("4009cb07-226e-430d-9173-87ee97472f6a"), new DateTime(2020, 5, 24, 11, 37, 24, 408, DateTimeKind.Utc).AddTicks(2449), null, null, "Test description 4", false, null, 0, "Test form 4", new Guid("22a2d89d-ee6e-4c94-e490-08d7eb6bae70") }
+                    { new Guid("1009cb07-226e-430d-9173-87ee97472f6a"), new DateTime(2020, 6, 4, 15, 45, 57, 69, DateTimeKind.Utc).AddTicks(2695), null, null, "Test description 1.", false, null, 0, "Test form 1", new Guid("52d02f62-14ac-4152-872c-08d7eb74f484") },
+                    { new Guid("3009cb07-226e-430d-9173-87ee97472f6a"), new DateTime(2020, 6, 4, 15, 45, 57, 70, DateTimeKind.Utc).AddTicks(5378), null, null, "Test description 3.", false, null, 0, "Test form 3", new Guid("52d02f62-14ac-4152-872c-08d7eb74f484") },
+                    { new Guid("2009cb07-226e-430d-9173-87ee97472f6a"), new DateTime(2020, 6, 4, 15, 45, 57, 70, DateTimeKind.Utc).AddTicks(5192), null, null, "Test description 2.", false, null, 0, "Test form 2", new Guid("22a2d89d-ee6e-4c94-e490-08d7eb6bae70") },
+                    { new Guid("4009cb07-226e-430d-9173-87ee97472f6a"), new DateTime(2020, 6, 4, 15, 45, 57, 70, DateTimeKind.Utc).AddTicks(5400), null, null, "Test description 4", false, null, 0, "Test form 4", new Guid("22a2d89d-ee6e-4c94-e490-08d7eb6bae70") }
                 });
 
             migrationBuilder.InsertData(
@@ -396,45 +393,45 @@ namespace Survello.Database.Migrations
 
             migrationBuilder.InsertData(
                 table: "MultipleChoiceOptions",
-                columns: new[] { "Id", "IsDeleted", "MultipleChouceQuestionId", "Option" },
+                columns: new[] { "Id", "MultipleChoiceQuestionId", "Option" },
                 values: new object[,]
                 {
-                    { new Guid("1219cb07-226e-430d-9173-87ee97472f6a"), false, new Guid("2109cb07-226e-430d-9173-87ee97472f6a"), "Neither agree nor disagree" },
-                    { new Guid("1229cb07-226e-430d-9173-87ee97472f6a"), false, new Guid("2109cb07-226e-430d-9173-87ee97472f6a"), "Satisfied" },
-                    { new Guid("1239cb07-226e-430d-9173-87ee97472f6a"), false, new Guid("2109cb07-226e-430d-9173-87ee97472f6a"), "Dissatisfied" },
-                    { new Guid("2222cb07-226e-430d-9173-87ee97472111"), false, new Guid("22000b07-226e-430d-9173-87ee97472f6a"), "Dog" },
-                    { new Guid("2222cb07-226e-430d-9173-87ee97471210"), false, new Guid("22000b07-226e-430d-9173-87ee97472f6a"), "Elephant" },
-                    { new Guid("2222cb07-226e-430d-9173-87ee97472122"), false, new Guid("22000b07-226e-430d-9173-87ee97472f6a"), "Cat" },
-                    { new Guid("2220cb07-226e-430d-9173-87ee97472f6a"), false, new Guid("2209cb07-226e-430d-9173-87ee97472f6a"), "Weekly" },
-                    { new Guid("2221cb07-226e-430d-9173-87ee97472f6a"), false, new Guid("2209cb07-226e-430d-9173-87ee97472f6a"), "Monthly" },
-                    { new Guid("2222cb07-226e-430d-9173-87ee97472f6a"), false, new Guid("2209cb07-226e-430d-9173-87ee97472f6a"), "Quarterly" },
-                    { new Guid("3322cb07-226e-430d-9173-87ee97472122"), false, new Guid("22600b07-226e-430d-9173-87ee97472f6a"), "Traversing" },
-                    { new Guid("3422cb07-226e-430d-9173-87ee97472122"), false, new Guid("22600b07-226e-430d-9173-87ee97472f6a"), "Searching" },
-                    { new Guid("3332cb07-226e-430d-9173-87ee97472122"), false, new Guid("22600b07-226e-430d-9173-87ee97472f6a"), "Deleting" }
+                    { new Guid("1219cb07-226e-430d-9173-87ee97472f6a"), new Guid("2109cb07-226e-430d-9173-87ee97472f6a"), "Neither agree nor disagree" },
+                    { new Guid("1229cb07-226e-430d-9173-87ee97472f6a"), new Guid("2109cb07-226e-430d-9173-87ee97472f6a"), "Satisfied" },
+                    { new Guid("1239cb07-226e-430d-9173-87ee97472f6a"), new Guid("2109cb07-226e-430d-9173-87ee97472f6a"), "Dissatisfied" },
+                    { new Guid("2222cb07-226e-430d-9173-87ee97472111"), new Guid("22000b07-226e-430d-9173-87ee97472f6a"), "Dog" },
+                    { new Guid("2222cb07-226e-430d-9173-87ee97471210"), new Guid("22000b07-226e-430d-9173-87ee97472f6a"), "Elephant" },
+                    { new Guid("2222cb07-226e-430d-9173-87ee97472122"), new Guid("22000b07-226e-430d-9173-87ee97472f6a"), "Cat" },
+                    { new Guid("2220cb07-226e-430d-9173-87ee97472f6a"), new Guid("2209cb07-226e-430d-9173-87ee97472f6a"), "Weekly" },
+                    { new Guid("2221cb07-226e-430d-9173-87ee97472f6a"), new Guid("2209cb07-226e-430d-9173-87ee97472f6a"), "Monthly" },
+                    { new Guid("2222cb07-226e-430d-9173-87ee97472f6a"), new Guid("2209cb07-226e-430d-9173-87ee97472f6a"), "Quarterly" },
+                    { new Guid("3322cb07-226e-430d-9173-87ee97472122"), new Guid("22600b07-226e-430d-9173-87ee97472f6a"), "Traversing" },
+                    { new Guid("3422cb07-226e-430d-9173-87ee97472122"), new Guid("22600b07-226e-430d-9173-87ee97472f6a"), "Searching" },
+                    { new Guid("3332cb07-226e-430d-9173-87ee97472122"), new Guid("22600b07-226e-430d-9173-87ee97472f6a"), "Deleting" }
                 });
 
             migrationBuilder.InsertData(
                 table: "TextAnswers",
-                columns: new[] { "Id", "Answer", "CorelationToken", "IsDeleted", "TextQuestionId" },
+                columns: new[] { "Id", "Answer", "CorelationToken", "TextQuestionId" },
                 values: new object[,]
                 {
-                    { new Guid("1119cb07-226e-430d-9173-87ee97472f6a"), "I am 18 years old", new Guid("00000000-0000-0000-0000-000000000000"), false, new Guid("1109cb07-226e-430d-9173-87ee97472f6a") },
-                    { new Guid("11111b07-226e-430d-9173-87ee97472f6a"), "Models of real world objects, have state and behaviour.", new Guid("00000000-0000-0000-0000-000000000000"), false, new Guid("1309cb07-226e-430d-9173-87ee97472f6a") },
-                    { new Guid("1111cb07-226e-430d-9173-87ee97472f6a"), "I am from Bourgas", new Guid("00000000-0000-0000-0000-000000000000"), false, new Guid("1209cb07-226e-430d-9173-87ee97472f6a") },
-                    { new Guid("11171b07-226e-430d-9173-87ee97472f6a"), "An algorithm is a set of predifined steps used to solve a problem.", new Guid("00000000-0000-0000-0000-000000000000"), false, new Guid("1409cb07-226e-430d-9173-87ee97472f6a") }
+                    { new Guid("1119cb07-226e-430d-9173-87ee97472f6a"), "I am 18 years old", new Guid("00000000-0000-0000-0000-000000000000"), new Guid("1109cb07-226e-430d-9173-87ee97472f6a") },
+                    { new Guid("11111b07-226e-430d-9173-87ee97472f6a"), "Models of real world objects, have state and behaviour.", new Guid("00000000-0000-0000-0000-000000000000"), new Guid("1309cb07-226e-430d-9173-87ee97472f6a") },
+                    { new Guid("1111cb07-226e-430d-9173-87ee97472f6a"), "I am from Bourgas", new Guid("00000000-0000-0000-0000-000000000000"), new Guid("1209cb07-226e-430d-9173-87ee97472f6a") },
+                    { new Guid("11171b07-226e-430d-9173-87ee97472f6a"), "An algorithm is a set of predifined steps used to solve a problem.", new Guid("00000000-0000-0000-0000-000000000000"), new Guid("1409cb07-226e-430d-9173-87ee97472f6a") }
                 });
 
             migrationBuilder.InsertData(
                 table: "MultipleChoiceAnswers",
-                columns: new[] { "Id", "CorelationToken", "IsDeleted", "MultipleChoiceOptionId" },
+                columns: new[] { "Id", "Answer", "CorelationToken", "MultipleChoiceOptionId" },
                 values: new object[,]
                 {
-                    { new Guid("1231cb07-226e-430d-9173-87ee97472f6a"), new Guid("00000000-0000-0000-0000-000000000000"), false, new Guid("1219cb07-226e-430d-9173-87ee97472f6a") },
-                    { new Guid("1234cb07-226e-430d-9173-87ee97472f6a"), new Guid("00000000-0000-0000-0000-000000000000"), false, new Guid("2222cb07-226e-430d-9173-87ee97472122") },
-                    { new Guid("1233cb07-226e-430d-9173-87ee97472f6a"), new Guid("00000000-0000-0000-0000-000000000000"), false, new Guid("2222cb07-226e-430d-9173-87ee97472f6a") },
-                    { new Guid("15734b07-226e-430d-9173-87e97472f6a1"), new Guid("00000000-0000-0000-0000-000000000000"), false, new Guid("3322cb07-226e-430d-9173-87ee97472122") },
-                    { new Guid("15094b07-226e-430d-9173-87ee927472f6"), new Guid("00000000-0000-0000-0000-000000000000"), false, new Guid("3422cb07-226e-430d-9173-87ee97472122") },
-                    { new Guid("19934cb7-226e-430d-9173-87ee974272fa"), new Guid("00000000-0000-0000-0000-000000000000"), false, new Guid("3332cb07-226e-430d-9173-87ee97472122") }
+                    { new Guid("1231cb07-226e-430d-9173-87ee97472f6a"), null, new Guid("00000000-0000-0000-0000-000000000000"), new Guid("1219cb07-226e-430d-9173-87ee97472f6a") },
+                    { new Guid("1234cb07-226e-430d-9173-87ee97472f6a"), null, new Guid("00000000-0000-0000-0000-000000000000"), new Guid("2222cb07-226e-430d-9173-87ee97472122") },
+                    { new Guid("1233cb07-226e-430d-9173-87ee97472f6a"), null, new Guid("00000000-0000-0000-0000-000000000000"), new Guid("2222cb07-226e-430d-9173-87ee97472f6a") },
+                    { new Guid("15734b07-226e-430d-9173-87e97472f6a1"), null, new Guid("00000000-0000-0000-0000-000000000000"), new Guid("3322cb07-226e-430d-9173-87ee97472122") },
+                    { new Guid("15094b07-226e-430d-9173-87ee927472f6"), null, new Guid("00000000-0000-0000-0000-000000000000"), new Guid("3422cb07-226e-430d-9173-87ee97472122") },
+                    { new Guid("19934cb7-226e-430d-9173-87ee974272fa"), null, new Guid("00000000-0000-0000-0000-000000000000"), new Guid("3332cb07-226e-430d-9173-87ee97472122") }
                 });
 
             migrationBuilder.CreateIndex(
@@ -497,9 +494,9 @@ namespace Survello.Database.Migrations
                 column: "MultipleChoiceOptionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MultipleChoiceOptions_MultipleChouceQuestionId",
+                name: "IX_MultipleChoiceOptions_MultipleChoiceQuestionId",
                 table: "MultipleChoiceOptions",
-                column: "MultipleChouceQuestionId");
+                column: "MultipleChoiceQuestionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MultipleChoiceQuestions_FormId",

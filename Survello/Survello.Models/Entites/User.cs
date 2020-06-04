@@ -11,7 +11,6 @@ namespace Survello.Models.Entites
         public DateTime? LastModifiedOn { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? DeletedOn { get; set; }
-        //TODO: Where to initialize this collection, maybe the optimal place is in the services?
-        public ICollection<Form> Forms { get; set; } 
+        public ICollection<Form> Forms { get; set; } = new List<Form>();
     }
 }

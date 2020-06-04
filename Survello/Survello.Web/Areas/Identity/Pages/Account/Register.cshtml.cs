@@ -82,8 +82,6 @@ namespace Survello.Web.Areas.Identity.Pages.Account
             {
                 var user = new User { UserName = Input.UserName, Email = Input.Email };
 
-                //TODO: Username is unique, but email is not. Method for checking whether we already have such email in the db!
-
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
