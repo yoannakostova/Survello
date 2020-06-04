@@ -70,13 +70,8 @@ namespace Survello.Services.Services
                 .Include(f => f.MultipleChoiceQuestions)
                     .ThenInclude(mq => mq.Options)
                 .Include(f => f.DocumentQuestions)
-                .FirstOrDefaultAsync();
-
-
-            if (form == null)
-            {
-                throw new BusinessLogicException(ExceptionMessages.ListNull);
-            }
+                .FirstOrDefaultAsync()
+                ?? throw new BusinessLogicException(ExceptionMessages.EntityNotFound);
 
             var formDto = form.MapFrom();
 
@@ -130,7 +125,7 @@ namespace Survello.Services.Services
             throw new NotImplementedException();
         }
 
-        public async Task<FormDTO> GetAllAnswers(Guid id)
+        public async Task<FormDTO> GetAllAnswersAsync(Guid id)
         {
             var form = await this.dbcontext.Forms
                 .Where(f => f.Id == id)
@@ -141,10 +136,10 @@ namespace Survello.Services.Services
                 .ThenInclude(o => o.MultipleChoiceAnswers)
                 .Include(f => f.DocumentQuestions)
                 .ThenInclude(q => q.Answers)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync()
+                ?? throw new BusinessLogicException(ExceptionMessages.EntityNotFound);
 
             var allCorelations = new List<Guid>();
-
 
             if (form.TextQuestions.Count > 0)
             {
