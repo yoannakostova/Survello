@@ -232,7 +232,7 @@ namespace Survello.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(Guid Id)
         {
-            var form = (await this.formServices.GetAllAnswers(Id)).MapFrom();
+            var form = (await this.formServices.GetAllAnswersAsync(Id)).MapFrom();
 
             return View(form);
         }
