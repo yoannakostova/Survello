@@ -12,9 +12,6 @@ namespace Survello.Database.Config
         public void Configure(EntityTypeBuilder<TextAnswer> builder)
         {
             builder
-                .HasQueryFilter(p => !p.IsDeleted);
-
-            builder
                 .HasKey(a => a.Id);
 
             builder

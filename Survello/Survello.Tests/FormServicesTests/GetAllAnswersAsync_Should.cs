@@ -62,7 +62,7 @@ namespace Survello.Tests.FormServicesTests
                              new MultipleChoiceOption
                              {
                                   Option = "Satisfied",
-                                  MultipleChoiceAnswers = new List<MultipleChoiceAnswer>()
+                                  Answers = new List<MultipleChoiceAnswer>()
                                   {
                                       new MultipleChoiceAnswer()
                                       {
@@ -106,7 +106,7 @@ namespace Survello.Tests.FormServicesTests
             using (var assertContext = new SurvelloContext(options))
             {
                 var sut = new FormServices(assertContext, mockDateTimeProvider.Object, mockBlobService.Object);
-                await sut.GetAllAnswersAsync(formId);
+                await sut.GetFormWithAllAnswers(formId);
 
                 var result = assertContext.Forms.First();
                 var resultTA = assertContext.TextAnswers.First();
@@ -128,7 +128,7 @@ namespace Survello.Tests.FormServicesTests
                 {
                     foreach (var op in mcq.Options)
                     {
-                        foreach (var mcqa in op.MultipleChoiceAnswers)
+                        foreach (var mcqa in op.Answers)
                         {
                             Assert.AreEqual(mcqa.MultipleChoiceOptionId,resultMCA.MultipleChoiceOptionId);
                         }
@@ -154,7 +154,7 @@ namespace Survello.Tests.FormServicesTests
             using (var assertContext = new SurvelloContext(options))
             {
                 var sut = new FormServices(assertContext, mockDateTimeProvider.Object, mockBlobService.Object);
-                await Assert.ThrowsExceptionAsync<BusinessLogicException>(() => sut.GetAllAnswersAsync(id));
+                await Assert.ThrowsExceptionAsync<BusinessLogicException>(() => sut.GetFormWithAllAnswers(id));
             }
         }
     }

@@ -4,8 +4,9 @@
     ViewData["Title"] = "Details";
 }
 
-<h1 style="color:darkcyan">Details of @Model.Title</h1>
-
+    <div>
+        <h1 style="color:darkcyan">Details of @Model.Title</h1>
+    </div>
 <div>
     <div>
         See detailed information about every filled form. Choose from the dropdown:
@@ -31,6 +32,11 @@
     dict.Add("idForm", formID.ToString());
     dict.Add("idToken", item.ToString());
     //asp-route-id="@item"
-    <a asp-controller="Form" asp-action="GetAnswer" asp-all-route-data="@dict">Answer @counter</a>
+    <a asp-controller="Form" asp-action="AnsweredForm" asp-all-route-data="@dict">Answer @counter</a>
+    counter++;
 }
+
+    <partial name="_Details" for="@Model"/>
+
+
 

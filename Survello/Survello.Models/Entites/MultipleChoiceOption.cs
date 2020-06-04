@@ -11,9 +11,8 @@ namespace Survello.Models.Entites
         [Key]
         public Guid Id { get; set; }
         public string Option { get; set; }
-        public bool IsDeleted { get; set; }
-        public Guid MultipleChouceQuestionId { get; set; }
+        public Guid MultipleChoiceQuestionId { get; set; }
         public MultipleChoiceQuestion MultipleChoiceQuestion { get; set; }
-        public ICollection<MultipleChoiceAnswer> MultipleChoiceAnswers { get; set; } = new List<MultipleChoiceAnswer>();
+        public ICollection<MultipleChoiceAnswer> Answers { get; set; } = new List<MultipleChoiceAnswer>();
     }
 }

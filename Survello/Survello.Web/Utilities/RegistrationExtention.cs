@@ -16,8 +16,6 @@ namespace Survello.Web.Utilities
     {
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-
-            services.AddScoped<ITextQuestionServices, TextQuestionServices>();
             services.AddScoped<IFormServices, FormServices>();
             services.AddScoped<IDateTimeProvider, DateTimeProvider>();
             services.AddScoped<IFormSenderServices, FormSenderServices>();

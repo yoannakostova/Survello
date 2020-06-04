@@ -25,11 +25,8 @@ namespace Survello.Services.DTOMappers
                 FileSize = entity.FileSize,
                 IsRequired = entity.IsRequired,
                 QuestionNumber = entity.QuestionNumber,
+                  Answers = entity.Answers.MapFrom()
             };
-        }
-        public static ICollection<DocumentQuestionDTO> MapFrom(this ICollection<DocumentQuestion> entities)
-        {
-            return entities.Select(MapFrom).ToList();
         }
         public static DocumentQuestion MapFrom(this DocumentQuestionDTO dto)
         {
@@ -48,6 +45,12 @@ namespace Survello.Services.DTOMappers
                 QuestionNumber = dto.QuestionNumber
             };
         }
+
+        public static ICollection<DocumentQuestionDTO> MapFrom(this ICollection<DocumentQuestion> entities)
+        {
+            return entities.Select(MapFrom).ToList();
+        }
+        
         public static ICollection<DocumentQuestion> MapFrom(this ICollection<DocumentQuestionDTO> dtos)
         {
             return dtos.Select(MapFrom).ToList();

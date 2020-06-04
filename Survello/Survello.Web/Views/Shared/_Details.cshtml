@@ -1,0 +1,138 @@
+﻿@model Survello.Web.Models.FormViewModel
+
+@{
+    int globalQuestionID = 0;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form >
+            <div style="color:darkcyan">
+                <div class="center">
+                    <h1>@Model.Title</h1>
+                </div>
+                <br />
+            </div>
+            <div class="form-group">
+                <h3>@Model.Description</h3>
+                <br />
+            </div>
+
+            @{
+                var fileCounter = 0;
+                int textCounter = 0;
+                int multipleChoiceCounter = 0;
+                int documentCounter = 0;
+            }
+            @for (int i = 1; i <= Model.LastQuestionNumber; i++)
+            {
+                globalQuestionID++;
+//Text question
+                if (textCounter < Model.TextQuestions.Count && Model.TextQuestions[textCounter].QuestionNumber == i)
+                {
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-sm-1">
+                                    <img width="30" height="30" src="~/images/Orange_circle.png" />
+                                </div>
+                                <br />
+                                <div class="col-sm-11">
+                                    <input readonly type="text" class="form-control" value="@Model.TextQuestions[textCounter].Description" />
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        @if (Model.TextQuestions[textCounter].IsLongAnswer == true)
+                        {
+                            <div class="col-md-8" style="color:darkcyan">
+                                <textarea class="form-control" asp-for="@Model.TextQuestions[textCounter].Answer" id="Q_@textCounter"></textarea>
+                                <br />
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-8" style="color:darkcyan">
+                                <input class="form-control" type="text" asp-for="@Model.TextQuestions[textCounter].Answer" id="Q_@textCounter" />
+                                <span id="idSpanTitle_@textCounter" style="color:red"></span>
+                            </div>
+                            <br />
+                        }
+                    </div>
+                    <br />
+                    textCounter++;
+                }
+                if (multipleChoiceCounter < Model.MultipleChoiceQuestions.Count && Model.MultipleChoiceQuestions[multipleChoiceCounter].QuestionNumber == i)
+                {
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="form-group">
+                                <div>
+                                    <img width="30" height="30" src="~/images/Orange_circle.png" />
+                                </div>
+                                <br />
+                                <input type="text" readonly class="form-control" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Description" />
+                            </div>
+                        </div>
+                        <div class="container">
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-10" id="allOptions_@multipleChoiceCounter">
+                                        @for (int k = 0; k < Model.MultipleChoiceQuestions[multipleChoiceCounter].Options.Count; k++)
+                                        {
+                                            if (Model.MultipleChoiceQuestions[multipleChoiceCounter].IsMultipleAnswer == true)
+                                            {
+                                                <div class="form-check-inline" style="color:darkcyan">
+                                                    <label class="form-check-label" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Answer">
+                                                        <input type="checkbox" id="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Id" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Answer" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Option" />
+                                                        @Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Option
+                                                    </label>
+                                                </div>
+                                            }
+                                            else if (Model.MultipleChoiceQuestions[multipleChoiceCounter].IsMultipleAnswer == false)
+                                            {
+                                                <div class="form-check-inline" style="color:darkcyan">
+                                                    <input type="radio" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].RadioButtonAnswer" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Option" />
+
+                                                    @Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Option
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    multipleChoiceCounter++;
+                }
+                if (documentCounter < Model.DocumentQuestions.Count && Model.DocumentQuestions[documentCounter].QuestionNumber == i)
+                {
+                    <div class="card">
+                        <div class="card-header">
+                            <div id="custom-file-label" style="font-size:smaller">
+                                <div class="form-group">
+                                    <div>
+                                        <img width="30" height="30" src="~/images/Orange_circle.png" />
+                                    </div>
+                                    <br />
+                                    <input type="text" readonly class="form-control" value="@Model.DocumentQuestions[documentCounter].Description"/>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <input asp-for="@Model.DocumentQuestions[documentCounter].Files" type="file" multiple="multiple" />
+                        <br />
+                    </div>
+                    <br />
+                    fileCounter++;
+                    documentCounter++;
+                }
+            }
+            <br />
+        </form>
+    </div>
+</div>
+<div>
+    <a style="color:darkcyan" asp-action="Index">Back to List</a>
+</div>

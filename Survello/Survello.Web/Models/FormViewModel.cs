@@ -20,5 +20,6 @@ namespace Survello.Web.Models
         public List<MultipleChoiceQuestionViewModel> MultipleChoiceQuestions { get; set; } = new List<MultipleChoiceQuestionViewModel>();
         public List<TextQuestionViewModel> TextQuestions { get; set; } = new List<TextQuestionViewModel>();
         public List<DocumentQuestionViewModel> DocumentQuestions { get; set; } = new List<DocumentQuestionViewModel>();
+
     }
 }

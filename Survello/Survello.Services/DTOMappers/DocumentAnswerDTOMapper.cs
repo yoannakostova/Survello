@@ -19,33 +19,12 @@ namespace Survello.Services.DTOMappers
 
             return new DocumentAnswerDTO
             {
-                Id = entity.Id,
                 FileName = entity.FileName,
                 DocumentQuestionId = entity.DocumentQuestionId,
                 CorelationToken = entity.CorelationToken
             };
         }
 
-        public static DocumentAnswer MapFrom(this DocumentAnswerDTO dto)
-        {
-            if (dto == null)
-            {
-                throw new Exception(ExceptionMessages.EntityNull);
-            }
-
-            return new DocumentAnswer
-            {
-                Id = dto.Id,
-                DocumentQuestionId = dto.DocumentQuestionId,
-                CorelationToken = dto.CorelationToken,
-                IsDeleted = dto.IsDeleted,
-                FileName = dto.FileName
-            };
-        }
-        public static ICollection<DocumentAnswer> MapFrom(this ICollection<DocumentAnswerDTO> dtos)
-        {
-            return dtos.Select(MapFrom).ToList();
-        }
         public static ICollection<DocumentAnswerDTO> MapFrom(this ICollection<DocumentAnswer> entities)
         {
             return entities.Select(MapFrom).ToList();

@@ -5,18 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\**" />
-    <EmbeddedResource Remove="Migrations\**" />
-    <None Remove="Migrations\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Migrations\20200524113725_Initial.cs" />
-    <Compile Include="Migrations\20200524113725_Initial.designer.cs" />
-    <Compile Include="Migrations\SurvelloContextModelSnapshot.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.4">

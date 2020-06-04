@@ -19,7 +19,7 @@ namespace Survello.Services.DTOMappers
 
             return new Form
             {
-                //Id = dto.Id,
+                Id = dto.Id,
                 LastModifiedOn = dto.LastModifiedOn,
                 DateOfExpiration = dto.DateOfExpiration,
                 Title = dto.Title,
@@ -50,7 +50,7 @@ namespace Survello.Services.DTOMappers
                 NumberOfFilledForms = entity.NumberOfFilledForms,
                 MultipleChoiceQuestions = entity.MultipleChoiceQuestions.MapFrom(),
                 TextQuestions = entity.TextQuestions.MapFrom(),
-                DocumentQuestions = entity.DocumentQuestions.MapFrom(),
+                DocumentQuestions = entity.DocumentQuestions.MapFrom()
             };
         }
 
