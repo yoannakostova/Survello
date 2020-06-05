@@ -5,10 +5,6 @@ using Survello.Services.Provider;
 using Survello.Services.Provider.Contract;
 using Survello.Services.Services;
 using Survello.Services.Services.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Survello.Web.Utilities
 {

@@ -12,7 +12,6 @@ using Survello.Services.Services.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Survello.Services.Services
@@ -169,6 +168,7 @@ namespace Survello.Services.Services
                    .ThenInclude(a => a.Answers)
                 .Include(f => f.MultipleChoiceQuestions)
                     .ThenInclude(mq => mq.Options)
+                    .ThenInclude(a => a.Answers)
                 .Include(f => f.DocumentQuestions)
                     .ThenInclude(a => a.Answers)
                 .FirstOrDefaultAsync()
@@ -290,7 +290,7 @@ namespace Survello.Services.Services
 
             if (form.TextQuestions.Count > 0)
             {
-                foreach (var item in 
+                foreach (var item in
                     from item in form.TextQuestions
                     where item.Answers != null
                     select item)
@@ -302,7 +302,7 @@ namespace Survello.Services.Services
 
             if (form.DocumentQuestions.Count > 0)
             {
-                foreach (var item in 
+                foreach (var item in
                     from item in form.DocumentQuestions
                     where item.Answers != null
                     select item)
@@ -314,7 +314,7 @@ namespace Survello.Services.Services
 
             if (form.MultipleChoiceQuestions.Count > 0)
             {
-                foreach (var option in 
+                foreach (var option in
                     from item in form.MultipleChoiceQuestions
                     from option in item.Options
                     where option.Answers != null

@@ -3,7 +3,6 @@ using Survello.Services.DTOEntities;
 using Survello.Web.Models;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Survello.Web.Mappers
