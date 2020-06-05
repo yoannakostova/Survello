@@ -6,7 +6,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        <form >
+        <form>
             <div style="color:darkcyan">
                 <div class="center">
                     <h1>@Model.Title</h1>
@@ -27,7 +27,7 @@
             @for (int i = 1; i <= Model.LastQuestionNumber; i++)
             {
                 globalQuestionID++;
-//Text question
+                //Text question
                 if (textCounter < Model.TextQuestions.Count && Model.TextQuestions[textCounter].QuestionNumber == i)
                 {
                     <div class="card">
@@ -66,12 +66,14 @@
                 {
                     <div class="card">
                         <div class="card-header">
-                            <div class="form-group">
-                                <div>
+                            <div class="row">
+                                <div class="col-sm-1">
                                     <img width="30" height="30" src="~/images/Orange_circle.png" />
                                 </div>
                                 <br />
-                                <input type="text" readonly class="form-control" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Description" />
+                                <div class="col-sm-11">
+                                    <input type="text" readonly class="form-control" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Description" />
+                                </div>
                             </div>
                         </div>
                         <div class="container">
@@ -111,17 +113,19 @@
                     <div class="card">
                         <div class="card-header">
                             <div id="custom-file-label" style="font-size:smaller">
-                                <div class="form-group">
-                                    <div>
+                                <div class="row">
+                                    <div class="col-sm-1">
                                         <img width="30" height="30" src="~/images/Orange_circle.png" />
                                     </div>
                                     <br />
-                                    <input type="text" readonly class="form-control" value="@Model.DocumentQuestions[documentCounter].Description"/>
+                                    <div class="col-sm-11">
+                                        <input type="text" readonly class="form-control" value="@Model.DocumentQuestions[documentCounter].Description" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <br />
-                        <input asp-for="@Model.DocumentQuestions[documentCounter].Files" type="file" multiple="multiple" />
+                        <input disabled asp-for="@Model.DocumentQuestions[documentCounter].Files" type="file" multiple="multiple" />
                         <br />
                     </div>
                     <br />

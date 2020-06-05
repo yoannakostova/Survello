@@ -1,11 +1,10 @@
-﻿using Survello.Models.Entites;
-using Survello.Services.ConstantMessages;
+﻿using Survello.Services.ConstantMessages;
 using Survello.Services.DTOEntities;
 using Survello.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace Survello.Web.Mappers
 {
