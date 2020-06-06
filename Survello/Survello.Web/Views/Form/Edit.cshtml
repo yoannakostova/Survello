@@ -12,7 +12,9 @@
 }
 
 @Html.HiddenFor(modelItem => (Model.Id))
-
+<h4 style="color:darkcyan">You are now editing a form with title @Model.Title</h4>
+<hr />
+<br />
 <div style="color:darkcyan">
     <div>
         <div class="col-sm-6">
@@ -43,7 +45,7 @@
                             <span id="idSpanTitle_@globalQuestionID" style="color:red"></span>
                         </div>
                         <div class="fa fa-times" id="globalCounter">
-                            <button type="button" class="btn btn-danger btn-circle" onclick="RemoveID(this.id)" id="@globalRemoveID">X</button>
+                            <button type="button" class="btn btn-warning btn-circle" style="color:white" onclick="RemoveID(this.id)" id="@globalRemoveID">X</button>
                         </div>
                     </div>
                 </div>
@@ -78,7 +80,7 @@
                             <span id="idSpanTitle_@globalQuestionID" style="color:red"></span>
                         </div>
                         <div class="fa fa-times" id="globalCounter">
-                            <button type="button" class="btn btn-danger btn-circle" onclick="RemoveID(this.id)" id="@globalRemoveID">X</button>
+                            <button type="button" class="btn btn-warning btn-circle" style="color:white" onclick="RemoveID(this.id)" id="@globalRemoveID">X</button>
                         </div>
                     </div>
                 </div>
@@ -105,7 +107,7 @@
                                     <span id="idSpanTitleOption_@globalOptionsID" style="color:red"></span>
                                 </div>
                                 <div class="fa fa-times" id="globalCounter">
-                                    <button type="button" class="btn btn-danger btn-circle" onclick="RemoveID(this.id)" id="@globalRemoveID">X</button>
+                                    <button type="button" class="btn btn-warning btn-circle" style="color:white" onclick="RemoveID(this.id)" id="@globalRemoveID">X</button>
                                 </div>
                             </div>
                             <br />
@@ -137,7 +139,7 @@
                             <span id="idSpanTitle_@globalRemoveID" style="color:red"></span>
                         </div>
                         <div class="fa fa-times" id="globalCounter">
-                            <button type="button" class="btn btn-danger btn-circle" onclick="RemoveID(this.id)" id="@globalRemoveID">X</button>
+                            <button type="button" class="btn btn-warning btn-circle" style="color:white" onclick="RemoveID(this.id)" id="@globalRemoveID">X</button>
                         </div>
                     </div>
                 </div>
@@ -212,7 +214,12 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a style="color:darkcyan" asp-controller="Form" asp-action="ListForms">Back to List</a>
+</div>
+<div class="container-button">
+    <div class="back-to-top">
+        <button style="background-color:darkcyan; border:none" class="btn btn-warning btn-circle" id="buttonBackToTop"><strong>&#11205</strong></button>
+    </div>
 </div>
 
 @section Scripts {
@@ -229,4 +236,5 @@
     <script src="~/js/remove-question-option.js"></script>
     <script src="~/js/validate-input-question-form.js"></script>
     <script src="~/js/create-form.js"></script>
+    <script src="~/js/back-to-top.js"></script>
 }

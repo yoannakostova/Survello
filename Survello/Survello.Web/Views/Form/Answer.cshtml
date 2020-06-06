@@ -150,7 +150,7 @@
                         <div class="container">
                             <h6 style="color:darkcyan">File size limit: @Model.DocumentQuestions[documentCounter].FileSize</h6>
                             <h6 style="color:darkcyan">Number of files allowed: @Model.DocumentQuestions[documentCounter].FileNumberLimit</h6>
-                            <input asp-for="@Model.DocumentQuestions[documentCounter].Files" type="file" id="@fileCounter" multiple="multiple" />
+                            <input  asp-for="@Model.DocumentQuestions[documentCounter].Files" type="file" id="@fileCounter" multiple="multiple" />
                         </div>
                         <br />
                     </div>
@@ -161,15 +161,21 @@
             }
             <br />
             <div class="form-group">
-                <input style="background-color:darkcyan" type="submit" value="Save" class="btn btn-primary" />
+                <input style="background-color:darkcyan; border:none" type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 <div>
-    <a style="color:darkcyan" asp-action="Index">Back to List</a>
+    <a style="color:darkcyan" asp-controller="Home" asp-action="Index">Home</a>
+</div>
+<div class="container-button">
+    <div class="back-to-top">
+        <button style="background-color:darkcyan; border:none" class="btn btn-warning btn-circle" id="buttonBackToTop"><strong>&#11205</strong></button>
+    </div>
 </div>
 
+<script src="~/js/back-to-top.js"></script>
 <script>
     let formIsValid = true
     function validate_Form() {

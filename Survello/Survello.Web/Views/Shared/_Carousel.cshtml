@@ -4,15 +4,26 @@
         <div class="container">
             <div class="row">
                 <div class="left-text col-lg-6 col-md-6 col-sm-12 col-xs-12" data-scroll-reveal="enter left move 30px over 0.6s after 0.4s" data-scroll-reveal-id="1" data-scroll-reveal-initialized="true" data-scroll-reveal-complete="true">
-                    <h1>Lorem ipsum dolor sit amet<strong>sit amet</strong></h1>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                    <a href="#about" class="main-button-slider">Find Out More</a>
+                    <br />
+                    <br />
+                    <h3 style="color:darkcyan">Gathering all the information you need <br /><strong>is only a couple of clicks away</strong></h3>
+                    <br />
+                    <h5 style="color:#0a3c5f">Creating stunning forms has never been easier!</h5>
+                    <br />
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-controller="Form" asp-action="Create" class="btn btn-primary" style="background-color:#fdd247;border:none">Create a new form</a>
+                    }
+                    else
+                    {
+                        <a type="button" style="background-color:#fdd247;border:none" href="#about" class="btn btn-primary">Start your journey today</a>
+
+                    }
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" data-scroll-reveal="enter right move 30px over 0.6s after 0.4s" data-scroll-reveal-id="2" data-scroll-reveal-initialized="true" data-scroll-reveal-complete="true">
-                    <img src="~/images/home1.png" class="rounded img-fluid d-block mx-auto" alt="First Vector Graphic">
+                    <img src="~/images/home.jpg" class="rounded img-fluid d-block mx-auto" alt="First Vector Graphic">
                 </div>
             </div>
         </div>
     </div>
-
 </div>
