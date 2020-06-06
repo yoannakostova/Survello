@@ -14,7 +14,7 @@
                                     <span id="idSpanTitle_${globalQuestionID}" style="color:red"></span>
                                 </div>
                                 <div class="fa fa-times" id="globalCounter">
-                                    <button type="button" class="btn btn-danger btn-circle" onclick="RemoveID(this.id)" id="${globalRemoveID}">X</button>
+                                    <button type="button" class="btn btn-warning btn-circle" style="color:white" onclick="RemoveID(this.id)" id="${globalRemoveID}">X</button>
                                 </div>
                             </div>
                         </div>

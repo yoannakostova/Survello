@@ -10,9 +10,9 @@
     int globalOptionsID = 0;
 }
 
-<div>
-    <img class="center" src="~/images/create-form.png" />
-</div>
+    <div>
+        <img class="center" src="~/images/create.png" width="160" height="320" />
+    </div>
 <div style="color:darkcyan">
     <div>
         <div class="col-sm-6">
@@ -48,9 +48,15 @@
 
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a style="color:darkcyan" asp-controller="Form" asp-action="ListForms">Back to List</a>
 </div>
 
+<div class="container-button">
+    <div class="back-to-top">
+        <button style="background-color:darkcyan; border:none" class="btn btn-warning btn-circle" id="buttonBackToTop"><strong>&#11205</strong></button>
+    </div>
+</div>
+    
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
@@ -66,4 +72,5 @@
     <script src="~/js/remove-question-option.js"></script>
     <script src="~/js/validate-input-question-form.js"></script>
     <script src="~/js/create-form.js"></script>
+    <script src="~/js/back-to-top.js"></script>
 }

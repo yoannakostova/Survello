@@ -16,7 +16,7 @@
                                    <span id="idSpanTitle_${globalQuestionID}" style="color:red"></span>
                                </div>
                                <div class="fa fa-times" id="globalCounter">
-                                   <button onclick="RemoveID(this.id)" class="btn btn-danger btn-circle" id="${globalRemoveID}">X</button>
+                                   <button onclick="RemoveID(this.id)" class="btn btn-warning btn-circle" style="color:white" id="${globalRemoveID}">X</button>
                                </div>
                            </div>
                        </div>
@@ -67,7 +67,7 @@ function addOption(id) {
                                    <span id="idSpanTitleOption_${globalOptionsID}" style="color:red"></span>
                                </div>
                                <div class="fa fa-times" id="globalCounter">
-                                   <button type="button" class="btn btn-danger btn-circle" onclick="RemoveID(this.id)" id="${globalRemoveID}">X</button>
+                                   <button type="button" class="btn btn-warning btn-circle" style="color:white" onclick="RemoveID(this.id)" id="${globalRemoveID}">X</button>
                                </div>
                              </div>
                              <br />`
