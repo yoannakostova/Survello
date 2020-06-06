@@ -145,7 +145,7 @@ namespace Survello.Web.Controllers
                 {
                     if (tq.IsRequired == true && tq.Description == string.Empty)
                     {
-                        this.toastNotification.AddErrorToastMessage($"You missed to answer required questions.");
+                        this.toastNotification.AddErrorToastMessage($"You missed to answer some required questions.");
                         return RedirectToAction("Answer", "Form", new { id = form.Id });
                     }
                 }
@@ -157,7 +157,7 @@ namespace Survello.Web.Controllers
                     {
                         if (dq.Files.Count == 0)
                         {
-                            this.toastNotification.AddErrorToastMessage($"You missed to answer required questions.");
+                            this.toastNotification.AddErrorToastMessage($"You missed to answer some required questions.");
                             return RedirectToAction("Answer", "Form", new { id = form.Id });
                         }
                     }
