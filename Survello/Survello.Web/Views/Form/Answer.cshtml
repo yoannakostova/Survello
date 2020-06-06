@@ -152,7 +152,7 @@
                         <div class="container">
                             <h6 style="color:darkcyan">File size limit: @Model.DocumentQuestions[documentCounter].FileSize</h6>
                             <h6 style="color:darkcyan">Number of files allowed: @Model.DocumentQuestions[documentCounter].FileNumberLimit</h6>
-                            <input asp-for="@Model.DocumentQuestions[documentCounter].Files" type="file" id="@fileCounter" multiple="multiple" />
+                            <input  asp-for="@Model.DocumentQuestions[documentCounter].Files" type="file" id="@fileCounter" multiple="multiple" />
                         </div>
                         <br />
                     </div>
@@ -177,10 +177,8 @@
     </div>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script src="~/js/back-to-top.js"></script>
-    <script>
+<script src="~/js/back-to-top.js"></script>
+<script>
     let formIsValid = true
     function validate_Form() {
         formIsValid = true;
