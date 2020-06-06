@@ -42,7 +42,7 @@ namespace Survello.Services.DTOMappers
                 IsRequired = entity.IsRequired,
                 FormId = entity.FormId,
                 QuestionNumber = entity.QuestionNumber,
-                Answers = entity.Answers.MapFrom()
+                Answers = entity.Answers.MapFrom(),              
             };
         }
 

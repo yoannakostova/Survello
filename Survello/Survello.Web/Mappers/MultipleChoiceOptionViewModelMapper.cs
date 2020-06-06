@@ -15,7 +15,10 @@ namespace Survello.Web.Mappers
             {
                 throw new Exception(ExceptionMessages.EntityNull);
             }
+            foreach (var answer in dto.Answers)
+            {
 
+            }
             return new MultipleChoiceOptionViewModel
             {
                 Id = dto.Id,
