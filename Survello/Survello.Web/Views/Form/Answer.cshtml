@@ -56,7 +56,7 @@
                         {
                             <div class="col-md-8" style="color:darkcyan">
                                 <textarea class="form-control" asp-for="@Model.TextQuestions[textCounter].Answer" id="Q_@textCounter"></textarea>
-                                <span id="idSpanTitle_@textCounter" style="color:red"></span>
+                                <span id="idSpanTQ_@textCounter" style="color:red"></span>
                                 <br />
                             </div>
                         }
@@ -64,7 +64,7 @@
                         {
                             <div class="col-md-8" style="color:darkcyan">
                                 <input class="form-control" type="text" asp-for="@Model.TextQuestions[textCounter].Answer" id="Q_@textCounter" />
-                                <span id="idSpanTitle_@textCounter" style="color:red"></span>
+                                <span id="idSpanTQ_@textCounter" style="color:red"></span>
                             </div>
                             <br />
                         }
@@ -90,6 +90,7 @@
                             </div>
                         </div>
                         <div class="container">
+                            <span id="spanOptions_@multipleChoiceCounter" style="color:red"></span>
                             <div class="row">
                                 <div class="form-group">
                                     <div class="col-md-10" id="allOptions_@multipleChoiceCounter">
@@ -116,8 +117,8 @@
                                                 </div>
                                             }
                                         }
-                                        <span id="spanOptions_@multipleChoiceCounter" style="color:red"></span>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -146,11 +147,12 @@
                                 </div>
                             </div>
                         </div>
+                        <span id="idSpanDQ_@documentCounter" style="color:red"></span>
                         <br />
                         <div class="container">
                             <h6 style="color:darkcyan">File size limit: @Model.DocumentQuestions[documentCounter].FileSize</h6>
                             <h6 style="color:darkcyan">Number of files allowed: @Model.DocumentQuestions[documentCounter].FileNumberLimit</h6>
-                            <input  asp-for="@Model.DocumentQuestions[documentCounter].Files" type="file" id="@fileCounter" multiple="multiple" />
+                            <input asp-for="@Model.DocumentQuestions[documentCounter].Files" type="file" id="@fileCounter" multiple="multiple" />
                         </div>
                         <br />
                     </div>
@@ -175,8 +177,10 @@
     </div>
 </div>
 
-<script src="~/js/back-to-top.js"></script>
-<script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/back-to-top.js"></script>
+    <script>
     let formIsValid = true
     function validate_Form() {
         formIsValid = true;
@@ -213,14 +217,14 @@
             if (document.getElementById("DQ_" + i) !== null) {
 
                 var files = $('#' + i)[0].files;
-                if (allRequiredDQ[i] == "true") {
-                    if (document.getElementById("DQ_" + i) !== null) {
+                console.log(files)
+                if (files.length === 0 && allRequiredDQ[i] == "true" ) {
 
-                        let currQuestion = document.getElementById("DQ_" + i);
-                        let answer = currQuestion.value;
-
-                        ValidateInput(answer, i);
-                    }
+                    $('#idSpanDQ_' + i.toString()).text("This is a required field");
+                    formIsValid = false;
+                }
+                else {
+                    $('#idSpanDQ_' + i.toString()).text("");
                 }
 
                 if (files.length > allLimits[i]) {
@@ -234,7 +238,6 @@
                     }
                 }
             }
-
         }
     };
 
@@ -325,11 +328,10 @@
 
                     let currQuestion = document.getElementById("Q_" + i);
                     let answer = currQuestion.value;
-                    console.log(answer)
+
                     if (!answer) {
-                        console.log('#idSpanTitle_' + i.toString())
-                        //console.log(idPrefix + id.toString());
-                        $('#idSpanTitle_' + i.toString()).text("This is a required field");
+
+                        $('#idSpanTQ_' + i.toString()).text("This is a required field");
                         formIsValid = false;
                     }
                 }
@@ -349,5 +351,6 @@
             $('#idSpanTitle_' + id.toString()).text("");
         }
 };
-</script>
-
+    </script>
+    <script src="~/js/back-to-top.js"></script>
+}
