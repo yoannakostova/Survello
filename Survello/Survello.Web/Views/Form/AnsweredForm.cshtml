@@ -1,0 +1,332 @@
+﻿@model Survello.Web.Models.FormViewModel
+
+@{
+    ViewData["Title"] = "AnsweredForm";
+}
+
+<h1>AnsweredForm</h1>
+
+@{
+    int globalQuestionID = 0;
+    var answerNumber = 1;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form method="post" enctype="multipart/form-data">
+            @Html.HiddenFor(modelItem => (Model.Id))
+            @Html.HiddenFor(modelItem => (Model.Title))
+
+            <div style="color:darkcyan">
+                <div class="center">
+                    <h1>@Model.Title</h1>
+                </div>
+            </div>
+            <div class="form-group">
+                <h3>@Model.Description</h3>
+                <br />
+            </div>
+
+            @{
+                var fileCounter = 0;
+                int textCounter = 0;
+                int multipleChoiceCounter = 0;
+                int documentCounter = 0;
+            }
+            @for (int i = 1; i <= Model.LastQuestionNumber; i++)
+            {
+                globalQuestionID++;
+                //Text question
+                if (textCounter < Model.TextQuestions.Count && Model.TextQuestions[textCounter].QuestionNumber == i)
+                {
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-sm-1">
+                                    <img width="30" height="30" src="~/images/Orange_circle.png" />
+                                </div>
+                                <br />
+                                <div class="col-sm-11">
+                                    <input readonly type="text" class="form-control" value="@Model.TextQuestions[textCounter].Description" />
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+
+                        <div class="col-md-8" style="color:darkcyan">
+                            <input readonly type="text" class="form-control" value="@Model.TextQuestions[textCounter].Answers.ToList()[0].Answer" />
+                            <br />
+                        </div>
+                        <br />
+                    </div>
+                    <br />
+                    textCounter++;
+                }
+                if (multipleChoiceCounter < Model.MultipleChoiceQuestions.Count && Model.MultipleChoiceQuestions[multipleChoiceCounter].QuestionNumber == i)
+                {
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-sm-1">
+                                    <img width="30" height="30" src="~/images/Orange_circle.png" />
+                                </div>
+                                <br />
+                                <div class="col-sm-11">
+                                    <input type="text" readonly class="form-control" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Description" id="MCQ_@multipleChoiceCounter" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container">
+                            <div class="row">
+                                <div class="form-group">
+
+                                    <div class="col-md-10" id="allOptions_@multipleChoiceCounter">
+                                        @for (int k = 0; k < Model.MultipleChoiceQuestions[multipleChoiceCounter].Options.Count; k++)
+                                        
+
+                                            if (Model.MultipleChoiceQuestions[multipleChoiceCounter].IsMultipleAnswer == true)
+                                            {
+                                                <div class="form-check-inline" style="color:darkcyan">
+                                                    <label class="form-check-label" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Answer">
+                                                        <input type="checkbox" id="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Id" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Answer" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Option" />
+                                                        @Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Option
+                                                    </label>
+                                                </div>
+                                            }
+                                            else if (Model.MultipleChoiceQuestions[multipleChoiceCounter].IsMultipleAnswer == false)
+                                            {
+                                                <div class="form-check-inline" style="color:darkcyan">
+                                                    <input type="radio" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].RadioButtonAnswer" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Option" />
+
+                                                    @Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Option
+                                                </div>
+                                            }
+                                        }
+                                        <span id="spanOptions_@multipleChoiceCounter" style="color:red"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    multipleChoiceCounter++;
+                }
+                if (documentCounter < Model.DocumentQuestions.Count && Model.DocumentQuestions[documentCounter].QuestionNumber == i)
+                {
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div id="custom-file-label" style="font-size:smaller">
+                                <div class="row">
+                                    <div class="col-sm-1">
+                                        <img width="30" height="30" src="~/images/Orange_circle.png" />
+                                    </div>
+                                    <br />
+                                    <div class="col-sm-11">
+                                        <input type="text" readonly class="form-control" value="@Model.DocumentQuestions[documentCounter].Description" id="DQ_@documentCounter" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="container">
+                            <input disabled value="@Model.DocumentQuestions[documentCounter].FilePath" type="file" id="@fileCounter" multiple="multiple" />
+                            <br />
+                            @for (int j = 0; j < Model.DocumentQuestions[documentCounter].Answers.Count; j++)
+                            {
+                                <p><a href="@Model.DocumentQuestions[documentCounter].Answers[j].Answer">File @answerNumber</a></p>
+                                answerNumber++;
+                            }
+                        </div>
+                        <br />
+                    </div>
+                    <br />
+                    fileCounter++;
+                    documentCounter++;
+                    answerNumber = 1;
+                }
+            }
+            <br />
+        </form>
+    </div>
+</div>
+<div>
+    <a style="background-color:darkcyan" class="btn btn-primary" asp-action="Details" asp-route-id="@Model.Id">Back to List</a>
+</div>
+
+@*<script>
+        let formIsValid = true
+        function validate_Form() {
+            formIsValid = true;
+            validateTextAnswer();
+            validateMultipleAswer();
+            validateFileUploading();
+
+            return formIsValid;
+        };
+
+        function validateFileUploading() {
+
+            var count = @Model.DocumentQuestions.Count();
+            var allLimits = [];
+            var allFileSize = [];
+            var allRequiredDQ = [];
+
+            @foreach (var item in Model.DocumentQuestions)
+            {
+                @:allLimits.push(@item.FileNumberLimit);
+                @:allFileSize.push(@item.FileSize* 1024 * 1024);
+
+                if (item.IsRequired)
+                   {
+                      @:allRequiredDQ.push("true");
+                   }
+                else
+                   {
+                       @:allRequiredDQ.push("false");
+                   }
+            }
+
+            for (var i = 0; i < count; i++) {
+                if (document.getElementById("DQ_" + i) !== null) {
+
+                    var files = $('#' + i)[0].files;
+                    if (allRequiredDQ[i] == "true") {
+                        if (document.getElementById("DQ_" + i) !== null) {
+
+                            let currQuestion = document.getElementById("DQ_" + i);
+                            let answer = currQuestion.value;
+
+                            ValidateInput(answer, i);
+                        }
+                    }
+
+                    if (files.length > allLimits[i]) {
+                        alert("You can select max " + allLimits[i] + " files.");
+                        result = false;
+                    }
+                    for (var j = 0; j < files.length; j++) {
+                        if (files[j].size > allFileSize[i]) {
+                            alert("File is too big!");
+                            result = false;
+                        }
+                    }
+                }
+
+            }
+        };
+
+        function validateMultipleAswer() {
+            var count = @Model.MultipleChoiceQuestions.Count();
+            var allRequiredMCQ = [];
+            var isRadioButtonMCQ = [];
+            @foreach (var item in Model.MultipleChoiceQuestions)
+            {
+                if (item.IsRequired)
+                {
+                      @:allRequiredMCQ.push("true");
+                }
+                else
+                {
+                    @:allRequiredMCQ.push("false");
+                }
+                if (item.IsMultipleAnswer)
+                {
+                    @:isRadioButtonMCQ.push("false");
+                }
+                else
+                {
+                     @:isRadioButtonMCQ.push("true");
+                }
+
+            }
+
+            for (var i = 0; i < count; i++) {
+
+                if (allRequiredMCQ[i] === "true") {
+                    if (document.getElementById("MCQ_" + i) !== null) {
+
+                        //let currQuestion = document.getElementById("MCQ_" + i);
+
+                        ValidateInputMCQ(i);
+                    }
+                }
+            }
+        }
+
+        function ValidateInputMCQ(id) {
+            let info = $(`#allOptions_${id} :input`);
+
+            let isValidOptionAnswer = false;
+            for (let k = 0; k < info.length; k++) {
+
+                let itemType = info[k].type;
+
+                if (itemType === "radio" || itemType === "checkbox") {
+
+                    let optionMCQvalue = info[k].checked;
+
+                    if (optionMCQvalue === true) {
+                        isValidOptionAnswer = true;
+                        break;
+                    }
+                }
+            }
+            if (isValidOptionAnswer === false) {
+                formIsValid = false;
+                $('#spanOptions_' + id.toString()).text("This is a required field");
+            }
+            else {
+                $('#spanOptions_' + id.toString()).text("");
+            }
+        };
+
+        function validateTextAnswer() {
+            var count = @Model.TextQuestions.Count();
+
+            var allRequiredTQ = [];
+            @foreach (var item in Model.TextQuestions)
+            {
+                if (item.IsRequired)
+                {
+                      @:allRequiredTQ.push("true");
+                }
+                else
+                {
+                    @:allRequiredTQ.push("false");
+                }
+            }
+
+            for (var i = 0; i < count; i++) {
+                if (allRequiredTQ[i]  === "true") {
+                    if (document.getElementById("Q_" + i) !== null) {
+
+                        let currQuestion = document.getElementById("Q_" + i);
+                        let answer = currQuestion.value;
+                        console.log(answer)
+                        if (!answer) {
+                            console.log('#idSpanTitle_' + i.toString())
+                            //console.log(idPrefix + id.toString());
+                            $('#idSpanTitle_' + i.toString()).text("This is a required field");
+                            formIsValid = false;
+                        }
+                    }
+                }
+            }
+        };
+
+        function ValidateInput(title, id) {
+
+            if (!title) {
+                console.log('#idSpanTitle_' + id.toString())
+                //console.log(idPrefix + id.toString());
+                $('#idSpanTitle_' + id.toString()).text("This is a required field");
+                formIsValid = false;
+            }
+            else {
+                $('#idSpanTitle_' + id.toString()).text("");
+            }
+    };
+    </script>*@
+
