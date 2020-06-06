@@ -24,7 +24,7 @@ namespace Survello.Web.Mappers
                 IsRequired = dto.IsRequired,
                 QuestionNumber = dto.QuestionNumber,
                 Answer = dto.Answer,
-                 Answers = dto.Answers.MapFrom()
+                Answers = dto.Answers.MapFrom()
             };
         }
 
