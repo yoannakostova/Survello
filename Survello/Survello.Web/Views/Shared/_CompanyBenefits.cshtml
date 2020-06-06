@@ -3,18 +3,29 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-7 col-md-12 col-sm-12" data-scroll-reveal="enter left move 30px over 0.6s after 0.4s" data-scroll-reveal-id="3" data-scroll-reveal-initialized="true" data-scroll-reveal-complete="true">
-                <img src="~/images/home2.jpg" class="rounded img-fluid d-block mx-auto" alt="App">
+                <img src="~/images/home1.jpg" class="rounded img-fluid d-block mx-auto" alt="App">
             </div>
             <div class="right-text col-lg-5 col-md-12 col-sm-12 mobile-top-fix">
                 <div class="left-heading">
-                    <h5>Lorem ipsum dolor sit amet, consectetur adipiscing elit </h5>
+                    <br />
+                    <br />
+                    <ul>
+                        <h5 style="color:#0a3c5f">Anonymously collect data for your projects</h5>
+                        <h5 style="color:#0a3c5f">Dynamically create and edit your forms</h5>
+                        <h5 style="color:#0a3c5f">Share with a single click</h5>
+                        </br>
+                        <li style="color:darkcyan">Get analyses based on the results received</li>
+                        <li style="color:darkcyan">Access your data from everywhere</li>
+                        <li style="color:darkcyan">Export to Excel</li>
+                    </ul>
+                    <br />
                 </div>
                 <div class="left-text">
-                    <p>
-                        This template is <a href="#">last updated on 20 August 2019 </a>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  <br><br>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                    <a href="#about2" class="main-button">Discover More</a>
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <a type="button" style="background-color:darkcyan;border:none" href="#about" class="btn btn-primary">Discover more</a>
+                    }
+
                 </div>
             </div>
         </div>

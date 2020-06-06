@@ -10,7 +10,7 @@
 <div>
     <div>
         See detailed information about every filled form. Choose from the dropdown:
-        <a asp-action="Index">Back to List</a>
+        <a style="color:darkcyan" asp-controller="Form" asp-action="ListForms">Back to List</a>
     </div>
     <hr />
     <dl class="row">
@@ -35,6 +35,7 @@
     <a asp-controller="Form" asp-action="AnsweredForm" asp-all-route-data="@dict">Answer @counter</a>
     counter++;
 }
+
 
     <partial name="_Details" for="@Model"/>
 

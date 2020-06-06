@@ -44,7 +44,7 @@ namespace Survello.Web.Controllers
             }
             if (allRecipients == null)
             {
-                this.toastNotification.AddAlertToastMessage("You do not provide an email for sharing the form!");
+                this.toastNotification.AddAlertToastMessage("You didn`t add any emails. Please try again.");
                 return View();
             }
             string[] Emails = allRecipients.Split(new char[] { ',', ' ' },
@@ -58,7 +58,7 @@ namespace Survello.Web.Controllers
                 }
                 else
                 {
-                    this.toastNotification.AddAlertToastMessage("Wrong email format! Please try again with the correct one.");
+                    this.toastNotification.AddAlertToastMessage("Wrong email format. Please try again.");
                     return View();
                 }
             }
