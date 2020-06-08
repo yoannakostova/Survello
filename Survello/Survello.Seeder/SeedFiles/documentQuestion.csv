@@ -1,0 +1,7 @@
+Id;Description;FileNumberLimit;FileSize;FormId;IsRequired;IsDeleted;QuestionNumber
+1;Write a C# method to total all the even numbers in an array of ints.;2;1;1;TRUE;FALSE;3
+2;Write a C# method to total all the even numbers in an array of ints.;3;1;2;TRUE;FALSE;2
+3;Write a C# method to total all the even numbers in an array of ints.;1;1;3;TRUE;FALSE;3
+4;Write a C# method to total all the even numbers in an array of ints.;4;1;4;TRUE;FALSE;4
+5;Write a C# method to total all the even numbers in an array of ints.;5;1;5;TRUE;FALSE;1
+6;Write a C# method to total all the even numbers in an array of ints.;7;1;6;TRUE;FALSE;3

@@ -37,6 +37,7 @@ namespace Survello.Database
             modelBuilder.ApplyConfiguration(new DocumentAnswerConfig());
 
             modelBuilder.Seeder();
+            ///modelBuilder.ReadRaw();
 
             base.OnModelCreating(modelBuilder);
         }

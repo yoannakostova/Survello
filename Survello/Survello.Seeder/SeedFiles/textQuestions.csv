@@ -1,0 +1,23 @@
+Id;Description;IsLongAnswer;IsRequired;IsDeleted;FormId;QuestionNumber
+1;What is C#?;TRUE;FALSE;FALSE;1;1
+2;Explain types of comment in C# with examples;TRUE;FALSE;FALSE;1;2
+3;Can multiple catch blocks be executed?;FALSE;FALSE;FALSE;1;4
+4;What is the difference between public, static, and void?;TRUE;TRUE;FALSE;1;6
+5;What is an object?;TRUE;TRUE;FALSE;1;7
+6;Define Constructors;TRUE;TRUE;FALSE;2;4
+7;What is Jagged Arrays?;FALSE;TRUE;FALSE;2;5
+8;What is the use of 'using' statement in C#?;FALSE;TRUE;FALSE;2;6
+9;"Can we use ""this"" command within a static method?";FALSE;FALSE;FALSE;2;7
+10;What is the difference between constants and read-only?;TRUE;FALSE;FALSE;2;8
+11;What is an interface class? Give one example of it;TRUE;FALSE;FALSE;3;1
+12;What are value types and reference types?;FALSE;FALSE;FALSE;3;5
+13;What are sealed classes in C#?;TRUE;FALSE;FALSE;3;6
+14;What is method overloading?;TRUE;TRUE;FALSE;3;7
+15; Can a private virtual method can be overridden?;FALSE;FALSE;FALSE;3;8
+16;"Describe the accessibility modifier ""protected internal"".";TRUE;FALSE;FALSE;4;1
+17;What is the .NET framework?;FALSE;FALSE;FALSE;4;2
+18;What is CLR?;TRUE;TRUE;FALSE;4;5
+19;What do you know about JIT?;TRUE;FALSE;FALSE;4;6
+20;What are the different types of constructors in c#?;TRUE;FALSE;FALSE;4;7
+21;What is caching?;TRUE;TRUE;FALSE;5;3
+22;What is a garbage collector?;FALSE;FALSE;FALSE;5;4

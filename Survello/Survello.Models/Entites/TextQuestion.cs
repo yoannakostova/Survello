@@ -1,11 +1,10 @@
-﻿using Survello.Models.Contracts;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Survello.Models.Entites
 {
-    public class TextQuestion :IDeletable
+    public class TextQuestion
     {
         [Key]
         public Guid Id { get; set; }

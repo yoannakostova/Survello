@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
 using Survello.Models.Entites;
 using Survello.Services.Services.Contracts;
+using Survello.Web.Common;
 using Survello.Web.Mappers;
 using Survello.Web.Models;
 
@@ -18,12 +19,11 @@ namespace Survello.Web.Controllers
         private readonly IFormServices formServices;
         private readonly UserManager<User> userManager;
         private readonly IToastNotification toastNotification;
-
         public FormController(IFormServices formServices, UserManager<User> userManager, IToastNotification toastNotification)
         {
-            this.formServices = formServices ?? throw new ArgumentNullException(nameof(formServices));
-            this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-            this.toastNotification = toastNotification ?? throw new ArgumentNullException(nameof(toastNotification));
+            this.formServices = formServices;
+            this.userManager = userManager;
+            this.toastNotification = toastNotification;
         }
 
         [Authorize]
@@ -31,7 +31,6 @@ namespace Survello.Web.Controllers
         public async Task<IActionResult> ListForms(string sortOrder)
         {
             ViewData["TitleSortParm"] = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
-            ViewData["LastModifiedOnSortParm"] = sortOrder == "LastModifiedOn" ? "lastmodifiedon_desc" : "LastModifiedOn";
             ViewData["CreatedOnSortParm"] = sortOrder == "CreatedOn" ? "createdon_desc" : "CreatedOn";
             ViewData["NumberOfFilledFormsSortParm"] = sortOrder == "NumberOfFilledForms" ? "numberoffilledforms_desc" : "NumberOfFilledForms";
             var userId = (await userManager.GetUserAsync(User)).Id;
@@ -60,22 +59,21 @@ namespace Survello.Web.Controllers
             {
                 model.UserId = (await userManager.GetUserAsync(User)).Id;
 
-                foreach (var question in model.MultipleChoiceQuestions)
+                var createOptionsForMultipleChoiceQuestion = new Parser();
+
+                if (createOptionsForMultipleChoiceQuestion.MapMultipleQuestionsWithOptions(model))
                 {
-                    foreach (var desc in question.OptionsDescriptions)
-                    {
-                        var optionModel = new MultipleChoiceOptionViewModel();
-                        optionModel.Option = desc;
-                        question.Options.Add(optionModel);
-                    }
+                    var formDto = model.MapFrom();
+                    var newForm = await this.formServices.CreateFormAsync(formDto);
+
+                    newForm.MapFrom();
+
+                    RedirectToAction("Index", "Home");
                 }
-
-                var formDto = model.MapFrom();
-                var newForm = await this.formServices.CreateFormAsync(formDto);
-
-                newForm.MapFrom();
-
-                RedirectToAction("Index", "Home");
+                else
+                {
+                    this.toastNotification.AddErrorToastMessage("Something went wrong... Please try again!");
+                }
             }
             catch (Exception)
             {
@@ -102,8 +100,20 @@ namespace Survello.Web.Controllers
             }
             try
             {
-                await this.formServices.CreateFormAsync(model.MapFrom());
+                model.UserId = (await userManager.GetUserAsync(User)).Id;
+
+                foreach (var question in model.MultipleChoiceQuestions)
+                {
+                    foreach (var desc in question.OptionsDescriptions)
+                    {
+                        var optionModel = new MultipleChoiceOptionViewModel();
+                        optionModel.OptionDescription = desc;
+                        question.Options.Add(optionModel);
+                    }
+                }
+
                 this.toastNotification.AddSuccessToastMessage("Form was successfully created");
+                await this.formServices.CreateFormAsync(model.MapFrom());
             }
             catch (Exception)
             {
@@ -141,68 +151,26 @@ namespace Survello.Web.Controllers
             }
             try
             {
-                foreach (var tq in form.TextQuestions)
+                var validator = new DataValidator();
+                var formIsValid = validator.ValidateAnswer(form);
+
+                if (formIsValid)
                 {
-                    if (tq.IsRequired == true && tq.Description == string.Empty)
-                    {
-                        this.toastNotification.AddErrorToastMessage($"You missed to answer some required questions.");
-                        return RedirectToAction("Answer", "Form", new { id = form.Id });
-                    }
+                    this.toastNotification.AddSuccessToastMessage("Form was successfully answered");
+                    var isAnswerSaved = await this.formServices.CreateAnswer(form.MapFrom());
                 }
-
-                //TODO: Validation for multiple question
-                foreach (var dq in form.DocumentQuestions)
+                else
                 {
-                    if (dq.IsRequired == true)
-                    {
-                        if (dq.Files.Count == 0)
-                        {
-                            this.toastNotification.AddErrorToastMessage($"You missed to answer some required questions.");
-                            return RedirectToAction("Answer", "Form", new { id = form.Id });
-                        }
-                    }
-
-                    if (dq.Files == null && dq.IsRequired == false)
-                    {
-                        continue;
-                    }
-
-
-                    var fileSize = long.Parse(dq.FileSize) * 1024 * 1024;
-
-                    foreach (var file in dq.Files)
-                    {
-                        if (file != null)
-                        {
-                            if (fileSize < file.Length)
-                            {
-                                this.toastNotification.AddErrorToastMessage("You uploaded bigger files than allowed. Please review the limitations again.");
-                                return RedirectToAction("Answer", "Form", new { id = form.Id });
-                            }
-                            if (dq.FileNumberLimit < dq.Files.Count)
-                            {
-                                this.toastNotification.AddErrorToastMessage("You uploaded more files than allowed. Please review the limitations again.");
-                                return RedirectToAction("Answer", "Form", new { id = form.Id });
-                            }
-                        }
-                        else
-                        {
-                            this.toastNotification.AddErrorToastMessage("You missed uploading some files. You will be returned back to the form");
-                            return RedirectToAction("Answer", "Form", new { id = form.Id });
-                        }
-                    }
+                    this.toastNotification.AddErrorToastMessage("You missed answering some required questions. Please review your answers again.");
+                    return RedirectToAction("Answer", "Form", new { id = form.Id });
                 }
-
-                var isAnswerSaved = await this.formServices.CreateAnswer(form.MapFrom());
-
-                this.toastNotification.AddSuccessToastMessage("Form was successfully answered");
             }
             catch (Exception)
             {
                 this.toastNotification.AddErrorToastMessage("Something went wrong... Please try again!");
                 return RedirectToAction("Answer", "Form", new { id = form.Id });
             }
-            return RedirectToAction("ListForms"); //TODO: Submitted form page
+            return RedirectToAction("ListForms");
         }
 
         [HttpPost]
@@ -214,8 +182,8 @@ namespace Survello.Web.Controllers
             }
             try
             {
-                await this.formServices.DeleteFormAsync(id);
                 this.toastNotification.AddInfoToastMessage("Form was succesfully deleted!");
+                await this.formServices.DeleteFormAsync(id);
             }
             catch (Exception)
             {

@@ -9,7 +9,6 @@ namespace Survello.Models.Entites
     {
         [Key]
         public Guid Id { get; set; }
-        public DateTime? DateOfExpiration { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public int NumberOfFilledForms { get; set; }

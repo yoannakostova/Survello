@@ -1,252 +1,55 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic.FileIO;
 using Survello.Models.Entites;
 using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Net;
 
 namespace Survello.Seeder
 {
     public static class ModelBuilderExtension
     {
+        public const string SEED_DATA_FORMS = @"C:\ALL CODE\4. GIT Folders\negometrix-project\Survello\Survello.Seeder\SeedFiles\forms.csv";
+        public const string SEED_DATA_TEXT_Q = @"C:\ALL CODE\4. GIT Folders\negometrix-project\Survello\Survello.Seeder\SeedFiles\textQuestions.csv";
+        public const string SEED_DATA_MULTIPLE_Q = @"C:\ALL CODE\4. GIT Folders\negometrix-project\Survello\Survello.Seeder\SeedFiles\multipleQuestions.csv";
+        public const string SEED_DATA_DOCUMENT_Q = @"C:\ALL CODE\4. GIT Folders\negometrix-project\Survello\Survello.Seeder\SeedFiles\documentQuestion.csv";
+        public const string SEED_DATA_OPTIONS = @"C:\ALL CODE\4. GIT Folders\negometrix-project\Survello\Survello.Seeder\SeedFiles\options.csv";
+
+
         public static void Seeder(this ModelBuilder builder)
         {
-            //Forms
-            builder.Entity<Form>().HasData(
-                new Form
-                {
-                    Id = Guid.Parse("1009cb07-226e-430d-9173-87ee97472f6a"),
-                    Title = "Test form 1",
-                    Description = "Test description 1.",
-                    UserId = Guid.Parse("52D02F62-14AC-4152-872C-08D7EB74F484")
-                },
-                new Form
-                {
-                    Id = Guid.Parse("2009cb07-226e-430d-9173-87ee97472f6a"),
-                    Title = "Test form 2",
-                    Description = "Test description 2.",
-                    UserId = Guid.Parse("22A2D89D-EE6E-4C94-E490-08D7EB6BAE70"),
-                },
-                new Form
-                {
-                    Id = Guid.Parse("3009cb07-226e-430d-9173-87ee97472f6a"),
-                    Title = "Test form 3",
-                    Description = "Test description 3.",
-                    UserId = Guid.Parse("52D02F62-14AC-4152-872C-08D7EB74F484"),
-                },
-                new Form
-                {
-                    Id = Guid.Parse("4009cb07-226e-430d-9173-87ee97472f6a"),
-                    Title = "Test form 4",
-                    Description = "Test description 4",
-                    UserId = Guid.Parse("22A2D89D-EE6E-4C94-E490-08D7EB6BAE70"),
-                });
+            var forms = ReadRawData(SEED_DATA_FORMS);
+            var textQuestion = ReadRawData(SEED_DATA_TEXT_Q);
+            var multipleQuestion = ReadRawData(SEED_DATA_MULTIPLE_Q);
+            var documentQuestion = ReadRawData(SEED_DATA_DOCUMENT_Q);
+            var options = ReadRawData(SEED_DATA_OPTIONS);
 
-            //TextQuestions
-            builder.Entity<TextQuestion>().HasData(
-                new TextQuestion
-                {
-                    Id = Guid.Parse("1109cb07-226e-430d-9173-87ee97472f6a"),
-                    Description = "How old are you?",
-                    IsLongAnswer = false,
-                    IsRequired = true,
-                    FormId = Guid.Parse("1009cb07-226e-430d-9173-87ee97472f6a"),
-                },
-                  new TextQuestion
-                  {
-                      Id = Guid.Parse("1209cb07-226e-430d-9173-87ee97472f6a"),
-                      Description = "Where are you from?",
-                      IsLongAnswer = false,
-                      IsRequired = true,
-                      FormId = Guid.Parse("2009cb07-226e-430d-9173-87ee97472f6a"),
-                  },
-                  new TextQuestion
-                  {
-                      Id = Guid.Parse("1309cb07-226e-430d-9173-87ee97472f6a"),
-                      Description = "What is class?",
-                      IsLongAnswer = false,
-                      IsRequired = true,
-                      FormId = Guid.Parse("3009cb07-226e-430d-9173-87ee97472f6a"),
-                  },
-                  new TextQuestion
-                  {
-                      Id = Guid.Parse("1409cb07-226e-430d-9173-87ee97472f6a"),
-                      Description = "What is algorithm?",
-                      IsLongAnswer = false,
-                      IsRequired = true,
-                      FormId = Guid.Parse("4009cb07-226e-430d-9173-87ee97472f6a"),
-                  });
+            NormalizeData(forms, textQuestion, multipleQuestion, documentQuestion, options);
 
-            //TextAnswers
-            builder.Entity<TextAnswer>().HasData(
-                new TextAnswer
-                {
-                    Id = Guid.Parse("1119cb07-226e-430d-9173-87ee97472f6a"),
-                    Answer = "I am 18 years old",
-                    TextQuestionId = Guid.Parse("1109cb07-226e-430d-9173-87ee97472f6a"),
-                },
-                new TextAnswer
-                {
-                    Id = Guid.Parse("1111cb07-226e-430d-9173-87ee97472f6a"),
-                    Answer = "I am from Bourgas",
-                    TextQuestionId = Guid.Parse("1209cb07-226e-430d-9173-87ee97472f6a"),
-                },
-                new TextAnswer
-                {
-                    Id = Guid.Parse("11111b07-226e-430d-9173-87ee97472f6a"),
-                    Answer = "Models of real world objects, have state and behaviour.",
-                    TextQuestionId = Guid.Parse("1309cb07-226e-430d-9173-87ee97472f6a"),
-                },
-                 new TextAnswer
-                 {
-                     Id = Guid.Parse("11171b07-226e-430d-9173-87ee97472f6a"),
-                     Answer = "An algorithm is a set of predifined steps used to solve a problem.",
-                     TextQuestionId = Guid.Parse("1409cb07-226e-430d-9173-87ee97472f6a"),
-                 });
+            List<Form> formsList = new List<Form>();
+            formsList = CreateObjectFromListForms(forms);
 
-            //MultipleChoiceQuestions
-            builder.Entity<MultipleChoiceQuestion>().HasData(
-                new MultipleChoiceQuestion
-                {
-                    Id = Guid.Parse("2109cb07-226e-430d-9173-87ee97472f6a"),
-                    Description = "How would you rate your experience with our product?",
-                    IsRequired = true,
-                    FormId = Guid.Parse("1009cb07-226e-430d-9173-87ee97472f6a"),
-                },
-                new MultipleChoiceQuestion
-                {
-                    Id = Guid.Parse("2209cb07-226e-430d-9173-87ee97472f6a"),
-                    Description = "How often do you conduct surveys?",
-                    IsRequired = true,
-                    FormId = Guid.Parse("2009cb07-226e-430d-9173-87ee97472f6a"),
-                },
-                new MultipleChoiceQuestion
-                {
-                    Id = Guid.Parse("22000b07-226e-430d-9173-87ee97472f6a"),
-                    Description = "What kind of animal is feline?",
-                    IsRequired = true,
-                    FormId = Guid.Parse("3009cb07-226e-430d-9173-87ee97472f6a"),
-                },
-                new MultipleChoiceQuestion
-                {
-                    Id = Guid.Parse("22600b07-226e-430d-9173-87ee97472f6a"),
-                    Description = "Which operations can be performed on a data structure?",
-                    IsRequired = true,
-                    FormId = Guid.Parse("4009cb07-226e-430d-9173-87ee97472f6a"),
-                });
+            List<TextQuestion> textQuestionList = new List<TextQuestion>();
+            textQuestionList = CreateObjectFromListTextQuestion(textQuestion);
 
-            //MultipleChoiceOptions
-            builder.Entity<MultipleChoiceOption>().HasData(
-                new MultipleChoiceOption
-                {
-                    Id = Guid.Parse("1219cb07-226e-430d-9173-87ee97472f6a"),
-                    Option = "Neither agree nor disagree",
-                    MultipleChoiceQuestionId = Guid.Parse("2109cb07-226e-430d-9173-87ee97472f6a"),
-                },
-                 new MultipleChoiceOption
-                 {
-                     Id = Guid.Parse("1229cb07-226e-430d-9173-87ee97472f6a"),
-                     Option = "Satisfied",
-                     MultipleChoiceQuestionId = Guid.Parse("2109cb07-226e-430d-9173-87ee97472f6a"),
-                 },
-                 new MultipleChoiceOption
-                 {
-                     Id = Guid.Parse("1239cb07-226e-430d-9173-87ee97472f6a"),
-                     Option = "Dissatisfied",
-                     MultipleChoiceQuestionId = Guid.Parse("2109cb07-226e-430d-9173-87ee97472f6a"),
-                 },
-                 new MultipleChoiceOption
-                 {
-                     Id = Guid.Parse("2220cb07-226e-430d-9173-87ee97472f6a"),
-                     Option = "Weekly",
-                     MultipleChoiceQuestionId = Guid.Parse("2209cb07-226e-430d-9173-87ee97472f6a"),
-                 },
-                 new MultipleChoiceOption
-                 {
-                     Id = Guid.Parse("2221cb07-226e-430d-9173-87ee97472f6a"),
-                     Option = "Monthly",
-                     MultipleChoiceQuestionId = Guid.Parse("2209cb07-226e-430d-9173-87ee97472f6a"),
-                 },
-                  new MultipleChoiceOption
-                  {
-                      Id = Guid.Parse("2222cb07-226e-430d-9173-87ee97472f6a"),
-                      Option = "Quarterly",
-                      MultipleChoiceQuestionId = Guid.Parse("2209cb07-226e-430d-9173-87ee97472f6a"),
-                  },
-                  new MultipleChoiceOption
-                  {
-                      Id = Guid.Parse("2222cb07-226e-430d-9173-87ee97472111"),
-                      Option = "Dog",
-                      MultipleChoiceQuestionId = Guid.Parse("22000b07-226e-430d-9173-87ee97472f6a"),
-                  },
-                  new MultipleChoiceOption
-                  {
-                      Id = Guid.Parse("2222cb07-226e-430d-9173-87ee97471210"),
-                      Option = "Elephant",
-                      MultipleChoiceQuestionId = Guid.Parse("22000b07-226e-430d-9173-87ee97472f6a"),
-                  },
-                  new MultipleChoiceOption
-                  {
-                      Id = Guid.Parse("2222cb07-226e-430d-9173-87ee97472122"),
-                      Option = "Cat",
-                      MultipleChoiceQuestionId = Guid.Parse("22000b07-226e-430d-9173-87ee97472f6a"),
-                  },
-                  new MultipleChoiceOption
-                  {
-                      Id = Guid.Parse("3322cb07-226e-430d-9173-87ee97472122"),
-                      Option = "Traversing",
-                      MultipleChoiceQuestionId = Guid.Parse("22600b07-226e-430d-9173-87ee97472f6a"),
-                  },
-                  new MultipleChoiceOption
-                  {
-                      Id = Guid.Parse("3422cb07-226e-430d-9173-87ee97472122"),
-                      Option = "Searching",
-                      MultipleChoiceQuestionId = Guid.Parse("22600b07-226e-430d-9173-87ee97472f6a"),
-                  },
-                  new MultipleChoiceOption
-                  {
-                      Id = Guid.Parse("3332cb07-226e-430d-9173-87ee97472122"),
-                      Option = "Deleting",
-                      MultipleChoiceQuestionId = Guid.Parse("22600b07-226e-430d-9173-87ee97472f6a"),
-                  });
+            List<MultipleChoiceQuestion> multipleQuestionList = new List<MultipleChoiceQuestion>();
+            multipleQuestionList = CreateObjectFromListMultipleQuestion(multipleQuestion);
 
-            //MultipleChoiceAnswers
-            builder.Entity<MultipleChoiceAnswer>().HasData(
-                new MultipleChoiceAnswer
-                {
-                    Id = Guid.Parse("1231cb07-226e-430d-9173-87ee97472f6a"),
-                    MultipleChoiceOptionId = Guid.Parse("1219cb07-226e-430d-9173-87ee97472f6a"),
+            List<DocumentQuestion> documentQuestionList = new List<DocumentQuestion>();
+            documentQuestionList = CreateObjectFromListDocumentQuestion(documentQuestion);
 
-                },
-                new MultipleChoiceAnswer
-                {
-                    Id = Guid.Parse("1233cb07-226e-430d-9173-87ee97472f6a"),
-                    MultipleChoiceOptionId = Guid.Parse("2222cb07-226e-430d-9173-87ee97472f6a"),
+            List<MultipleChoiceOption> optionsList = new List<MultipleChoiceOption>();
+            optionsList = CreateObjectFromListMultipleChoiceOption(options);
 
-
-                },
-                new MultipleChoiceAnswer
-                {
-                    Id = Guid.Parse("1234cb07-226e-430d-9173-87ee97472f6a"),
-                    MultipleChoiceOptionId = Guid.Parse("2222cb07-226e-430d-9173-87ee97472122"),
-
-                },
-                new MultipleChoiceAnswer
-                {
-                    Id = Guid.Parse("15734b07-226e-430d-9173-87e97472f6a1"),
-                    MultipleChoiceOptionId = Guid.Parse("3322cb07-226e-430d-9173-87ee97472122"),
-
-                },
-                new MultipleChoiceAnswer
-                {
-                    Id = Guid.Parse("15094b07-226e-430d-9173-87ee927472f6"),
-                    MultipleChoiceOptionId = Guid.Parse("3422cb07-226e-430d-9173-87ee97472122"),
-
-                },
-                new MultipleChoiceAnswer
-                {
-                    Id = Guid.Parse("19934cb7-226e-430d-9173-87ee974272fa"),
-                    MultipleChoiceOptionId = Guid.Parse("3332cb07-226e-430d-9173-87ee97472122"),
-
-                });
+            builder.Entity<Form>().HasData(formsList);
+            builder.Entity<TextQuestion>().HasData(textQuestionList);
+            builder.Entity<MultipleChoiceQuestion>().HasData(multipleQuestionList);
+            builder.Entity<DocumentQuestion>().HasData(documentQuestionList);
+            builder.Entity<MultipleChoiceOption>().HasData(optionsList);
 
             //Role
             builder.Entity<Role>().HasData(
@@ -297,6 +100,217 @@ namespace Survello.Seeder
                 RoleId = Guid.Parse("0989cb07-226e-430d-9173-87ee97472f6a"),
                 UserId = user2.Id
             });
+        }
+
+        private static List<MultipleChoiceOption> CreateObjectFromListMultipleChoiceOption(List<Dictionary<string, string>> options)
+        {
+            List<MultipleChoiceOption> newList = new List<MultipleChoiceOption>();
+            foreach (var item in options)
+            {
+                if (item.Count > 0)
+                {
+                    var newMultipleChoiceOption = new MultipleChoiceOption();
+                    newMultipleChoiceOption.Id = Guid.Parse(item["Id"]);
+                    newMultipleChoiceOption.Option = item["Option"];
+                    newMultipleChoiceOption.MultipleChoiceQuestionId = Guid.Parse(item["MultipleChoiceQuestionId"]);
+
+                    newList.Add(newMultipleChoiceOption);
+                }
+            }
+            return newList;
+        }
+
+        private static List<DocumentQuestion> CreateObjectFromListDocumentQuestion(List<Dictionary<string, string>> documentQuestion)
+        {
+            List<DocumentQuestion> newList = new List<DocumentQuestion>();
+            foreach (var item in documentQuestion)
+            {
+                if (item.Count > 0)
+                {
+                    var newDocumentQuestion = new DocumentQuestion();
+                    newDocumentQuestion.Id = Guid.Parse(item["Id"]);
+                    newDocumentQuestion.Description = item["Description"];
+                    newDocumentQuestion.FileNumberLimit = int.Parse(item["FileNumberLimit"]);
+                    newDocumentQuestion.FileSize = int.Parse(item["FileSize"]);
+                    newDocumentQuestion.FormId = Guid.Parse(item["FormId"]);
+                    newDocumentQuestion.IsRequired = bool.Parse(item["IsRequired"]);
+                    newDocumentQuestion.IsDeleted = false;
+                    newDocumentQuestion.QuestionNumber = int.Parse(item["QuestionNumber"]);
+                    newList.Add(newDocumentQuestion);
+                }
+            }
+            return newList;
+        }
+
+        private static List<MultipleChoiceQuestion> CreateObjectFromListMultipleQuestion(List<Dictionary<string, string>> multipleChoiceQuestion)
+        {
+            List<MultipleChoiceQuestion> newList = new List<MultipleChoiceQuestion>();
+            foreach (var item in multipleChoiceQuestion)
+            {
+                if (item.Count > 0)
+                {
+                    var newMultipleChoiceQuestion = new MultipleChoiceQuestion();
+                    newMultipleChoiceQuestion.Id = Guid.Parse(item["Id"]);
+                    newMultipleChoiceQuestion.Description = item["Description"];
+                    newMultipleChoiceQuestion.IsRequired = bool.Parse(item["IsRequired"]);
+                    newMultipleChoiceQuestion.IsMultipleAnswer = bool.Parse(item["IsMultipleAnswer"]);
+                    newMultipleChoiceQuestion.IsDeleted = false;
+                    newMultipleChoiceQuestion.FormId = Guid.Parse(item["FormId"]);
+                    newMultipleChoiceQuestion.QuestionNumber = int.Parse(item["QuestionNumber"]);
+                    newList.Add(newMultipleChoiceQuestion);
+                }
+            }
+            return newList;
+        }
+
+        private static List<TextQuestion> CreateObjectFromListTextQuestion(List<Dictionary<string, string>> textQuestion)
+        {
+            List<TextQuestion> newList = new List<TextQuestion>();
+            foreach (var item in textQuestion)
+            {
+                if (item.Count > 0)
+                {
+                    var newTextQuestion = new TextQuestion();
+                    newTextQuestion.Id = Guid.Parse(item["Id"]);
+                    newTextQuestion.Description = item["Description"];
+                    newTextQuestion.IsLongAnswer = bool.Parse(item["IsLongAnswer"]);
+                    newTextQuestion.IsRequired = bool.Parse(item["IsRequired"]);
+                    newTextQuestion.IsDeleted = false;
+                    newTextQuestion.FormId = Guid.Parse(item["FormId"]);
+                    newTextQuestion.QuestionNumber = int.Parse(item["QuestionNumber"]);
+
+                    newList.Add(newTextQuestion);
+                }
+            }
+            return newList;
+        }
+
+        private static List<Form> CreateObjectFromListForms(List<Dictionary<string, string>> forms)
+        {
+            List<Form> newList = new List<Form>();
+            foreach (var item in forms)
+            {
+                if (item.Count > 0)
+                {
+                    var form = new Form();
+                    form.Id = Guid.Parse(item["Id"]);
+                    form.CreatedOn = DateTime.Now;
+                    form.IsDeleted = false;
+                    form.Title = item["Title"];
+                    form.Description = item["Description"];
+                    form.NumberOfFilledForms = int.Parse(item["NumberOfFilledForms"]);
+                    form.UserId = Guid.Parse(item["UserId"]);
+                    newList.Add(form);
+
+                }
+            }
+            return newList;
+        }
+
+        private static void NormalizeData(List<Dictionary<string, string>> forms, List<Dictionary<string, string>> textQuestion, List<Dictionary<string, string>> multipleQuestion, List<Dictionary<string, string>> documentQuestion, List<Dictionary<string, string>> options)
+        {
+            List<List<Dictionary<string, string>>> allQ = new List<List<Dictionary<string, string>>>();
+            allQ.Add(textQuestion);
+            allQ.Add(multipleQuestion);
+            allQ.Add(documentQuestion);
+
+            foreach (var item in forms)
+            {
+                if (item.Count > 0)
+                {
+                    var currFormID = Guid.NewGuid();
+                    var oldId = item["Id"];
+                    item["Id"] = currFormID.ToString();
+
+                    foreach (var listWithQuestions in allQ)
+                    {
+                        foreach (var dictionaryWithQuestions in listWithQuestions)
+                        {
+                            if (dictionaryWithQuestions.Count != 0)
+                            {
+                                if (dictionaryWithQuestions["FormId"] == oldId)
+                                {
+                                    dictionaryWithQuestions["FormId"] = currFormID.ToString();
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+            foreach (var item in textQuestion)
+            {
+                if (item.Count > 0)
+                {
+                    item["Id"] = Guid.NewGuid().ToString();
+                }
+            }
+            foreach (var item in documentQuestion)
+            {
+                if (item.Count > 0)
+                {
+                    item["Id"] = Guid.NewGuid().ToString();
+                }
+            }
+            foreach (var item in multipleQuestion)
+            {
+
+                if (item.Count > 0)
+                {
+                    var oldId = item["Id"];
+
+                    var newID = Guid.NewGuid();
+
+                    item["Id"] = newID.ToString();
+
+                    foreach (var option in options)
+                    {
+                        if (option.Count > 0)
+                        {
+                            option["Id"] = Guid.NewGuid().ToString();
+                            if (option["MultipleChoiceQuestionId"] == oldId)
+                            {
+                                option["MultipleChoiceQuestionId"] = newID.ToString();
+                            }
+                        }
+                    }
+                }
+            }
+
+
+        }
+
+        public static List<Dictionary<string, string>> ReadRawData(string filePath)
+        {
+
+            var allForms = new List<Dictionary<string, string>>();
+
+            using (TextFieldParser parser = new TextFieldParser(filePath))
+            {
+                parser.TextFieldType = FieldType.Delimited;
+                parser.SetDelimiters(";");
+                var counter = 0;
+                List<string> titleRow = new List<string>();
+                while (!parser.EndOfData)
+                {
+                    var currFormDict = new Dictionary<string, string>();
+                    if (counter == 0)
+                    {
+                        titleRow = parser.ReadFields().ToList();
+                        counter++;
+                    }
+                    else
+                    {
+                        string[] field = parser.ReadFields();
+                        for (int i = 0; i < field.Length; i++)
+                        {
+                            currFormDict.Add(titleRow[i], field[i]);
+                        }
+                    }
+                    allForms.Add(currFormDict);
+                }
+            }
+            return allForms;
         }
     }
 }

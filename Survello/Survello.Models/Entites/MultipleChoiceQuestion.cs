@@ -1,11 +1,10 @@
-﻿using Survello.Models.Contracts;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Survello.Models.Entites
 {
-    public class MultipleChoiceQuestion : IDeletable
+    public class MultipleChoiceQuestion
     {
         [Key]
         public Guid Id { get; set; }
@@ -13,10 +12,10 @@ namespace Survello.Models.Entites
         public bool IsRequired { get; set; }
         public bool IsMultipleAnswer { get; set; }
         public bool IsDeleted { get; set; }
-        public DateTime? DeletedOn { get; set; }
         public Guid FormId { get; set; }
         public Form Form { get; set; }
         public int QuestionNumber { get; set; }
         public ICollection<MultipleChoiceOption> Options { get; set; } = new List<MultipleChoiceOption>();
+        public ICollection<MultipleChoiceAnswer> Answers { get; set; } = new List<MultipleChoiceAnswer>();
     }
 }

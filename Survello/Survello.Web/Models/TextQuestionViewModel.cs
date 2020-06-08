@@ -14,6 +14,5 @@ namespace Survello.Web.Models
         public bool IsRequired { get; set; }
         public int QuestionNumber { get; set; }
         public string Answer { get; set; }
-        public ICollection<TextAnswerViewModel> Answers { get; set; } = new List<TextAnswerViewModel>();
     }
 }

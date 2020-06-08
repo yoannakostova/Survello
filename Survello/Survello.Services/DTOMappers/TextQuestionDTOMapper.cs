@@ -22,8 +22,7 @@ namespace Survello.Services.DTOMappers
                 Description = dto.Description,
                 IsLongAnswer = dto.IsLongAnswer,
                 IsRequired = dto.IsRequired,
-                FormId = dto.FormId, 
-                QuestionNumber = dto.QuestionNumber,   
+                QuestionNumber = dto.QuestionNumber,
             };
         }
 
@@ -34,15 +33,25 @@ namespace Survello.Services.DTOMappers
                 throw new Exception(ExceptionMessages.EntityNotFound);
             }
 
+            var answer = string.Empty;
+
+            if (entity.Answers.Count > 0)
+            {
+                foreach (var item in entity.Answers)
+                {
+                    answer = item.Answer;
+                    break;
+                }
+            }
+
             return new TextQuestionDTO
             {
                 Id = entity.Id,
                 Description = entity.Description,
                 IsLongAnswer = entity.IsLongAnswer,
                 IsRequired = entity.IsRequired,
-                FormId = entity.FormId,
                 QuestionNumber = entity.QuestionNumber,
-                Answers = entity.Answers.MapFrom(),              
+                Answer = answer
             };
         }
 

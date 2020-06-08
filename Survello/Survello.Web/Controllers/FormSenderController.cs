@@ -24,8 +24,8 @@ namespace Survello.Web.Controllers
 
         public FormSenderController(IToastNotification toastNotification, IFormSenderServices formSenderServices)
         {
-            this.toastNotification = toastNotification ?? throw new ArgumentNullException(nameof(toastNotification));
-            this.formSenderServices = formSenderServices ?? throw new ArgumentNullException(nameof(formSenderServices));
+            this.toastNotification = toastNotification;
+            this.formSenderServices = formSenderServices;
         }
         // GET: Emails
         [HttpGet]

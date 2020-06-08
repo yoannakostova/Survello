@@ -12,6 +12,7 @@
 }
 
 @Html.HiddenFor(modelItem => (Model.Id))
+@Html.HiddenFor(modelItem => (Model.UserId))
 <h4 style="color:darkcyan">You are now editing a form with title @Model.Title</h4>
 <hr />
 <br />
@@ -103,7 +104,7 @@
                             globalRemoveID++;
                             <div class="row" id="RemoveID_@globalRemoveID">
                                 <div class="col-md-8">
-                                    <input type="text" class="form-control" id="option_@globalOptionsID" value="@Model.MultipleChoiceQuestions[MCQCounterRendered].Options[k].Option">
+                                    <input type="text" class="form-control" id="option_@globalOptionsID" value="@Model.MultipleChoiceQuestions[MCQCounterRendered].Options[k].OptionDescription">
                                     <span id="idSpanTitleOption_@globalOptionsID" style="color:red"></span>
                                 </div>
                                 <div class="fa fa-times" id="globalCounter">

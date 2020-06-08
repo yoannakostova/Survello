@@ -8,7 +8,6 @@ namespace Survello.Web.Models
     {
         [Required]
         public Guid Id { get; set; }
-        public DateTime? DateOfExpiration { get; set; }
         [Required]
         [StringLength(150, ErrorMessage = "The {0} value cannot exceed {1} characters.")]
         public string Title { get; set; }

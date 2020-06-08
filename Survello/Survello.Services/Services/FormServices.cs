@@ -23,9 +23,9 @@ namespace Survello.Services.Services
         private readonly IBlobServices blobServices;
         public FormServices(SurvelloContext dbcontext, IDateTimeProvider dateTimeProvider, IBlobServices blobServices)
         {
-            this.dbcontext = dbcontext ?? throw new ArgumentNullException(nameof(dbcontext));
-            this.dateTimeProvider = dateTimeProvider ?? throw new ArgumentNullException(nameof(dateTimeProvider));
-            this.blobServices = blobServices ?? throw new ArgumentNullException(nameof(blobServices));
+            this.dbcontext = dbcontext;
+            this.dateTimeProvider = dateTimeProvider;
+            this.blobServices = blobServices;
         }
         public async Task<FormDTO> CreateFormAsync(FormDTO tempForm)
         {
@@ -109,12 +109,6 @@ namespace Survello.Services.Services
                 case "title_desc":
                     forms = forms.OrderByDescending(f => f.Title);
                     break;
-                case "LastModifiedOn":
-                    forms = forms.OrderBy(f => f.LastModifiedOn);
-                    break;
-                case "lastmodifiedon_desc":
-                    forms = forms.OrderByDescending(f => f.LastModifiedOn);
-                    break;
                 case "CreatedOn":
                     forms = forms.OrderBy(f => f.CreatedOn);
                     break;
@@ -168,6 +162,7 @@ namespace Survello.Services.Services
                    .ThenInclude(a => a.Answers)
                 .Include(f => f.MultipleChoiceQuestions)
                     .ThenInclude(mq => mq.Options)
+                 .Include(f => f.MultipleChoiceQuestions)
                     .ThenInclude(a => a.Answers)
                 .Include(f => f.DocumentQuestions)
                     .ThenInclude(a => a.Answers)
@@ -178,56 +173,6 @@ namespace Survello.Services.Services
             formResult.Title = form.Title;
             formResult.Description = form.Description;
             formResult.CreatedOn = form.CreatedOn;
-
-
-            //foreach (var text in form.TextQuestions)
-            //{
-            //    var textQuestion = text;
-
-            //    formResult.TextQuestions.Add(textQuestion);
-
-            //    foreach (var item in text.Answers)
-            //    {
-            //        if (item.CorelationToken != idToken)
-            //        {
-            //            textQuestion.Answers.Remove(item);
-            //        }
-            //    }
-            //}
-
-            //foreach (var multiple in form.MultipleChoiceQuestions)
-            //{
-            //    var multipleQuestion = multiple;
-
-            //    formResult.MultipleChoiceQuestions.Add(multipleQuestion);
-
-            //    foreach (var option in multiple.Options)
-            //    {
-            //        multipleQuestion.Options.Add(option);
-
-            //        foreach (var answer in option.Answers)
-            //        {
-            //            if (answer.CorelationToken != idToken)
-            //            {
-            //                option.Answers.Remove(answer);
-            //            }
-            //        }
-            //    }
-            //}
-
-            //foreach (var document in form.DocumentQuestions)
-            //{
-            //    var documentQuestion = document;
-            //    formResult.DocumentQuestions.Add(documentQuestion);
-
-            //    foreach (var item in document.Answers)
-            //    {
-            //        if (item.CorelationToken != idToken)
-            //        {
-            //            documentQuestion.Answers.Remove(item);
-            //        }
-            //    }
-            //}
 
             foreach (var item in form.TextQuestions)
             {
@@ -253,19 +198,12 @@ namespace Survello.Services.Services
 
             foreach (var item in form.MultipleChoiceQuestions)
             {
-                foreach (var option in item.Options)
+                for (int j = 0; j < item.Answers.Count; j++)
                 {
-                    for (int j = 0; j < option.Answers.Count; j++)
-                    {
-                        var answer = option.Answers
-                            .Where(a => a.CorelationToken != idToken)
-                            .FirstOrDefault();
-
-                        form.MultipleChoiceQuestions
-                            .Any(t => t.Options
-                            .Any(o => o.Answers
-                            .Remove(answer)));
-                    }
+                    form.MultipleChoiceQuestions.Any(t => t.Answers
+                    .Remove(t.Answers
+                    .Where(a => a.CorelationToken != idToken)
+                    .FirstOrDefault()));
                 }
             }
 
@@ -280,7 +218,8 @@ namespace Survello.Services.Services
                      .ThenInclude(q => q.Answers)
                 .Include(f => f.MultipleChoiceQuestions)
                      .ThenInclude(q => q.Options)
-                     .ThenInclude(o => o.Answers)
+                .Include(f => f.MultipleChoiceQuestions)
+                     .ThenInclude(q => q.Answers)
                 .Include(f => f.DocumentQuestions)
                      .ThenInclude(q => q.Answers)
                 .FirstOrDefaultAsync()
@@ -314,13 +253,12 @@ namespace Survello.Services.Services
 
             if (form.MultipleChoiceQuestions.Count > 0)
             {
-                foreach (var option in
+                foreach (var item in
                     from item in form.MultipleChoiceQuestions
-                    from option in item.Options
-                    where option.Answers != null
-                    select option)
+                        where item.Answers != null
+                    select item)
                 {
-                    allCorelations.AddRange(option.Answers
+                    allCorelations.AddRange(item.Answers
                                   .Select(t => t.CorelationToken));
                 }
             }
@@ -357,25 +295,12 @@ namespace Survello.Services.Services
                 {
                     if (option.Answer != null)
                     {
-                        //TODO: Why I do that???????
-                        if (option.Answer != "false")
-                        {
-                            var answer = new MultipleChoiceAnswer();
-                            answer.MultipleChoiceOptionId = option.Id;
-                            answer.Answer = option.Answer;
-                            answer.CorelationToken = token;
+                        var answer = new MultipleChoiceAnswer();
+                        answer.MultipleChoiceQuestionId = question.Id;
+                        answer.Answer = option.Answer;
+                        answer.CorelationToken = token;
 
-                            await this.dbcontext.MultipleChoiceAnswers.AddAsync(answer);
-                        }
-                        else if (option.Option == "false" && option.Answer == "false")
-                        {
-                            var answer = new MultipleChoiceAnswer();
-                            answer.MultipleChoiceOptionId = option.Id;
-                            answer.Answer = option.Answer;
-                            answer.CorelationToken = token;
-
-                            await this.dbcontext.MultipleChoiceAnswers.AddAsync(answer);
-                        }
+                        await this.dbcontext.MultipleChoiceAnswers.AddAsync(answer);
                     }
                 }
             }
@@ -402,6 +327,6 @@ namespace Survello.Services.Services
                 }
             }
         }
-
     }
 }
+

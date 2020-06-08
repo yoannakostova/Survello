@@ -12,10 +12,8 @@ namespace Survello.Services.DTOEntities
         public int FileSize { get; set; }
         public bool IsRequired { get; set; }
         public int QuestionNumber { get; set; }
-        public Guid FormId { get; set; }
         public ICollection<IFormFile> Files { get; set; }
         public string FilePath { get; set; }
-        public ICollection<DocumentAnswerDTO> Answers { get; set; } = new List<DocumentAnswerDTO>();
-
+        public ICollection<string> Answers { get; set; } = new List<string>();
     }
 }

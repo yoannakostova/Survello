@@ -50,7 +50,7 @@ namespace Survello.Tests.FormServicesTests
                          {
                              new MultipleChoiceOptionDTO
                              {
-                                  Option = "Satisfied",
+                                  OptionDescription = "Satisfied",
                              }
                          }
                     }
@@ -101,7 +101,7 @@ namespace Survello.Tests.FormServicesTests
 
                     foreach (var op in mcq.Options)
                     {
-                        Assert.AreEqual(op.Option, resultOptions.Option);
+                        Assert.AreEqual(op.OptionDescription, resultOptions.Option);
                     }
                 }
                 foreach (var dq in formDto.DocumentQuestions)

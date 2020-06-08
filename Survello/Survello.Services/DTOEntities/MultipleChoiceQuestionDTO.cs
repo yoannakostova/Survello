@@ -10,8 +10,7 @@ namespace Survello.Services.DTOEntities
         public bool IsRequired { get; set; }
         public bool IsMultipleAnswer { get; set; }
         public int QuestionNumber { get; set; }
-        public Guid FormId { get; set; }
         public ICollection<MultipleChoiceOptionDTO> Options { get; set; }
-
+        public ICollection<string> Answers { get; set; }
     }
 }

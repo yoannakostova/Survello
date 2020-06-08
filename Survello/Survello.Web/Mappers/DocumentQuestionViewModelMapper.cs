@@ -47,13 +47,6 @@ namespace Survello.Web.Mappers
                 throw new Exception(ExceptionMessages.EntityNull);
             }
 
-            List<DocumentAnswerViewModel> documentAnswers = new List<DocumentAnswerViewModel>();
-
-            foreach (var item in dto.Answers)
-            {
-                documentAnswers.Add(item.MapFrom());
-            }
-
             return new DocumentQuestionViewModel
             {
                 Id = dto.Id,
@@ -62,8 +55,7 @@ namespace Survello.Web.Mappers
                 FileSize = dto.FileSize.ToString(),
                 IsRequired = dto.IsRequired,
                 QuestionNumber = dto.QuestionNumber,
-                FilePath = dto.FilePath,
-                Answers = documentAnswers
+                FilePath = dto.FilePath
             };
         }
 

@@ -11,8 +11,5 @@ namespace Survello.Services.DTOEntities
         public bool IsRequired { get; set; }
         public int QuestionNumber { get; set; }
         public string Answer { get; set; }
-        public Guid FormId { get; set; }
-        public ICollection<TextAnswerDTO> Answers { get; set; } = new List<TextAnswerDTO>();
-
     }
 }

@@ -15,16 +15,12 @@ namespace Survello.Web.Mappers
             {
                 throw new Exception(ExceptionMessages.EntityNull);
             }
-            foreach (var answer in dto.Answers)
-            {
 
-            }
             return new MultipleChoiceOptionViewModel
             {
                 Id = dto.Id,
-                Option = dto.Option,
-                Answer = dto.Answer,
-                Answers = dto.Answers.MapFrom()
+                OptionDescription = dto.OptionDescription,
+                Answer = dto.Answer
             };
         }
 
@@ -35,15 +31,11 @@ namespace Survello.Web.Mappers
                 throw new Exception(ExceptionMessages.EntityNull);
             }
 
-            var multipleChoiceOption = new MultipleChoiceOptionDTO();
-
-
             return new MultipleChoiceOptionDTO
             {
                 Id = viewModel.Id,
-                Option = viewModel.Option,
-                Answer = viewModel.Answer,
-
+                OptionDescription = viewModel.OptionDescription,
+                Answer = viewModel.Answer
             };
         }
 

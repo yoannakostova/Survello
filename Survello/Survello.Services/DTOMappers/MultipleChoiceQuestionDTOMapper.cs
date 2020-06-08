@@ -22,7 +22,6 @@ namespace Survello.Services.DTOMappers
                 IsRequired = dto.IsRequired,
                 IsMultipleAnswer = dto.IsMultipleAnswer,
                 Options = dto.Options.MapFrom(),
-                FormId = dto.FormId,
                 QuestionNumber = dto.QuestionNumber
             };
         }
@@ -34,6 +33,12 @@ namespace Survello.Services.DTOMappers
                 throw new Exception(ExceptionMessages.EntityNotFound);
             }
 
+            var answer = new List<string>();
+            foreach (var item in entity.Answers)
+            {
+                answer.Add(item.Answer);
+            }
+
             return new MultipleChoiceQuestionDTO
             {
                 Id = entity.Id,
@@ -41,8 +46,8 @@ namespace Survello.Services.DTOMappers
                 IsRequired = entity.IsRequired,
                 IsMultipleAnswer = entity.IsMultipleAnswer,
                 Options = entity.Options.MapFrom(),
-                FormId = entity.FormId,
-                QuestionNumber = entity.QuestionNumber
+                QuestionNumber = entity.QuestionNumber,
+                Answers = answer
             };
         }
 

@@ -26,16 +26,13 @@
 
             </th>
             <th>
-                <a style="color:darkcyan" asp-action="ListForms" asp-route-sortOrder="@ViewData["TitleSortParm"]"> <span class="glyphicon glyphicon-sort"> Title</span>  </a>
+                <a style="color:darkcyan" asp-action="ListForms" asp-route-sortOrder="@ViewData["TitleSortParm"]"> <span class="glyphicon glyphicon-sort">Title</span></a>
             </th>
             <th>
-                <a style="color:darkcyan" asp-action="ListForms" asp-route-sortOrder="@ViewData["LastModifiedOnSortParm"]"> <span class="glyphicon glyphicon-sort"> Last Modified</span>  </a>
+                <a style="color:darkcyan" asp-action="ListForms" asp-route-sortOrder="@ViewData["CreatedOnSortParm"]"> <span class="glyphicon glyphicon-sort">Created on</span></a>
             </th>
             <th>
-                <a style="color:darkcyan" asp-action="ListForms" asp-route-sortOrder="@ViewData["CreatedOnSortParm"]"> <span class="glyphicon glyphicon-sort">Created on</span>  </a>
-            </th>
-            <th>
-                <a style="color:darkcyan" asp-action="ListForms" asp-route-sortOrder="@ViewData["NumberOfFilledFormsSortParm"]"> <span class="glyphicon glyphicon-sort">Filled</span>  </a>
+                <a style="color:darkcyan" asp-action="ListForms" asp-route-sortOrder="@ViewData["NumberOfFilledFormsSortParm"]"> <span class="glyphicon glyphicon-sort">Filled</span></a>
             </th>
             <th>
 
@@ -50,16 +47,6 @@
                 <th scope="row">@counter.ToString()</th>
                 <td style="color:#0a3c5f">
                     @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td style="color:#0a3c5f">
-                    @if (item.LastModifiedOn == null)
-                    {
-                        @Html.DisplayName("Not modified yet");
-                    }
-                    else
-                    {
-                        @Html.DisplayFor(modelItem => item.LastModifiedOn)
-                    }
                 </td>
                 <td style="color:#0a3c5f">
                     @Html.DisplayFor(modelItem => item.CreatedOn)
@@ -112,10 +99,10 @@
                     </div>
 
                     <!-- Button trigger delete modal -->
-                    <button type="button" class="btn btn-info btn-circle" data-name="@item.Title" data-id="@item.Id" id="deleteButton" data-toggle="modal" data-target="#exampleModal3">X</button>
+                    <button type="button" class="btn btn-info btn-circle" id="@item.Id" data-toggle="modal" data-target="#exampleModal3_@item.Id">X</button>
 
                     <!-- Delete Modal -->
-                    <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModal3Label" aria-hidden="true">
+                    <div class="modal fade" id="exampleModal3_@item.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModal3Label" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -126,9 +113,9 @@
                                 </div>
                                 <div class="modal-body">
                                     <form asp-controller="Form" asp-action="Delete">
-                                        <input value="@item.Id" name="Id" type="hidden" id="hiddenId" />
+                                        @*<input asp-for="@item.Id" value="@item.Id" name="Id" type="hidden" id="hiddenId" />*@
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button style="background-color:darkcyan; border:none" type="submit" class="btn btn-primary">Delete</button>
+                                        <button asp-controller="Form" asp-action="Delete"  asp-route-id="@item.Id" style="background-color:darkcyan; border:none" type="submit" class="btn btn-primary">Delete</button>
                                     </form>
                                 </div>
                             </div>
@@ -149,5 +136,4 @@
     <script src="~/js/shareModal.js"></script>
     <script src="~/js/deleteModal.js"></script>
     <script src="~/js/back-to-top.js"></script>
-    
 }

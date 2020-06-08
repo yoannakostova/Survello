@@ -16,13 +16,11 @@ namespace Survello.Web.Mappers
                 throw new Exception(ExceptionMessages.EntityNull);
             }
 
-            ICollection<MultipleChoiceOptionDTO> options = new List<MultipleChoiceOptionDTO>();
-
             if (viewModel.RadioButtonAnswer != null)
             {
                 foreach (var item in viewModel.Options)
                 {
-                    if (item.Option == viewModel.RadioButtonAnswer)
+                    if (item.OptionDescription == viewModel.RadioButtonAnswer)
                     {
                         item.Answer = viewModel.RadioButtonAnswer;
                     }

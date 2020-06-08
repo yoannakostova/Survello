@@ -19,7 +19,6 @@ namespace Survello.Web.Mappers
             return new FormDTO
             {
                 Id = viewModel.Id,
-                DateOfExpiration = viewModel.DateOfExpiration,
                 Title = viewModel.Title,
                 Description = viewModel.Description,
                 UserId = viewModel.UserId,
@@ -29,7 +28,6 @@ namespace Survello.Web.Mappers
             };
         }
 
-        //TODO: Seperate this mapper to two mappers maybe?
         public static FormViewModel MapFrom(this FormDTO dto)
         {
             if (dto == null)
@@ -74,7 +72,6 @@ namespace Survello.Web.Mappers
             var result = new FormViewModel
             {
                 Id = dto.Id,
-                DateOfExpiration = dto.DateOfExpiration,
                 Title = dto.Title,
                 Description = dto.Description,
                 UserId = dto.UserId,

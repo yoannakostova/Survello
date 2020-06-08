@@ -19,8 +19,6 @@ namespace Survello.Services.DTOMappers
             return new ListFormsDTO
             {
                 Id = entity.Id,
-                LastModifiedOn = entity.LastModifiedOn,
-                DateOfExpiration = entity.DateOfExpiration,
                 CreatedOn = entity.CreatedOn,
                 Title = entity.Title,
                 UserId = entity.UserId,

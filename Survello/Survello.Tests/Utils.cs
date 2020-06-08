@@ -48,7 +48,7 @@ namespace Survello.Tests
                          {
                              new MultipleChoiceOptionDTO
                              {
-                                  Option = "Satisfied",
+                                  OptionDescription = "Satisfied",
                              }
                          }
                     },

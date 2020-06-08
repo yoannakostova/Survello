@@ -16,6 +16,12 @@ namespace Survello.Services.DTOMappers
                 throw new Exception(ExceptionMessages.EntityNull);
             }
 
+            var answer = new List<string>();
+            foreach (var item in entity.Answers)
+            {
+                answer.Add(item.FileName);
+            }
+
             return new DocumentQuestionDTO
             {
                 Id = entity.Id,
@@ -24,7 +30,7 @@ namespace Survello.Services.DTOMappers
                 FileSize = entity.FileSize,
                 IsRequired = entity.IsRequired,
                 QuestionNumber = entity.QuestionNumber,
-                  Answers = entity.Answers.MapFrom()
+                Answers = answer
             };
         }
         public static DocumentQuestion MapFrom(this DocumentQuestionDTO dto)
@@ -34,6 +40,8 @@ namespace Survello.Services.DTOMappers
                 throw new Exception(ExceptionMessages.EntityNull);
             }
 
+            var answer = new List<string>();
+
             return new DocumentQuestion
             {
                 Id = dto.Id,
@@ -41,7 +49,8 @@ namespace Survello.Services.DTOMappers
                 FileNumberLimit = dto.FileNumberLimit,
                 FileSize = dto.FileSize,
                 IsRequired = dto.IsRequired,
-                QuestionNumber = dto.QuestionNumber
+                QuestionNumber = dto.QuestionNumber,
+
             };
         }
 
@@ -49,7 +58,7 @@ namespace Survello.Services.DTOMappers
         {
             return entities.Select(MapFrom).ToList();
         }
-        
+
         public static ICollection<DocumentQuestion> MapFrom(this ICollection<DocumentQuestionDTO> dtos)
         {
             return dtos.Select(MapFrom).ToList();

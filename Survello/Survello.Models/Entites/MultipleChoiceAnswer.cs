@@ -9,7 +9,7 @@ namespace Survello.Models.Entites
         public Guid Id { get; set; }
         public Guid CorelationToken { get; set; }
         public string Answer { get; set; }
-        public Guid MultipleChoiceOptionId { get; set; }
-        public MultipleChoiceOption MultipleChoiceOption { get; set; }
+        public Guid MultipleChoiceQuestionId { get; set; }
+        public MultipleChoiceQuestion MultipleChoiceQuestion { get; set; }
     }
 }

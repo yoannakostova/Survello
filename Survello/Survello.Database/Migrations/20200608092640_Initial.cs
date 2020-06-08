@@ -41,9 +41,7 @@ namespace Survello.Database.Migrations
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: false),
-                    LastModifiedOn = table.Column<DateTime>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    DeletedOn = table.Column<DateTime>(nullable: true)
+                    IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -162,10 +160,8 @@ namespace Survello.Database.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: false),
-                    LastModifiedOn = table.Column<DateTime>(nullable: true),
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    DateOfExpiration = table.Column<DateTime>(nullable: true),
                     Title = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     NumberOfFilledForms = table.Column<int>(nullable: false),
@@ -192,7 +188,6 @@ namespace Survello.Database.Migrations
                     FileSize = table.Column<int>(nullable: false),
                     FormId = table.Column<Guid>(nullable: false),
                     IsRequired = table.Column<bool>(nullable: false),
-                    DeletedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     QuestionNumber = table.Column<int>(nullable: false)
                 },
@@ -216,7 +211,6 @@ namespace Survello.Database.Migrations
                     IsRequired = table.Column<bool>(nullable: false),
                     IsMultipleAnswer = table.Column<bool>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    DeletedOn = table.Column<DateTime>(nullable: true),
                     FormId = table.Column<Guid>(nullable: false),
                     QuestionNumber = table.Column<int>(nullable: false)
                 },
@@ -276,6 +270,26 @@ namespace Survello.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MultipleChoiceAnswers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    CorelationToken = table.Column<Guid>(nullable: false),
+                    Answer = table.Column<string>(nullable: true),
+                    MultipleChoiceQuestionId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MultipleChoiceAnswers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MultipleChoiceAnswers_MultipleChoiceQuestions_MultipleChoiceQuestionId",
+                        column: x => x.MultipleChoiceQuestionId,
+                        principalTable: "MultipleChoiceQuestions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MultipleChoiceOptions",
                 columns: table => new
                 {
@@ -314,40 +328,20 @@ namespace Survello.Database.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "MultipleChoiceAnswers",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    CorelationToken = table.Column<Guid>(nullable: false),
-                    Answer = table.Column<string>(nullable: true),
-                    MultipleChoiceOptionId = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MultipleChoiceAnswers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_MultipleChoiceAnswers_MultipleChoiceOptions_MultipleChoiceOptionId",
-                        column: x => x.MultipleChoiceOptionId,
-                        principalTable: "MultipleChoiceOptions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { new Guid("0989cb07-226e-430d-9173-87ee97472f6a"), "5d57cf0a-4fca-4e77-82aa-7a7675536ab4", "Member", "MEMBER" });
+                values: new object[] { new Guid("0989cb07-226e-430d-9173-87ee97472f6a"), "001a076e-ef72-43ab-94d7-36af9e9a1ca0", "Member", "MEMBER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedOn", "DeletedOn", "Email", "EmailConfirmed", "IsDeleted", "LastModifiedOn", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("52d02f62-14ac-4152-872c-08d7eb74f484"), 0, "0429c3f6-89a9-4cb9-b00d-3d3a2c16b065", new DateTime(2020, 6, 4, 15, 45, 57, 85, DateTimeKind.Utc).AddTicks(1697), null, "nasko@survello.com", false, false, null, false, null, "NASKO", "NASKO", "AQAAAAEAACcQAAAAEN6oHkxBtZK4x0q1V6rrjueCW293edcv6PhQCL/MUTYkkjldNdZVdkmmpdZ9dSmWWg==", null, false, "321E275DD1E24957A7781D42BB68293B", false, "nasko" });
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedOn", "Email", "EmailConfirmed", "IsDeleted", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { new Guid("52d02f62-14ac-4152-872c-08d7eb74f484"), 0, "a0af1e5d-fe63-423a-b429-66510e26a244", new DateTime(2020, 6, 8, 9, 26, 40, 29, DateTimeKind.Utc).AddTicks(8328), "nasko@survello.com", false, false, false, null, "NASKO", "NASKO", "AQAAAAEAACcQAAAAEKpCBvZGu0QVaTgQUzo0taoqNBk2Q8GSD9LMsjjHxnaDDKf5i5yBCPJwssWMl+1DgA==", null, false, "321E275DD1E24957A7781D42BB68293B", false, "nasko" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedOn", "DeletedOn", "Email", "EmailConfirmed", "IsDeleted", "LastModifiedOn", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("22a2d89d-ee6e-4c94-e490-08d7eb6bae70"), 0, "b5844788-e3fb-428e-a42a-e8c1d0b9f43a", new DateTime(2020, 6, 4, 15, 45, 57, 132, DateTimeKind.Utc).AddTicks(2041), null, "yoanna@survello.com", false, false, null, false, null, "YOANNA", "YOANNA", "AQAAAAEAACcQAAAAECwTnvDIRImn9lhFVFD/fctuXPVX5pztwdTa8w05KQxGmCz9v/pDshErzccD+QjaDg==", null, false, "431E275DD1E24957A7781D42BB68293B", false, "yoanna" });
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedOn", "Email", "EmailConfirmed", "IsDeleted", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { new Guid("22a2d89d-ee6e-4c94-e490-08d7eb6bae70"), 0, "7708edea-1579-43a3-85ed-6321c7440e46", new DateTime(2020, 6, 8, 9, 26, 40, 44, DateTimeKind.Utc).AddTicks(8624), "yoanna@survello.com", false, false, false, null, "YOANNA", "YOANNA", "AQAAAAEAACcQAAAAEHWuWhGpzpV1vdef3FgC0z0wWOtjhSSSK9s8ADOdOOKV5BHLeSnbTuxDoA2UaxKvHQ==", null, false, "431E275DD1E24957A7781D42BB68293B", false, "yoanna" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
@@ -360,24 +354,44 @@ namespace Survello.Database.Migrations
 
             migrationBuilder.InsertData(
                 table: "Forms",
-                columns: new[] { "Id", "CreatedOn", "DateOfExpiration", "DeletedOn", "Description", "IsDeleted", "LastModifiedOn", "NumberOfFilledForms", "Title", "UserId" },
+                columns: new[] { "Id", "CreatedOn", "DeletedOn", "Description", "IsDeleted", "NumberOfFilledForms", "Title", "UserId" },
                 values: new object[,]
                 {
-                    { new Guid("1009cb07-226e-430d-9173-87ee97472f6a"), new DateTime(2020, 6, 4, 15, 45, 57, 69, DateTimeKind.Utc).AddTicks(2695), null, null, "Test description 1.", false, null, 0, "Test form 1", new Guid("52d02f62-14ac-4152-872c-08d7eb74f484") },
-                    { new Guid("3009cb07-226e-430d-9173-87ee97472f6a"), new DateTime(2020, 6, 4, 15, 45, 57, 70, DateTimeKind.Utc).AddTicks(5378), null, null, "Test description 3.", false, null, 0, "Test form 3", new Guid("52d02f62-14ac-4152-872c-08d7eb74f484") },
-                    { new Guid("2009cb07-226e-430d-9173-87ee97472f6a"), new DateTime(2020, 6, 4, 15, 45, 57, 70, DateTimeKind.Utc).AddTicks(5192), null, null, "Test description 2.", false, null, 0, "Test form 2", new Guid("22a2d89d-ee6e-4c94-e490-08d7eb6bae70") },
-                    { new Guid("4009cb07-226e-430d-9173-87ee97472f6a"), new DateTime(2020, 6, 4, 15, 45, 57, 70, DateTimeKind.Utc).AddTicks(5400), null, null, "Test description 4", false, null, 0, "Test form 4", new Guid("22a2d89d-ee6e-4c94-e490-08d7eb6bae70") }
+                    { new Guid("f0d58731-55c4-4d3f-8528-4efe1e2c2bf8"), new DateTime(2020, 6, 8, 12, 26, 40, 21, DateTimeKind.Local).AddTicks(3412), null, "In this form you will find basic questions about c#.", false, 0, "Basic .Net questions", new Guid("22a2d89d-ee6e-4c94-e490-08d7eb6bae70") },
+                    { new Guid("ab7411e3-3188-4de0-9bae-c3292a0ccbaa"), new DateTime(2020, 6, 8, 12, 26, 40, 24, DateTimeKind.Local).AddTicks(1928), null, "This quiz will walk you through some of the most common questions asked about c# during interviews.", false, 0, "Quiz of commonly asked questions", new Guid("22a2d89d-ee6e-4c94-e490-08d7eb6bae70") },
+                    { new Guid("1f1da997-9be3-49f8-bbe3-822f14a80555"), new DateTime(2020, 6, 8, 12, 26, 40, 24, DateTimeKind.Local).AddTicks(2030), null, "This quiz will walk you through some of the most common questions asked about c# during interviews.", false, 0, ".Net Interview questions", new Guid("22a2d89d-ee6e-4c94-e490-08d7eb6bae70") },
+                    { new Guid("1e3c4445-f658-4321-9486-385273e131fd"), new DateTime(2020, 6, 8, 12, 26, 40, 24, DateTimeKind.Local).AddTicks(2047), null, "A selection of commonly asked questions during interviews.", false, 0, ".Net Advanced questions", new Guid("22a2d89d-ee6e-4c94-e490-08d7eb6bae70") },
+                    { new Guid("a7712d14-552f-4f3f-8758-f1d640e1fe8d"), new DateTime(2020, 6, 8, 12, 26, 40, 24, DateTimeKind.Local).AddTicks(2060), null, "Questions frequently asked during interviews for junior developer", false, 0, "Junior dev interview questions", new Guid("22a2d89d-ee6e-4c94-e490-08d7eb6bae70") },
+                    { new Guid("1ea70a30-5eed-4cbb-bbf2-71c6b6cd1cda"), new DateTime(2020, 6, 8, 12, 26, 40, 24, DateTimeKind.Local).AddTicks(2075), null, "A collection of advanced questions", false, 0, "A collection of advanced questions", new Guid("22a2d89d-ee6e-4c94-e490-08d7eb6bae70") }
+                });
+
+            migrationBuilder.InsertData(
+                table: "DocumentQuestions",
+                columns: new[] { "Id", "Description", "FileNumberLimit", "FileSize", "FormId", "IsDeleted", "IsRequired", "QuestionNumber" },
+                values: new object[,]
+                {
+                    { new Guid("390c1883-9d80-4ba6-8ca5-8ca64b7742ff"), "Write a C# method to total all the even numbers in an array of ints.", 2, 1, new Guid("f0d58731-55c4-4d3f-8528-4efe1e2c2bf8"), false, true, 3 },
+                    { new Guid("d005dd49-0bcc-482e-b76c-124cc6b2a595"), "Write a C# method to total all the even numbers in an array of ints.", 5, 1, new Guid("a7712d14-552f-4f3f-8758-f1d640e1fe8d"), false, true, 1 },
+                    { new Guid("f630607b-28b9-4fe6-ad5f-e297980e8fb2"), "Write a C# method to total all the even numbers in an array of ints.", 4, 1, new Guid("1e3c4445-f658-4321-9486-385273e131fd"), false, true, 4 },
+                    { new Guid("3427db1a-57ca-4d6b-9bdc-4ffd2de41e8a"), "Write a C# method to total all the even numbers in an array of ints.", 7, 1, new Guid("1ea70a30-5eed-4cbb-bbf2-71c6b6cd1cda"), false, true, 3 },
+                    { new Guid("241056cb-9a29-49f3-82d3-937c9c3cd07a"), "Write a C# method to total all the even numbers in an array of ints.", 1, 1, new Guid("1f1da997-9be3-49f8-bbe3-822f14a80555"), false, true, 3 },
+                    { new Guid("2b433b42-a90b-4bc5-9839-f497c9640344"), "Write a C# method to total all the even numbers in an array of ints.", 3, 1, new Guid("ab7411e3-3188-4de0-9bae-c3292a0ccbaa"), false, true, 2 }
                 });
 
             migrationBuilder.InsertData(
                 table: "MultipleChoiceQuestions",
-                columns: new[] { "Id", "DeletedOn", "Description", "FormId", "IsDeleted", "IsMultipleAnswer", "IsRequired", "QuestionNumber" },
+                columns: new[] { "Id", "Description", "FormId", "IsDeleted", "IsMultipleAnswer", "IsRequired", "QuestionNumber" },
                 values: new object[,]
                 {
-                    { new Guid("2109cb07-226e-430d-9173-87ee97472f6a"), null, "How would you rate your experience with our product?", new Guid("1009cb07-226e-430d-9173-87ee97472f6a"), false, false, true, 0 },
-                    { new Guid("22000b07-226e-430d-9173-87ee97472f6a"), null, "What kind of animal is feline?", new Guid("3009cb07-226e-430d-9173-87ee97472f6a"), false, false, true, 0 },
-                    { new Guid("2209cb07-226e-430d-9173-87ee97472f6a"), null, "How often do you conduct surveys?", new Guid("2009cb07-226e-430d-9173-87ee97472f6a"), false, false, true, 0 },
-                    { new Guid("22600b07-226e-430d-9173-87ee97472f6a"), null, "Which operations can be performed on a data structure?", new Guid("4009cb07-226e-430d-9173-87ee97472f6a"), false, false, true, 0 }
+                    { new Guid("afacb607-88c4-410b-b32b-fecbff3c20eb"), "Which of the following are the correct statements about delegates?", new Guid("a7712d14-552f-4f3f-8758-f1d640e1fe8d"), false, false, false, 2 },
+                    { new Guid("38ea6935-bdd1-48b4-8ed5-c918658a05f1"), "Which is the String method used to compare two strings with each other ?", new Guid("1e3c4445-f658-4321-9486-385273e131fd"), false, false, false, 3 },
+                    { new Guid("3dd27c6d-0283-48a4-b59b-e390204c32cc"), "�Which of these keywords is not a part of exception handling?", new Guid("1f1da997-9be3-49f8-bbe3-822f14a80555"), false, false, true, 2 },
+                    { new Guid("ab1b1b5f-389e-4d1c-ad3d-0d56235433fa"), "�Correct way to define operator method or to perform operator overloading is?", new Guid("ab7411e3-3188-4de0-9bae-c3292a0ccbaa"), false, false, true, 3 },
+                    { new Guid("872255df-ab9b-4622-8cc4-48306bde6d77"), "Which of these keywords must be used to monitor exceptions?", new Guid("1f1da997-9be3-49f8-bbe3-822f14a80555"), false, false, false, 4 },
+                    { new Guid("a8cfc13d-fd75-45c1-ab3f-19809f54d01e"), "Which of the following is an incorrect statement about delegate?", new Guid("1ea70a30-5eed-4cbb-bbf2-71c6b6cd1cda"), false, false, false, 2 },
+                    { new Guid("aa77eae5-3c01-47dc-bbb9-b8fb2ed83486"), "Which keyword is used to refer baseclass constructor to subclass constructor?", new Guid("f0d58731-55c4-4d3f-8528-4efe1e2c2bf8"), false, false, true, 2 },
+                    { new Guid("e6ba6640-f27b-4e29-b310-3f98a776e244"), "�In Inheritance concept, which of the following members of base class are accessible to derived class members?", new Guid("f0d58731-55c4-4d3f-8528-4efe1e2c2bf8"), false, false, true, 5 },
+                    { new Guid("a2cfb6b2-2e92-4329-ad0f-497d9ffc0f76"), "Which keyword is used for correct implementation of an interface in C#.NET?", new Guid("ab7411e3-3188-4de0-9bae-c3292a0ccbaa"), false, false, false, 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -385,10 +399,28 @@ namespace Survello.Database.Migrations
                 columns: new[] { "Id", "DeletedOn", "Description", "FormId", "IsDeleted", "IsLongAnswer", "IsRequired", "QuestionNumber" },
                 values: new object[,]
                 {
-                    { new Guid("1109cb07-226e-430d-9173-87ee97472f6a"), null, "How old are you?", new Guid("1009cb07-226e-430d-9173-87ee97472f6a"), false, false, true, 0 },
-                    { new Guid("1309cb07-226e-430d-9173-87ee97472f6a"), null, "What is class?", new Guid("3009cb07-226e-430d-9173-87ee97472f6a"), false, false, true, 0 },
-                    { new Guid("1209cb07-226e-430d-9173-87ee97472f6a"), null, "Where are you from?", new Guid("2009cb07-226e-430d-9173-87ee97472f6a"), false, false, true, 0 },
-                    { new Guid("1409cb07-226e-430d-9173-87ee97472f6a"), null, "What is algorithm?", new Guid("4009cb07-226e-430d-9173-87ee97472f6a"), false, false, true, 0 }
+                    { new Guid("7b6e3b53-a872-4756-9014-e393a51e77c6"), null, "What is a garbage collector?", new Guid("a7712d14-552f-4f3f-8758-f1d640e1fe8d"), false, false, false, 4 },
+                    { new Guid("9e710922-1ddc-4bcb-b808-a2ae9b709b8d"), null, "What is caching?", new Guid("a7712d14-552f-4f3f-8758-f1d640e1fe8d"), false, true, true, 3 },
+                    { new Guid("d601ece8-c046-4be2-9dcb-750a8c2ed069"), null, "What are the different types of constructors in c#?", new Guid("1e3c4445-f658-4321-9486-385273e131fd"), false, true, false, 7 },
+                    { new Guid("b18f1886-5792-4e8d-9c88-59254178e90e"), null, "What do you know about JIT?", new Guid("1e3c4445-f658-4321-9486-385273e131fd"), false, true, false, 6 },
+                    { new Guid("4148b1fb-d9bb-4a94-bf23-d01c22ffa3b7"), null, "What is CLR?", new Guid("1e3c4445-f658-4321-9486-385273e131fd"), false, true, true, 5 },
+                    { new Guid("ad356be6-3df4-41d9-9117-d2dc365789a4"), null, "What is the .NET framework?", new Guid("1e3c4445-f658-4321-9486-385273e131fd"), false, false, false, 2 },
+                    { new Guid("1c4dd546-a0fb-4f1d-9914-14dfcddef1cb"), null, "Describe the accessibility modifier \"protected internal\".", new Guid("1e3c4445-f658-4321-9486-385273e131fd"), false, true, false, 1 },
+                    { new Guid("d3d0758f-fce5-4920-a9c9-880be810c4e2"), null, "What is C#?", new Guid("f0d58731-55c4-4d3f-8528-4efe1e2c2bf8"), false, true, false, 1 },
+                    { new Guid("2fd754ec-80b1-4384-965a-c9bd1f838566"), null, "Explain types of comment in C# with examples", new Guid("f0d58731-55c4-4d3f-8528-4efe1e2c2bf8"), false, true, false, 2 },
+                    { new Guid("9d5b6e05-3a0d-4fe6-82c3-9b6d3d8f4050"), null, "�Can a private virtual method can be overridden?", new Guid("1f1da997-9be3-49f8-bbe3-822f14a80555"), false, false, false, 8 },
+                    { new Guid("86cd11e3-938a-4cbe-8bb0-df52d57275bb"), null, "What are sealed classes in C#?", new Guid("1f1da997-9be3-49f8-bbe3-822f14a80555"), false, true, false, 6 },
+                    { new Guid("451cc22f-2805-4d0b-9217-79e01bf19915"), null, "What are value types and reference types?", new Guid("1f1da997-9be3-49f8-bbe3-822f14a80555"), false, false, false, 5 },
+                    { new Guid("80f17d1a-525b-48cd-be01-83910e56705b"), null, "What is an interface class? Give one example of it", new Guid("1f1da997-9be3-49f8-bbe3-822f14a80555"), false, true, false, 1 },
+                    { new Guid("632a1e5f-1eea-4811-99c3-0f42b09f9e86"), null, "Can multiple catch blocks be executed?", new Guid("f0d58731-55c4-4d3f-8528-4efe1e2c2bf8"), false, false, false, 4 },
+                    { new Guid("2d1a1e65-93ed-40c7-ad52-ceed884c0cf0"), null, "What is the difference between public, static, and void?", new Guid("f0d58731-55c4-4d3f-8528-4efe1e2c2bf8"), false, true, true, 6 },
+                    { new Guid("891b055f-8238-4cca-bf29-ceed6f324717"), null, "What is an object?", new Guid("f0d58731-55c4-4d3f-8528-4efe1e2c2bf8"), false, true, true, 7 },
+                    { new Guid("36c0dfce-32a2-4ddc-acbe-d94b198fdbc2"), null, "What is the difference between constants and read-only?", new Guid("ab7411e3-3188-4de0-9bae-c3292a0ccbaa"), false, true, false, 8 },
+                    { new Guid("ec4a44b0-eae7-40a2-b5c2-981d9c94b897"), null, "Can we use \"this\" command within a static method?", new Guid("ab7411e3-3188-4de0-9bae-c3292a0ccbaa"), false, false, false, 7 },
+                    { new Guid("7b568f9c-147e-4fe1-ab05-118d2a82ecad"), null, "What is the use of 'using' statement in C#?", new Guid("ab7411e3-3188-4de0-9bae-c3292a0ccbaa"), false, false, true, 6 },
+                    { new Guid("c50ce009-ed7f-44da-b24f-dec75472dbb1"), null, "What is Jagged Arrays?", new Guid("ab7411e3-3188-4de0-9bae-c3292a0ccbaa"), false, false, true, 5 },
+                    { new Guid("d544ea9f-e4fd-454e-a007-a01453cb58dd"), null, "What is method overloading?", new Guid("1f1da997-9be3-49f8-bbe3-822f14a80555"), false, true, true, 7 },
+                    { new Guid("bd1fe1b5-0ab3-4639-acb5-e40bc5b9f927"), null, "Define Constructors", new Guid("ab7411e3-3188-4de0-9bae-c3292a0ccbaa"), false, true, true, 4 }
                 });
 
             migrationBuilder.InsertData(
@@ -396,42 +428,42 @@ namespace Survello.Database.Migrations
                 columns: new[] { "Id", "MultipleChoiceQuestionId", "Option" },
                 values: new object[,]
                 {
-                    { new Guid("1219cb07-226e-430d-9173-87ee97472f6a"), new Guid("2109cb07-226e-430d-9173-87ee97472f6a"), "Neither agree nor disagree" },
-                    { new Guid("1229cb07-226e-430d-9173-87ee97472f6a"), new Guid("2109cb07-226e-430d-9173-87ee97472f6a"), "Satisfied" },
-                    { new Guid("1239cb07-226e-430d-9173-87ee97472f6a"), new Guid("2109cb07-226e-430d-9173-87ee97472f6a"), "Dissatisfied" },
-                    { new Guid("2222cb07-226e-430d-9173-87ee97472111"), new Guid("22000b07-226e-430d-9173-87ee97472f6a"), "Dog" },
-                    { new Guid("2222cb07-226e-430d-9173-87ee97471210"), new Guid("22000b07-226e-430d-9173-87ee97472f6a"), "Elephant" },
-                    { new Guid("2222cb07-226e-430d-9173-87ee97472122"), new Guid("22000b07-226e-430d-9173-87ee97472f6a"), "Cat" },
-                    { new Guid("2220cb07-226e-430d-9173-87ee97472f6a"), new Guid("2209cb07-226e-430d-9173-87ee97472f6a"), "Weekly" },
-                    { new Guid("2221cb07-226e-430d-9173-87ee97472f6a"), new Guid("2209cb07-226e-430d-9173-87ee97472f6a"), "Monthly" },
-                    { new Guid("2222cb07-226e-430d-9173-87ee97472f6a"), new Guid("2209cb07-226e-430d-9173-87ee97472f6a"), "Quarterly" },
-                    { new Guid("3322cb07-226e-430d-9173-87ee97472122"), new Guid("22600b07-226e-430d-9173-87ee97472f6a"), "Traversing" },
-                    { new Guid("3422cb07-226e-430d-9173-87ee97472122"), new Guid("22600b07-226e-430d-9173-87ee97472f6a"), "Searching" },
-                    { new Guid("3332cb07-226e-430d-9173-87ee97472122"), new Guid("22600b07-226e-430d-9173-87ee97472f6a"), "Deleting" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "TextAnswers",
-                columns: new[] { "Id", "Answer", "CorelationToken", "TextQuestionId" },
-                values: new object[,]
-                {
-                    { new Guid("1119cb07-226e-430d-9173-87ee97472f6a"), "I am 18 years old", new Guid("00000000-0000-0000-0000-000000000000"), new Guid("1109cb07-226e-430d-9173-87ee97472f6a") },
-                    { new Guid("11111b07-226e-430d-9173-87ee97472f6a"), "Models of real world objects, have state and behaviour.", new Guid("00000000-0000-0000-0000-000000000000"), new Guid("1309cb07-226e-430d-9173-87ee97472f6a") },
-                    { new Guid("1111cb07-226e-430d-9173-87ee97472f6a"), "I am from Bourgas", new Guid("00000000-0000-0000-0000-000000000000"), new Guid("1209cb07-226e-430d-9173-87ee97472f6a") },
-                    { new Guid("11171b07-226e-430d-9173-87ee97472f6a"), "An algorithm is a set of predifined steps used to solve a problem.", new Guid("00000000-0000-0000-0000-000000000000"), new Guid("1409cb07-226e-430d-9173-87ee97472f6a") }
-                });
-
-            migrationBuilder.InsertData(
-                table: "MultipleChoiceAnswers",
-                columns: new[] { "Id", "Answer", "CorelationToken", "MultipleChoiceOptionId" },
-                values: new object[,]
-                {
-                    { new Guid("1231cb07-226e-430d-9173-87ee97472f6a"), null, new Guid("00000000-0000-0000-0000-000000000000"), new Guid("1219cb07-226e-430d-9173-87ee97472f6a") },
-                    { new Guid("1234cb07-226e-430d-9173-87ee97472f6a"), null, new Guid("00000000-0000-0000-0000-000000000000"), new Guid("2222cb07-226e-430d-9173-87ee97472122") },
-                    { new Guid("1233cb07-226e-430d-9173-87ee97472f6a"), null, new Guid("00000000-0000-0000-0000-000000000000"), new Guid("2222cb07-226e-430d-9173-87ee97472f6a") },
-                    { new Guid("15734b07-226e-430d-9173-87e97472f6a1"), null, new Guid("00000000-0000-0000-0000-000000000000"), new Guid("3322cb07-226e-430d-9173-87ee97472122") },
-                    { new Guid("15094b07-226e-430d-9173-87ee927472f6"), null, new Guid("00000000-0000-0000-0000-000000000000"), new Guid("3422cb07-226e-430d-9173-87ee97472122") },
-                    { new Guid("19934cb7-226e-430d-9173-87ee974272fa"), null, new Guid("00000000-0000-0000-0000-000000000000"), new Guid("3332cb07-226e-430d-9173-87ee97472122") }
+                    { new Guid("30a61e1f-a969-44c9-ad12-27677b0cf442"), new Guid("aa77eae5-3c01-47dc-bbb9-b8fb2ed83486"), "This" },
+                    { new Guid("bdece55d-74ea-4457-8299-ec040acad325"), new Guid("872255df-ab9b-4622-8cc4-48306bde6d77"), "�try" },
+                    { new Guid("66733d79-9886-49e2-88fb-0da0fe989c83"), new Guid("872255df-ab9b-4622-8cc4-48306bde6d77"), "finally" },
+                    { new Guid("9b4d575b-794e-471f-9eeb-7a2ccf5a8ac8"), new Guid("872255df-ab9b-4622-8cc4-48306bde6d77"), "throw" },
+                    { new Guid("f9737817-fc77-4624-b1b7-ab1945d60900"), new Guid("872255df-ab9b-4622-8cc4-48306bde6d77"), "catch" },
+                    { new Guid("29950c72-bca5-4c8a-98c4-7f7c439a67ed"), new Guid("38ea6935-bdd1-48b4-8ed5-c918658a05f1"), "�Compare To()" },
+                    { new Guid("188694a5-b5c8-49ca-8312-d4c8a47fe237"), new Guid("38ea6935-bdd1-48b4-8ed5-c918658a05f1"), "Compare()" },
+                    { new Guid("34872bc9-82dd-4212-92f7-402868c4aa3a"), new Guid("3dd27c6d-0283-48a4-b59b-e390204c32cc"), "catch" },
+                    { new Guid("59387642-1749-445e-930d-d8d7097d7283"), new Guid("38ea6935-bdd1-48b4-8ed5-c918658a05f1"), "Copy()" },
+                    { new Guid("c939e1bc-0fef-48a4-a6e4-8454a859a3b3"), new Guid("afacb607-88c4-410b-b32b-fecbff3c20eb"), "Delegates can be used to implement callback notification" },
+                    { new Guid("05db646b-3697-4f3d-bd54-575b25238bae"), new Guid("afacb607-88c4-410b-b32b-fecbff3c20eb"), "Delegates permit execution of a method on a secondary thread in an asynchronous manner" },
+                    { new Guid("b90cb79c-7bcb-4902-ad65-3cf16974db42"), new Guid("afacb607-88c4-410b-b32b-fecbff3c20eb"), "Delegate is a user defined type" },
+                    { new Guid("071fc262-239b-478e-a68d-7fd4e35ee2a1"), new Guid("afacb607-88c4-410b-b32b-fecbff3c20eb"), "All of the mentioned" },
+                    { new Guid("b2f10545-cc02-4524-b497-a72bf93a8209"), new Guid("a8cfc13d-fd75-45c1-ab3f-19809f54d01e"), "A single delegate can invoke more than one method" },
+                    { new Guid("43b1c3e0-9403-4f12-8cec-d50a6a0a27e5"), new Guid("a8cfc13d-fd75-45c1-ab3f-19809f54d01e"), "Delegates could be shared" },
+                    { new Guid("ecafd3d4-2508-4046-8f06-09395e76864a"), new Guid("38ea6935-bdd1-48b4-8ed5-c918658a05f1"), "ConCat()" },
+                    { new Guid("c0a57b70-70ec-4cd1-a709-11d3e3c2eebe"), new Guid("3dd27c6d-0283-48a4-b59b-e390204c32cc"), "thrown" },
+                    { new Guid("1e9729cb-4952-4fd8-93fb-b982535b2558"), new Guid("3dd27c6d-0283-48a4-b59b-e390204c32cc"), "finally" },
+                    { new Guid("497fe24c-4ffd-4897-8766-77bbe971cddd"), new Guid("3dd27c6d-0283-48a4-b59b-e390204c32cc"), "try" },
+                    { new Guid("a4ff7082-a7f1-4f65-88e2-19d7cde8c07f"), new Guid("aa77eae5-3c01-47dc-bbb9-b8fb2ed83486"), "static" },
+                    { new Guid("0c4ef4e0-0bd2-42fd-b971-e220dfd45c86"), new Guid("aa77eae5-3c01-47dc-bbb9-b8fb2ed83486"), "�extend" },
+                    { new Guid("72294a58-3b27-4e3a-a21c-3d48f99bd0f9"), new Guid("aa77eae5-3c01-47dc-bbb9-b8fb2ed83486"), "base" },
+                    { new Guid("4bfd92a7-ca4f-48f5-bb4b-68a5c4cb2db9"), new Guid("e6ba6640-f27b-4e29-b310-3f98a776e244"), "�static" },
+                    { new Guid("1a18e769-8e32-4d1d-b2d4-f605896b3bf0"), new Guid("e6ba6640-f27b-4e29-b310-3f98a776e244"), "protected" },
+                    { new Guid("c9317342-1232-4457-93d6-78b3e7389997"), new Guid("e6ba6640-f27b-4e29-b310-3f98a776e244"), "private" },
+                    { new Guid("d89950e4-b55a-4bf0-9cfb-71b66b87f70e"), new Guid("e6ba6640-f27b-4e29-b310-3f98a776e244"), "shared" },
+                    { new Guid("d3fa3e69-6b09-46bd-87d7-dbb83c82e23b"), new Guid("a2cfb6b2-2e92-4329-ad0f-497d9ffc0f76"), "interface" },
+                    { new Guid("67e08c49-4062-453f-986e-4370c9e7a5ce"), new Guid("a2cfb6b2-2e92-4329-ad0f-497d9ffc0f76"), "Interface" },
+                    { new Guid("0e77ad99-4f7e-432c-8e16-6d496946e63d"), new Guid("a2cfb6b2-2e92-4329-ad0f-497d9ffc0f76"), "intf" },
+                    { new Guid("dc90d6f5-02ce-47a7-bd62-ccf42153b502"), new Guid("a2cfb6b2-2e92-4329-ad0f-497d9ffc0f76"), "Intf" },
+                    { new Guid("7c82bb4a-2fd8-456e-908a-edbb4f8e61c5"), new Guid("ab1b1b5f-389e-4d1c-ad3d-0d56235433fa"), "public static op(arglist) { }" },
+                    { new Guid("8907f9bd-ad34-4f70-8afc-b3ba1077a224"), new Guid("ab1b1b5f-389e-4d1c-ad3d-0d56235433fa"), "public static retval op(arglist) { }" },
+                    { new Guid("eb2d9451-c2c2-4420-a887-7392781a925b"), new Guid("ab1b1b5f-389e-4d1c-ad3d-0d56235433fa"), "public static retval operator op(arglist) { }" },
+                    { new Guid("b5976591-55e4-4a7f-9143-149abbcc6a6c"), new Guid("ab1b1b5f-389e-4d1c-ad3d-0d56235433fa"), "All of the mentioned" },
+                    { new Guid("8bfe0ef8-dfe8-4fa4-a429-2b6fc6d3b93d"), new Guid("a8cfc13d-fd75-45c1-ab3f-19809f54d01e"), "The del class will contain a one argument constructor and an invoke() method" },
+                    { new Guid("3e89a083-c7bf-40f4-9cef-0745796873b2"), new Guid("a8cfc13d-fd75-45c1-ab3f-19809f54d01e"), "All of the mentioned" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -489,9 +521,9 @@ namespace Survello.Database.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MultipleChoiceAnswers_MultipleChoiceOptionId",
+                name: "IX_MultipleChoiceAnswers_MultipleChoiceQuestionId",
                 table: "MultipleChoiceAnswers",
-                column: "MultipleChoiceOptionId");
+                column: "MultipleChoiceQuestionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MultipleChoiceOptions_MultipleChoiceQuestionId",
@@ -538,6 +570,9 @@ namespace Survello.Database.Migrations
                 name: "MultipleChoiceAnswers");
 
             migrationBuilder.DropTable(
+                name: "MultipleChoiceOptions");
+
+            migrationBuilder.DropTable(
                 name: "TextAnswers");
 
             migrationBuilder.DropTable(
@@ -547,13 +582,10 @@ namespace Survello.Database.Migrations
                 name: "DocumentQuestions");
 
             migrationBuilder.DropTable(
-                name: "MultipleChoiceOptions");
+                name: "MultipleChoiceQuestions");
 
             migrationBuilder.DropTable(
                 name: "TextQuestions");
-
-            migrationBuilder.DropTable(
-                name: "MultipleChoiceQuestions");
 
             migrationBuilder.DropTable(
                 name: "Forms");

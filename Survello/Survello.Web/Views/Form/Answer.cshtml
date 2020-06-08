@@ -33,7 +33,7 @@
             @for (int i = 1; i <= Model.LastQuestionNumber; i++)
             {
                 globalQuestionID++;
-                //Text question
+
                 if (textCounter < Model.TextQuestions.Count && Model.TextQuestions[textCounter].QuestionNumber == i)
                 {
                     <div class="card">
@@ -97,23 +97,25 @@
                                         @for (int k = 0; k < Model.MultipleChoiceQuestions[multipleChoiceCounter].Options.Count; k++)
                                         {
                                             @Html.HiddenFor(item => (Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Id))
-                                            @Html.HiddenFor(item => (Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Option))
+                                            @Html.HiddenFor(item => (Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription))
+                                            @Html.HiddenFor(item => (Model.MultipleChoiceQuestions[multipleChoiceCounter].IsMultipleAnswer))
+                                            @Html.HiddenFor(item => (Model.MultipleChoiceQuestions[multipleChoiceCounter].IsRequired))
 
                                             if (Model.MultipleChoiceQuestions[multipleChoiceCounter].IsMultipleAnswer == true)
                                             {
                                                 <div class="form-check-inline" style="color:darkcyan">
                                                     <label class="form-check-label" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Answer">
-                                                        <input type="checkbox" id="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Id" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Answer" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Option" />
-                                                        @Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Option
+                                                        <input type="checkbox" id="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Id" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Answer" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription" />
+                                                        @Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription
                                                     </label>
                                                 </div>
                                             }
                                             else if (Model.MultipleChoiceQuestions[multipleChoiceCounter].IsMultipleAnswer == false)
                                             {
                                                 <div class="form-check-inline" style="color:darkcyan">
-                                                    <input type="radio" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].RadioButtonAnswer" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Option" />
+                                                    <input type="radio" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].RadioButtonAnswer" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription" />
 
-                                                    @Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Option
+                                                    @Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription
                                                 </div>
                                             }
                                         }
