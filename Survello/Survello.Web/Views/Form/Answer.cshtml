@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <h3>@Model.Description</h3>
+                <h5 style="color:darkcyan">@Model.Description</h5>
                 <br />
             </div>
 
@@ -91,37 +91,41 @@
                         </div>
                         <div class="container">
                             <span id="spanOptions_@multipleChoiceCounter" style="color:red"></span>
-                            <div class="row">
-                                <div class="form-group">
-                                    <div class="col-md-10" id="allOptions_@multipleChoiceCounter">
-                                        @for (int k = 0; k < Model.MultipleChoiceQuestions[multipleChoiceCounter].Options.Count; k++)
-                                        {
-                                            @Html.HiddenFor(item => (Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Id))
-                                            @Html.HiddenFor(item => (Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription))
-                                            @Html.HiddenFor(item => (Model.MultipleChoiceQuestions[multipleChoiceCounter].IsMultipleAnswer))
-                                            @Html.HiddenFor(item => (Model.MultipleChoiceQuestions[multipleChoiceCounter].IsRequired))
+                            <div>
+                                <div class="col-md-10" id="allOptions_@multipleChoiceCounter">
+                                    @for (int k = 0; k < Model.MultipleChoiceQuestions[multipleChoiceCounter].Options.Count; k++)
+                                    {
+                                        @Html.HiddenFor(item => (Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Id))
+                                        @Html.HiddenFor(item => (Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription))
+                                        @Html.HiddenFor(item => (Model.MultipleChoiceQuestions[multipleChoiceCounter].IsMultipleAnswer))
+                                        @Html.HiddenFor(item => (Model.MultipleChoiceQuestions[multipleChoiceCounter].IsRequired))
 
-                                            if (Model.MultipleChoiceQuestions[multipleChoiceCounter].IsMultipleAnswer == true)
-                                            {
+                                        if (Model.MultipleChoiceQuestions[multipleChoiceCounter].IsMultipleAnswer == true)
+                                        {
+                                            <div class="row">
                                                 <div class="form-check-inline" style="color:darkcyan">
                                                     <label class="form-check-label" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Answer">
                                                         <input type="checkbox" id="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Id" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Answer" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription" />
                                                         @Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription
                                                     </label>
                                                 </div>
-                                            }
-                                            else if (Model.MultipleChoiceQuestions[multipleChoiceCounter].IsMultipleAnswer == false)
-                                            {
+                                                <br />
+                                            </div>
+                                        }
+                                        else if (Model.MultipleChoiceQuestions[multipleChoiceCounter].IsMultipleAnswer == false)
+                                        {
+                                            <div class="row">
                                                 <div class="form-check-inline" style="color:darkcyan">
                                                     <input type="radio" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].RadioButtonAnswer" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription" />
 
                                                     @Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription
                                                 </div>
-                                            }
+                                            </div>
+                                            <br />
                                         }
-                                    </div>
-
+                                    }
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -154,7 +158,7 @@
                         <div class="container">
                             <h6 style="color:darkcyan">File size limit: @Model.DocumentQuestions[documentCounter].FileSize</h6>
                             <h6 style="color:darkcyan">Number of files allowed: @Model.DocumentQuestions[documentCounter].FileNumberLimit</h6>
-                            <input  asp-for="@Model.DocumentQuestions[documentCounter].Files" type="file" id="@fileCounter" multiple="multiple" />
+                            <input asp-for="@Model.DocumentQuestions[documentCounter].Files" type="file" id="@fileCounter" multiple="multiple" />
                         </div>
                         <br />
                     </div>
@@ -179,8 +183,10 @@
     </div>
 </div>
 
-<script src="~/js/back-to-top.js"></script>
-<script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/back-to-top.js"></script>
+    <script>
     let formIsValid = true
     function validate_Form() {
         formIsValid = true;
@@ -340,7 +346,6 @@
     };
 
     function ValidateInput(title, id) {
-
         if (!title) {
             console.log('#idSpanTitle_' + id.toString())
             //console.log(idPrefix + id.toString());
@@ -352,5 +357,5 @@
         }
 };
     </script>
-    <script src="~/js/back-to-top.js"></script>
 }
+

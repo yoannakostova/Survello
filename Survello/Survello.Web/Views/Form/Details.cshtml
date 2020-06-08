@@ -4,22 +4,20 @@
     ViewData["Title"] = "Details";
 }
 
-    <div>
-        <h1 style="color:darkcyan">Details of @Model.Title</h1>
-    </div>
+<div>
+    <h3 style="color:darkcyan">Details of: <strong>@Model.Title</strong></h3>
+</div>
+<a style="color:darkcyan" asp-controller="Form" asp-action="ListForms">Back to List</a>
+<hr />
 <div>
     <div>
         See detailed information about every filled form. Choose from the dropdown:
-        <a style="color:darkcyan" asp-controller="Form" asp-action="ListForms">Back to List</a>
     </div>
     <hr />
-    
+
     <dl class="row">
-        <dt style="color:darkcyan" class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Description)
+        <dd class="col-sm-10" style="color:darkcyan">
+            <h5><strong>@Html.DisplayFor(model => model.Description)</strong></h5>
         </dd>
     </dl>
 </div>
@@ -38,7 +36,7 @@
 }
 
 
-    <partial name="_Details" for="@Model"/>
+<partial name="_Details" for="@Model" />
 
 
 

@@ -1,9 +1,9 @@
 Id;Option;MultipleChoiceQuestionId
 1;This;1
 2;static;1
-3; extend;1
+3;extend;1
 4;base;1
-5; static;2
+5;static;2
 6;protected;2
 7;private;2
 8;shared;2
@@ -19,14 +19,14 @@ Id;Option;MultipleChoiceQuestionId
 18;finally;5
 19;thrown;5
 20;catch;5
-21; try;6
+21;try;6
 22;finally;6
 23;throw;6
 24;catch;6
-25; Compare To();7
+25;Compare To();7
 26;Compare();7
 27;Copy();7
-28;ConCat();7
+28;Concat();7
 29;Delegates can be used to implement callback notification;8
 30;Delegates permit execution of a method on a secondary thread in an asynchronous manner;8
 31;Delegate is a user defined type;8

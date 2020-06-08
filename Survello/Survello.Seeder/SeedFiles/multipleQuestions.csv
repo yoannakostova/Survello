@@ -1,9 +1,9 @@
 Id;Description;IsRequired;IsMultipleAnswer;IsDeleted;FormId;QuestionNumber
 1;Which keyword is used to refer baseclass constructor to subclass constructor?;TRUE;FALSE;FALSE;1;2
-2; In Inheritance concept, which of the following members of base class are accessible to derived class members?;TRUE;FALSE;FALSE;1;5
+2;In Inheritance concept, which of the following members of base class are accessible to derived class members?;TRUE;FALSE;FALSE;1;5
 3;Which keyword is used for correct implementation of an interface in C#.NET?;FALSE;FALSE;FALSE;2;1
-4; Correct way to define operator method or to perform operator overloading is?;TRUE;FALSE;FALSE;2;3
-5; Which of these keywords is not a part of exception handling?;TRUE;FALSE;FALSE;3;2
+4;Correct way to define operator method or to perform operator overloading is?;TRUE;FALSE;FALSE;2;3
+5;Which of these keywords is not a part of exception handling?;TRUE;FALSE;FALSE;3;2
 6;Which of these keywords must be used to monitor exceptions?;FALSE;FALSE;FALSE;3;4
 7;Which is the String method used to compare two strings with each other ?;FALSE;FALSE;FALSE;4;3
 8;Which of the following are the correct statements about delegates?;FALSE;FALSE;FALSE;5;2
