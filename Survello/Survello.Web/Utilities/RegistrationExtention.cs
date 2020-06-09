@@ -12,11 +12,7 @@ namespace Survello.Web.Utilities
     {
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            services.AddScoped<IFormServices, FormServices>();
-            services.AddScoped<IDateTimeProvider, DateTimeProvider>();
-            services.AddScoped<IFormSenderServices, FormSenderServices>();
-            services.AddSingleton<IEmailSender, EmailSender>();
-            services.AddScoped<IBlobServices, BlobServices>();
+           
 
             return services;
         }

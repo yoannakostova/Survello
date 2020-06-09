@@ -67,7 +67,7 @@
                         </div>
                         <div class="container">
                             <div class="row">
-                                <div class="form-group">
+                                <div class="container">
                                     <div id="allOptions_@multipleChoiceCounter">
                                         @for (int k = 0; k < Model.MultipleChoiceQuestions[multipleChoiceCounter].Options.Count; k++)
                                         {
@@ -88,7 +88,7 @@
                                                 <div class="container">
                                                     <div class="row">
                                                         <div class="form-check-inline" style="color:darkcyan">
-                                                            <input type="radio" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].RadioButtonAnswer" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription" />
+                                                            <input disabled type="radio" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].RadioButtonAnswer" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription" />
 
                                                             @Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription
                                                         </div>
@@ -98,7 +98,6 @@
                                             }
                                         }
                                     </div>
-
                                 </div>
                             </div>
                         </div>

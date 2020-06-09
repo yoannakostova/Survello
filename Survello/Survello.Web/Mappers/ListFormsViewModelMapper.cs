@@ -19,11 +19,8 @@ namespace Survello.Web.Mappers
             return new ListFormsViewModel
             {
                 Id = dto.Id,
-                LastModifiedOn = dto.LastModifiedOn,
-                DateOfExpiration = dto.DateOfExpiration,
                 CreatedOn = dto.CreatedOn,
                 Title = dto.Title,
-                UserId = dto.UserId,
                 NumberOfFilledForms = dto.NumberOfFilledForms,
             };
         }

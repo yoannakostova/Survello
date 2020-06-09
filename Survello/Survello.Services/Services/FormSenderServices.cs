@@ -12,9 +12,9 @@ namespace Survello.Services.Services
         {
             try
             {
-                mailMessage.Subject = "You are wellcome to complete our form!";
+                mailMessage.Subject = "Survello - Invitation to fill a form";
                 mailMessage.From = new MailAddress("survellosender@gmail.com");
-                mailMessage.Body = "Please be aware that you are invited to fill the following form: " + "https://localhost:44339/Form/Answer/" + $"{formId}";
+                mailMessage.Body = "You have been invited to fill in a form. Follow the link to see more info: " + "https://localhost:44339/Form/Answer/" + $"{formId}";
                 mailMessage.IsBodyHtml = true;
                 SmtpClient smtp = new SmtpClient()
                 {

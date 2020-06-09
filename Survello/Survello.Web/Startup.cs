@@ -17,6 +17,10 @@ using Survello.Web.Utilities;
 using Survello.Models.Entites;
 using NToastNotify;
 using Survello.Web.Middlewares;
+using Survello.Services.Services.Contracts;
+using Survello.Services.Services;
+using Survello.Services.Provider;
+using Survello.Services.Provider.Contract;
 
 namespace Survello.Web
 {
@@ -62,7 +66,11 @@ namespace Survello.Web
                 PositionClass = ToastPositions.TopCenter
             });
 
-            services.AddServices();
+            services.AddScoped<IFormServices, FormServices>();
+            services.AddScoped<IDateTimeProvider, DateTimeProvider>();
+            services.AddScoped<IFormSenderServices, FormSenderServices>();
+            services.AddSingleton<IEmailSender, EmailSender>();
+            services.AddScoped<IBlobServices, BlobServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

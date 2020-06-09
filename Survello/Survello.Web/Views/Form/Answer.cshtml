@@ -14,15 +14,15 @@
             @Html.HiddenFor(modelItem => (Model.Id))
             @Html.HiddenFor(modelItem => (Model.Title))
 
-            <div style="color:darkcyan">
-                <div class="center">
-                    <h1>@Model.Title</h1>
-                </div>
+            <div class="center">
+                <h1 style="color:#0a3c5f">@Model.Title</h1>
             </div>
-            <div class="form-group">
-                <h5 style="color:darkcyan">@Model.Description</h5>
+            <br />
+            <div>
+                <h6 class="center" style="color:darkcyan">@Model.Description</h6>
                 <br />
             </div>
+            <br />
 
             @{
                 var fileCounter = 0;
@@ -44,7 +44,8 @@
                                 </div>
                                 <br />
                                 <div class="col-sm-11">
-                                    <input readonly type="text" class="form-control" value="@Model.TextQuestions[textCounter].Description" />
+                                    <input hidden readonly type="text" class="form-control" value="@Model.TextQuestions[textCounter].Description" />
+                                    <h4 style="color:#0a3c5f">@Model.TextQuestions[textCounter].Description</h4>
                                 </div>
                             </div>
                         </div>
@@ -85,7 +86,8 @@
                                 </div>
                                 <br />
                                 <div class="col-sm-11">
-                                    <input type="text" readonly class="form-control" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Description" id="MCQ_@multipleChoiceCounter" />
+                                    <input hidden type="text" readonly class="form-control" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Description" id="MCQ_@multipleChoiceCounter" />
+                                    <h4 style="color:#0a3c5f">@Model.MultipleChoiceQuestions[multipleChoiceCounter].Description</h4>
                                 </div>
                             </div>
                         </div>
@@ -103,7 +105,7 @@
                                         if (Model.MultipleChoiceQuestions[multipleChoiceCounter].IsMultipleAnswer == true)
                                         {
                                             <div class="row">
-                                                <div class="form-check-inline" style="color:darkcyan">
+                                                <div class="form-check-inline">
                                                     <label class="form-check-label" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Answer">
                                                         <input type="checkbox" id="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Id" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Answer" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription" />
                                                         @Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription
@@ -148,7 +150,8 @@
                                     </div>
                                     <br />
                                     <div class="col-sm-11">
-                                        <input type="text" readonly class="form-control" value="@Model.DocumentQuestions[documentCounter].Description" id="DQ_@documentCounter" />
+                                        <input hidden type="text" readonly class="form-control" value="@Model.DocumentQuestions[documentCounter].Description" id="DQ_@documentCounter" />
+                                        <h4 style="color:#0a3c5f">@Model.DocumentQuestions[documentCounter].Description</h4>
                                     </div>
                                 </div>
                             </div>
@@ -156,8 +159,8 @@
                         <span id="idSpanDQ_@documentCounter" style="color:red"></span>
                         <br />
                         <div class="container">
-                            <h6 style="color:darkcyan">File size limit: @Model.DocumentQuestions[documentCounter].FileSize</h6>
-                            <h6 style="color:darkcyan">Number of files allowed: @Model.DocumentQuestions[documentCounter].FileNumberLimit</h6>
+                            <p style="color:darkcyan">Max file size: <strong>@Model.DocumentQuestions[documentCounter].FileSize</strong></p>
+                            <p style="color:darkcyan">File limit: <strong>@Model.DocumentQuestions[documentCounter].FileNumberLimit</strong></p>
                             <input asp-for="@Model.DocumentQuestions[documentCounter].Files" type="file" id="@fileCounter" multiple="multiple" />
                         </div>
                         <br />

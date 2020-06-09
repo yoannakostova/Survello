@@ -39,6 +39,7 @@ namespace Survello.Services.Services
             }
 
             var form = tempForm.MapFrom();
+            form.CreatedOn = dateTimeProvider.GetDateTime();
 
             form.Id = Guid.NewGuid();
 

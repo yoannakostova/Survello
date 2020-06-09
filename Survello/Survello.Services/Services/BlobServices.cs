@@ -65,6 +65,7 @@ namespace Survello.Services.Services
             {
                 throw new Exception(ExceptionMessages.BlobError);
             }
+
             return null;
         }
     }

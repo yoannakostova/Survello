@@ -7,23 +7,21 @@
             </div>
             <div class="right-text col-lg-5 col-md-12 col-sm-12 mobile-top-fix">
                 <div class="left-heading">
-                    <br />
+                    <h4 style="color:darkcyan">Creating stunning forms has never been easier!</h4>
                     <br />
                     <ul>
-                        <h5 style="color:#0a3c5f">Anonymously collect data for your projects</h5>
-                        <h5 style="color:#0a3c5f">Dynamically create and edit your forms</h5>
-                        <h5 style="color:#0a3c5f">Share with a single click</h5>
-                        </br>
-                        <li style="color:darkcyan">Get analyses based on the results received</li>
-                        <li style="color:darkcyan">Access your data from everywhere</li>
-                        <li style="color:darkcyan">Export to Excel</li>
+                        <li style="color:#0a3c5f"><h5>Dynamically create and edit forms</h5></li>
+                        <br />
+                        <li style="color:#0a3c5f"><h5>Anonymously collect data</h5></li>
+                        <br />
+                        <li style="color:#0a3c5f"><h5>Share with a single click</h5></li>
                     </ul>
                     <br />
                 </div>
                 <div class="left-text">
                     @if (!User.Identity.IsAuthenticated)
                     {
-                        <a type="button" style="background-color:darkcyan;border:none" href="#about" class="btn btn-primary">Discover more</a>
+                        <a type="button" style="background-color:darkcyan;border:none" class="btn btn-primary" asp-action="Create" asp-controller="Form">Discover more</a>
                     }
 
                 </div>
