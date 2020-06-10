@@ -170,7 +170,7 @@ namespace Survello.Web.Controllers
                 this.toastNotification.AddErrorToastMessage("Something went wrong... Please try again!");
                 return RedirectToAction("Answer", "Form", new { id = form.Id });
             }
-            return RedirectToAction("ListForms");
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]

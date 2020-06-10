@@ -13,7 +13,6 @@ namespace Survello.Web.Utilities
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
            
-
             return services;
         }
     }

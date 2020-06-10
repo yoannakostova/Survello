@@ -66,7 +66,7 @@ namespace Survello.Web.Controllers
             {
                 var isEmailSent = await this.formSenderServices.ShareFormAsync(id, mailMessage);
 
-                this.toastNotification.AddSuccessToastMessage("Email was sent successfully"!);
+                this.toastNotification.AddSuccessToastMessage("Email was successfully sent!"!);
             }
             catch (Exception)
             {

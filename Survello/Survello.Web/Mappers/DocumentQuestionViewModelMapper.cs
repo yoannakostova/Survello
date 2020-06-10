@@ -55,7 +55,8 @@ namespace Survello.Web.Mappers
                 FileSize = dto.FileSize.ToString(),
                 IsRequired = dto.IsRequired,
                 QuestionNumber = dto.QuestionNumber,
-                FilePath = dto.FilePath
+                FilePath = dto.FilePath,
+                AnswersFileNames = dto.Answers.ToList() 
             };
         }
 

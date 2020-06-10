@@ -64,7 +64,7 @@
                 <td>
                     <a style="background-color:darkcyan; border:none" asp-controller="Form" asp-action="Details" asp-route-id="@item.Id" type="button" class="btn btn-primary">Details</a>
                     <a style="background-color:#00666b; border:none" asp-controller="Form" asp-action="Edit" asp-route-id="@item.Id" type="button" class="btn btn-primary">Edit</a>
-                    <a style="background-color:#00666b; border:none" asp-controller="Form" asp-action="Answer" asp-route-id="@item.Id" type="button" class="btn btn-primary">Answer</a>
+                    @*<a style="background-color:#00666b; border:none" asp-controller="Form" asp-action="Answer" asp-route-id="@item.Id" type="button" class="btn btn-primary">Answer</a>*@
 
                     <!-- Button trigger share modal -->
                     <button style="background-color:#00666b; border:none" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="@item.Id" onclick="showModal(this.id)">Share</button>

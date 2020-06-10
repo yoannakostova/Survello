@@ -19,7 +19,7 @@
             </div>
             <br />
             <div>
-                <h6 class="center" style="color:darkcyan">@Model.Description</h6>
+                <h5 style="color:darkcyan">@Model.Description</h5>
                 <br />
             </div>
             <br />
@@ -58,7 +58,6 @@
                             <div class="col-md-8" style="color:darkcyan">
                                 <textarea class="form-control" asp-for="@Model.TextQuestions[textCounter].Answer" id="Q_@textCounter"></textarea>
                                 <span id="idSpanTQ_@textCounter" style="color:red"></span>
-                                <br />
                             </div>
                         }
                         else
@@ -67,7 +66,6 @@
                                 <input class="form-control" type="text" asp-for="@Model.TextQuestions[textCounter].Answer" id="Q_@textCounter" />
                                 <span id="idSpanTQ_@textCounter" style="color:red"></span>
                             </div>
-                            <br />
                         }
                     </div>
                     <br />
@@ -94,6 +92,7 @@
                         <div class="container">
                             <span id="spanOptions_@multipleChoiceCounter" style="color:red"></span>
                             <div>
+                                <br />
                                 <div class="col-md-10" id="allOptions_@multipleChoiceCounter">
                                     @for (int k = 0; k < Model.MultipleChoiceQuestions[multipleChoiceCounter].Options.Count; k++)
                                     {
@@ -105,10 +104,10 @@
                                         if (Model.MultipleChoiceQuestions[multipleChoiceCounter].IsMultipleAnswer == true)
                                         {
                                             <div class="row">
-                                                <div class="form-check-inline">
+                                                <div class="form-check-inline" style="color:#0a3c5f">
                                                     <label class="form-check-label" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Answer">
                                                         <input type="checkbox" id="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Id" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Answer" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription" />
-                                                        @Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription
+                                                        <strong>@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription</strong>
                                                     </label>
                                                 </div>
                                                 <br />
@@ -117,14 +116,15 @@
                                         else if (Model.MultipleChoiceQuestions[multipleChoiceCounter].IsMultipleAnswer == false)
                                         {
                                             <div class="row">
-                                                <div class="form-check-inline" style="color:darkcyan">
+                                                <div class="form-check-inline" style="color:#0a3c5f">
                                                     <input type="radio" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].RadioButtonAnswer" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription" />
 
-                                                    @Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription
+                                                    <strong>@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription</strong>
                                                 </div>
-                                            </div>
                                             <br />
+                                            </div>
                                         }
+                                        <br />
                                     }
                                 </div>
 
@@ -158,9 +158,9 @@
                         </div>
                         <span id="idSpanDQ_@documentCounter" style="color:red"></span>
                         <br />
-                        <div class="container">
-                            <p style="color:darkcyan">Max file size: <strong>@Model.DocumentQuestions[documentCounter].FileSize</strong></p>
-                            <p style="color:darkcyan">File limit: <strong>@Model.DocumentQuestions[documentCounter].FileNumberLimit</strong></p>
+                        <div class="container" style="color:#0a3c5f">
+                            <p>Max file size: <strong>@Model.DocumentQuestions[documentCounter].FileSize</strong></p>
+                            <p>File limit: <strong>@Model.DocumentQuestions[documentCounter].FileNumberLimit</strong></p>
                             <input asp-for="@Model.DocumentQuestions[documentCounter].Files" type="file" id="@fileCounter" multiple="multiple" />
                         </div>
                         <br />
