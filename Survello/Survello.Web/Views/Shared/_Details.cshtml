@@ -1,12 +1,10 @@
 ﻿@model Survello.Web.Models.FormViewModel
 
-@{
-    int globalQuestionID = 0;
-}
-
 <div class="row">
     <div class="col-md-12">
         <form>
+            <br />
+
             @{
                 var fileCounter = 0;
                 int textCounter = 0;
@@ -15,8 +13,6 @@
             }
             @for (int i = 1; i <= Model.LastQuestionNumber; i++)
             {
-                globalQuestionID++;
-                //Text question
                 if (textCounter < Model.TextQuestions.Count && Model.TextQuestions[textCounter].QuestionNumber == i)
                 {
                     <div class="card">
@@ -27,26 +23,15 @@
                                 </div>
                                 <br />
                                 <div class="col-sm-11">
-                                    <input readonly type="text" class="form-control" value="@Model.TextQuestions[textCounter].Description" />
+                                    <h4 style="color:#0a3c5f">@Model.TextQuestions[textCounter].Description</h4>
                                 </div>
                             </div>
                         </div>
                         <br />
-                        @if (Model.TextQuestions[textCounter].IsLongAnswer == true)
-                        {
-                            <div class="col-md-8" style="color:darkcyan">
-                                <textarea class="form-control" asp-for="@Model.TextQuestions[textCounter].Answer" id="Q_@textCounter"></textarea>
-                                <br />
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="col-md-8" style="color:darkcyan">
-                                <input class="form-control" type="text" asp-for="@Model.TextQuestions[textCounter].Answer" id="Q_@textCounter" />
-                                <span id="idSpanTitle_@textCounter" style="color:red"></span>
-                            </div>
-                            <br />
-                        }
+                        <div class="container">
+                            <input class="col-sm-8" disabled />
+                        </div>
+                        <br />
                     </div>
                     <br />
                     textCounter++;
@@ -61,43 +46,39 @@
                                 </div>
                                 <br />
                                 <div class="col-sm-11">
-                                    <input type="text" readonly class="form-control" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Description" />
+                                    <h4 style="color:#0a3c5f">@Model.MultipleChoiceQuestions[multipleChoiceCounter].Description</h4>
                                 </div>
                             </div>
                         </div>
                         <div class="container">
-                            <div class="row">
-                                <div class="container">
-                                    <div id="allOptions_@multipleChoiceCounter">
-                                        @for (int k = 0; k < Model.MultipleChoiceQuestions[multipleChoiceCounter].Options.Count; k++)
+                            <div>
+                                <br />
+                                <div class="col-md-10">
+                                    @for (int k = 0; k < Model.MultipleChoiceQuestions[multipleChoiceCounter].Options.Count; k++)
+                                    {
+                                        if (Model.MultipleChoiceQuestions[multipleChoiceCounter].IsMultipleAnswer == true)
                                         {
-                                            if (Model.MultipleChoiceQuestions[multipleChoiceCounter].IsMultipleAnswer == true)
-                                            {
-                                                <div class="row">
-                                                    <div class="form-check-inline" style="color:darkcyan">
-                                                        <label class="form-check-label" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Answer">
-                                                            <input type="checkbox" id="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Id" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].Answer" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription" />
-                                                            @Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription
-                                                        </label>
-                                                    </div>
-                                                    <br />
+                                            <div class="row">
+                                                <div class="form-check-inline" style="color:#0a3c5f">
+                                                    <label class="form-check-label">
+                                                        <input disabled type="checkbox" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription" />
+                                                        <strong>@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription</strong>
+                                                    </label>
                                                 </div>
-                                            }
-                                            else if (Model.MultipleChoiceQuestions[multipleChoiceCounter].IsMultipleAnswer == false)
-                                            {
-                                                <div class="container">
-                                                    <div class="row">
-                                                        <div class="form-check-inline" style="color:darkcyan">
-                                                            <input disabled type="radio" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].RadioButtonAnswer" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription" />
-
-                                                            @Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription
-                                                        </div>
-                                                    </div>
-                                                    <br />
-                                                </div>
-                                            }
+                                                <br />
+                                            </div>
                                         }
-                                    </div>
+                                        if (Model.MultipleChoiceQuestions[multipleChoiceCounter].IsMultipleAnswer == false)
+                                        {
+                                            <div class="row">
+                                                <div class="form-check-inline" style="color:#0a3c5f">
+                                                    <input disabled type="radio" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription" />
+                                                    <strong>@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription</strong>
+                                                </div>
+                                            </div>
+                                            <br />
+                                        }
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -116,13 +97,17 @@
                                     </div>
                                     <br />
                                     <div class="col-sm-11">
-                                        <input type="text" readonly class="form-control" value="@Model.DocumentQuestions[documentCounter].Description" />
+                                        <input hidden type="text" readonly class="form-control" value="@Model.DocumentQuestions[documentCounter].Description" />
+                                        <h4 style="color:#0a3c5f">@Model.DocumentQuestions[documentCounter].Description</h4>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <br />
-                        <input disabled asp-for="@Model.DocumentQuestions[documentCounter].Files" type="file" multiple="multiple" />
+                        <div class="container" style="color:#0a3c5f">
+                            <p>Max file size: <strong>@Model.DocumentQuestions[documentCounter].FileSize</strong></p>
+                            <p>File limit: <strong>@Model.DocumentQuestions[documentCounter].FileNumberLimit</strong></p>
+                        </div>
                         <br />
                     </div>
                     <br />
@@ -131,6 +116,7 @@
                 }
             }
             <br />
+            
         </form>
     </div>
 </div>
