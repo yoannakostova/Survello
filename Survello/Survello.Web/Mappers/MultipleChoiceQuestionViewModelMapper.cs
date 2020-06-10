@@ -52,6 +52,12 @@ namespace Survello.Web.Mappers
                 options.Add(item.MapFrom());
             }
 
+            var answers = new List<string>();
+            foreach (var item in dto.Answers)
+            {
+                answers.Add(item);
+            }
+
             return new MultipleChoiceQuestionViewModel
             {
                 Id = dto.Id,
@@ -59,7 +65,8 @@ namespace Survello.Web.Mappers
                 IsRequired = dto.IsRequired,
                 IsMultipleAnswer = dto.IsMultipleAnswer,
                 Options = options,
-                QuestionNumber = dto.QuestionNumber
+                QuestionNumber = dto.QuestionNumber,
+                Answers = answers
             };
         }
 

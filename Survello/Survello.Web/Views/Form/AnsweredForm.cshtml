@@ -6,18 +6,10 @@
 
 <h1 style="color:darkcyan">Answer of form: @Model.Title</h1>
 
-@{
-    int globalQuestionID = 0;
-    var answerNumber = 1;
-}
-
 <div class="row">
     <div class="col-md-12">
-        <form method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <h5>@Model.Description</h5>
-                <br />
-            </div>
+        <form>
+            <br />
 
             @{
                 var fileCounter = 0;
@@ -27,8 +19,6 @@
             }
             @for (int i = 1; i <= Model.LastQuestionNumber; i++)
             {
-                globalQuestionID++;
-
                 if (textCounter < Model.TextQuestions.Count && Model.TextQuestions[textCounter].QuestionNumber == i)
                 {
                     <div class="card">
@@ -39,14 +29,24 @@
                                 </div>
                                 <br />
                                 <div class="col-sm-11">
-                                    <input readonly type="text" class="form-control" value="@Model.TextQuestions[textCounter].Description" />
+                                    <h4 style="color:#0a3c5f">@Model.TextQuestions[textCounter].Description</h4>
                                 </div>
                             </div>
                         </div>
                         <br />
-                        <div class="col-md-8" style="color:darkcyan">
-                            <h6 style="color:darkcyan">@Model.TextQuestions[textCounter].Answer</h6>
-                        </div>
+                        @if (@Model.TextQuestions[textCounter].Answer == null)
+                        {
+                            <div class="col-md-8" style="color:darkcyan">
+                                <strong>No answer filled</strong>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-8" style="color:darkcyan">
+                                <h5>@Model.TextQuestions[textCounter].Answer</h5>
+                            </div>
+                        }
+
                         <br />
                     </div>
                     <br />
@@ -54,7 +54,6 @@
                 }
                 if (multipleChoiceCounter < Model.MultipleChoiceQuestions.Count && Model.MultipleChoiceQuestions[multipleChoiceCounter].QuestionNumber == i)
                 {
-
                     <div class="card">
                         <div class="card-header">
                             <div class="row">
@@ -63,36 +62,60 @@
                                 </div>
                                 <br />
                                 <div class="col-sm-11">
-                                    <input type="text" readonly class="form-control" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Description" />
+                                    <h4 style="color:#0a3c5f">@Model.MultipleChoiceQuestions[multipleChoiceCounter].Description</h4>
                                 </div>
                             </div>
                         </div>
                         <div class="container">
-                            <div class="row">
-                                <div class="form-group">
-
-                                    <div class="col-md-10" id="allOptions_@multipleChoiceCounter">
-                                        @for (int k = 0; k < Model.MultipleChoiceQuestions[multipleChoiceCounter].Options.Count; k++)
+                            <span id="spanOptions_@multipleChoiceCounter" style="color:red"></span>
+                            <div>
+                                <br />
+                                <div class="col-md-10" id="allOptions_@multipleChoiceCounter">
+                                    @for (int k = 0; k < Model.MultipleChoiceQuestions[multipleChoiceCounter].Options.Count; k++)
+                                    {
+                                        if (Model.MultipleChoiceQuestions[multipleChoiceCounter].IsMultipleAnswer == true)
                                         {
-                                            if (Model.MultipleChoiceQuestions[multipleChoiceCounter].IsMultipleAnswer == true)
-                                            {
-                                                <div class="form-check-inline" style="color:darkcyan">
-                                                    <label class="form-check-label">
-                                                        <input disabled type="checkbox" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription" />
-                                                        @Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription
-                                                    </label>
+                                            <div class="row">
+                                                <div class="form-check-inline" style="color:#0a3c5f">
+                                                    @if (Model.MultipleChoiceQuestions[multipleChoiceCounter].Answers.Contains(Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription))
+                                                    {
+                                                        <label class="form-check-label">
+                                                            <input disabled checked type="checkbox" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription" />
+                                                            <strong>@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription</strong>
+                                                        </label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="form-check-label">
+                                                            <input disabled type="checkbox" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription" />
+                                                            <strong>@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription</strong>
+                                                        </label>
+                                                    }
                                                 </div>
-                                            }
-                                            else if (Model.MultipleChoiceQuestions[multipleChoiceCounter].IsMultipleAnswer == false)
-                                            {
-                                                <div class="form-check-inline" style="color:darkcyan">
-                                                    <input disabled type="radio" asp-for="@Model.MultipleChoiceQuestions[multipleChoiceCounter].RadioButtonAnswer" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription" />
-
-                                                    @Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription
-                                                </div>
-                                            }
+                                                <br />
+                                            </div>
                                         }
-                                    </div>
+                                        if (Model.MultipleChoiceQuestions[multipleChoiceCounter].IsMultipleAnswer == false)
+                                        {
+                                            <div class="row">
+                                                @if (@Model.MultipleChoiceQuestions[multipleChoiceCounter].Answers.Contains(Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription))
+                                                {
+                                                    <div class="form-check-inline" style="color:#0a3c5f">
+                                                        <input disabled checked type="radio" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription" />
+                                                        <strong>@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription</strong>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="form-check-inline" style="color:#0a3c5f">
+                                                        <input disabled type="radio" value="@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription" />
+                                                        <strong>@Model.MultipleChoiceQuestions[multipleChoiceCounter].Options[k].OptionDescription</strong>
+                                                    </div>
+                                                }
+                                            </div>
+                                            <br />
+                                        }
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -102,6 +125,7 @@
                 }
                 if (documentCounter < Model.DocumentQuestions.Count && Model.DocumentQuestions[documentCounter].QuestionNumber == i)
                 {
+                    var answerNumber = 1;
                     <div class="card">
                         <div class="card-header">
                             <div id="custom-file-label" style="font-size:smaller">
@@ -111,35 +135,36 @@
                                     </div>
                                     <br />
                                     <div class="col-sm-11">
-                                        <input type="text" readonly class="form-control" value="@Model.DocumentQuestions[documentCounter].Description" />
+                                        <input hidden type="text" readonly class="form-control" value="@Model.DocumentQuestions[documentCounter].Description" />
+                                        <h4 style="color:#0a3c5f">@Model.DocumentQuestions[documentCounter].Description</h4>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <br />
                         <div class="container">
-                            @if (Model.DocumentQuestions[documentCounter].AnswersFileNames.Count == 0)
-                            {
-                                <h6 style="color:darkcyan">There are no files attached</h6>
-                            }
+                            <br />
                             @for (int j = 0; j < Model.DocumentQuestions[documentCounter].AnswersFileNames.Count; j++)
                             {
-                                @*<h6><a style="color:darkcyan" href="@Model.DocumentQuestions[documentCounter].AnswersFileNames[j]">File @answerNumber</a></h6>*@
+                                <p><a href="@Model.DocumentQuestions[documentCounter].AnswersFileNames[j]">File @answerNumber</a></p>
                                 answerNumber++;
                             }
                         </div>
+
+                        <br />
                     </div>
                     <br />
                     fileCounter++;
                     documentCounter++;
-                    answerNumber = 1;
                 }
             }
             <br />
+            <div class="form-group">
+                <input style="background-color:darkcyan; border:none" type="submit" value="Save" class="btn btn-primary" />
+            </div>
         </form>
     </div>
 </div>
 <div>
-    <a style="background-color:darkcyan" class="btn btn-primary" asp-action="Details" asp-route-id="@Model.Id">Back to List</a>
+    <a style="color:darkcyan" asp-controller="Home" asp-action="Index">Home</a>
 </div>
-

@@ -16,5 +16,6 @@ namespace Survello.Web.Models
         public string RadioButtonAnswer { get; set; }
         public List<string> OptionsDescriptions { get; set; } = new List<string>();
         public List<MultipleChoiceOptionViewModel> Options { get; set; } = new List<MultipleChoiceOptionViewModel>();
+        public List<string> Answers { get; set; } = new List<string>();
     }
 }

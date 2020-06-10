@@ -17,6 +17,6 @@ namespace Survello.Web.Models
         public int QuestionNumber { get; set; }
         public string FilePath { get; set; }
         public ICollection<IFormFile> Files { get; set; } 
-        public ICollection<string> AnswersFileNames { get; set; } = new List<string>();
+        public List<string> AnswersFileNames { get; set; } = new List<string>();
     }
 }
