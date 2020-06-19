@@ -19,7 +19,7 @@ build_app:
     image: node:latest
     stage: build
     before_script:
-        - 'cd InsightHub/Survello.Web'
+        - 'cd Survello/Survello.Web'
         - 'npm install'
     script:
         - 'npm run build'
