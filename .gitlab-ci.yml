@@ -14,12 +14,3 @@ build_api:
     stage: build
     script:
         - 'dotnet build'
-
-build_app:
-    image: node:latest
-    stage: build
-    before_script:
-        - 'cd Survello/Survello.Web'
-        - 'npm install'
-    script:
-        - 'npm run build'
