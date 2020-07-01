@@ -4,17 +4,16 @@ Survello is a web application for creating and sharing forms, helping users and 
 ![Important](Images/Home_page.png)
 
 # Technologies
-
-ASP.NET Core
-ASP.NET Identity
-Entity Framework Core
-MS SQL Server
-AJAX
-Bootstrap
-JavaScript / jQuery
-HTML 5
-CSS 3
-Azure
+- ASP.NET Core
+- ASP.NET Identity
+- Entity Framework Core
+- MS SQL Server
+- AJAX
+- Bootstrap
+- JavaScript / jQuery
+- HTML 5
+- CSS 3
+- Azure
 
 # Areas
 - Public - accessible without authentication
